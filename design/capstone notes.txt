@@ -1,0 +1,96 @@
+User
+	-id, name, password, role
+		-role can be teacher, student, administrator
+
+Teacher
+	-user id, course
+
+Student
+	-user id, course
+
+Administrator?
+	-what extra information?
+
+Course
+	-name, description, difficulty level, cost
+	-created by teachers (by administrator?)
+	-joined by students (by administrator?)
+	-curriculum added by teacher
+	-start/end date?
+
+*Curriculum
+	-'daily instruction'
+		-date:
+			-text of daily lesson description?
+			-links to course info
+			-homework
+				-due date
+(for the database:
+	daily curriculum table
+	daily lesson
+	homework id
+	quiz id)
+		
+Student Progress
+	-created from curriculum when a student joins
+		-date
+			-homework submission/grade
+
+Homework
+	-form filled out by student
+	-document uploaded by student
+	*question- can students see grades for homework that's submitted, but not due?
+
+Message Box
+	-associated with user
+	-contains messages
+		-messages are read/unread
+	-can read/delete messages
+
+Message
+	-contains some text, sent to a user
+
+
+
+Database:
+
+user
+	(id), name, role password
+
+teacher
+	(user id, course id)
+student
+	(user id, course id)
+
+course
+	(id), name, description, difficulty level, cost
+
+daily curriculum
+	(course id, date), lesson, homework (quiz)
+
+homework
+	(id), due date, max score
+homework question
+	(id), homework id, question type, question statment
+homework answer
+	(homework id, question id, student id), answer
+homework grade
+	(homework id, student id), correct number, submitted date/time
+message
+	(id), user id, read, content
+
+
+
+
+3/21/2031
+	idsbfabfka flkjsabv rbq iu effjsdn askdn
+	iekrgb lkfjnpwuregiw
+	afgiweuprgb;afnvsjdfnglsdnfg
+	
+	links:
+	siregwelrgbe.com
+	aierbgker.com
+
+	homework:
+	
+	(quiz):
