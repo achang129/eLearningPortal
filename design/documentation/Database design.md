@@ -1,8 +1,8 @@
-#Database Design Document
+# Database Design Document
 
-##Tables
+## Tables
 
-###users
+### users
 
 | Field | Type | Description |
 | --------- | -------- | ----------- |
@@ -11,7 +11,7 @@
 | `password_hash` | varchar(200) | hash of user password |
 | `role` | varchar(50) | user role ('teacher', 'student', 'administrator') |
 
-###teacher
+### teacher
 
 Contains information about which courses are being taught by whom.
 
@@ -22,7 +22,7 @@ Contains information about which courses are being taught by whom.
 
 `user` and `course` together are a primary key.
 
-###student
+### student
 
 Contains information about which students are currently enrolled in what courses.
 
@@ -33,7 +33,7 @@ Contains information about which students are currently enrolled in what courses
 
 `student` and `course` together are a primary key.
 
-###course
+### course
 
 Contains information about courses.
 
@@ -42,12 +42,12 @@ Contains information about courses.
 | `id` | int | primary key |
 | `name` | varchar(64) | name of the course |
 | `description` | varchar(256) | description of the course |
-| `difficulty level` | varchar(32) | difficulty level of the course |
+| `difficulty` | varchar(32) | difficulty level of the course |
 | `cost` | int | cost of the course in cents |
 
 `cost` has a default value of `0`.
 
-###curriculum
+### curriculum
 
 Contains information about the daily curriculum of a course.
 
@@ -61,7 +61,7 @@ Contains information about the daily curriculum of a course.
 `course` and `date` together are a primary key.
 `homework` can be null.
 
-###assignment
+### assignment
 
 Contains information about a particular homework assignment.
 
@@ -73,7 +73,7 @@ Contains information about a particular homework assignment.
 
 `due_date` can be null, indicating an assignment with no fixed due date.
 
-###question
+### question
 
 Contains information about a particular question on an assignment.
 
@@ -87,7 +87,7 @@ Contains information about a particular question on an assignment.
 `assignment` and `number` together are a primary key.
 `type` is restricted to 'text', 'mc' (multiple-choice), 'mmc' (multiple-choice with multiple selections).
 
-###mcchoice
+### mcchoice
 
 Contains information on the multiple-choice answers shown for particular questions
 
@@ -101,7 +101,7 @@ Contains information on the multiple-choice answers shown for particular questio
 
 `assignment`, `question`, and `choice` together are a primary key.
 
-###Answer
+### answer
 
 Contains information about the answer given by a student to a question.
 
@@ -114,7 +114,7 @@ Contains information about the answer given by a student to a question.
 
 `student`, `assignment`, and `question` together are a primary key.
 
-###Grade
+### grade
 
 Contains information about the grade a student has received on an assignment.
 
@@ -129,7 +129,7 @@ Contains information about the grade a student has received on an assignment.
 `student` and `assignment` together are a primary key.
 `grade` and `correct` can be null, for assignments that have been submitted but not graded.
 
-###Message
+### message
 
 Contains information about a notification sent to a user.
 
