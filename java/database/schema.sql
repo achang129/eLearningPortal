@@ -51,6 +51,15 @@ CREATE TABLE users (
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
 INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
 
+CREATE TABLE course (
+	id int DEFAULT nextval('seq_course_id'::regclass) NOT NULL,
+	name varchar(64) NOT NULL,
+	description varchar(256) NOT NULL,
+	difficulty varchar(32) NOT NULL,
+	cost int DEFAULT 0 NOT NULL,
+	CONSTRAINT PK_course PRIMARY KEY (id)
+);
+
 CREATE TABLE teacher (
 	teacher int NOT NULL,
 	course int NOT NULL,
@@ -65,15 +74,6 @@ CREATE TABLE student (
 	CONSTRAINT PK_student PRIMARY KEY (student, course),
 	CONSTRAINT FK_student_student FOREIGN KEY (student) REFERENCES users(user_id),
 	CONSTRAINT FK_student_course  FOREIGN KEY (course)  REFERENCES course(id)
-);
-
-CREATE TABLE course (
-	id int DEFAULT nextval('seq_course_id'::regclass) NOT NULL,
-	name varchar(64) NOT NULL,
-	description varchar(256) NOT NULL,
-	difficulty varchar(32) NOT NULL,
-	cost int DEFAULT 0 NOT NULL,
-	CONSTRAINT PK_course PRIMARY KEY (id)
 );
 
 CREATE TABLE curriculum (
@@ -108,8 +108,7 @@ CREATE TABLE mcchoice (
 	answer varchar(256) NOT NULL,
 	correct boolean NOT NULL,
 	CONSTRAINT PK_mcchoice PRIMARY KEY (assignment, question, choice),
-	CONSTRAINT FK_mcchoice_assignment FOREIGN KEY (assignment) REFERENCES assignment(id),
-	CONSTRAINT FK_mcchoice_question FOREIGN KEY (question) REFERENCES question(number)
+	CONSTRAINT FK_mcchoice_assignment FOREIGN KEY (assignment) REFERENCES assignment(id)
 );
 
 CREATE TABLE answer (
@@ -119,8 +118,7 @@ CREATE TABLE answer (
 	answer varchar(256) NOT NULL,
 	CONSTRAINT PK_answer PRIMARY KEY (student, assignment, question),
 	CONSTRAINT FK_answer_student FOREIGN KEY (student) REFERENCES users(user_id),
-	CONSTRAINT FK_answer_assignment FOREIGN KEY (assignment) REFERENCES assignment(id),
-	CONSTRAINT FK_answer_question FOREIGN KEY (question) REFERENCES question(number)
+	CONSTRAINT FK_answer_assignment FOREIGN KEY (assignment) REFERENCES assignment(id)
 );
 
 CREATE TABLE grade (
@@ -131,16 +129,16 @@ CREATE TABLE grade (
 	grade int,
 	CONSTRAINT PK_grade PRIMARY KEY (student, assignment),
 	CONSTRAINT FK_grade_student FOREIGN KEY (student) REFERENCES users(user_id),
-	CONSTRAINT FK_grade_assignment FOREIGN KEY (assignment) REFERENCES assignment(id),
+	CONSTRAINT FK_grade_assignment FOREIGN KEY (assignment) REFERENCES assignment(id)
 );
 
 CREATE TABLE message (
 	id int DEFAULT nextval('seq_message_id'::regclass) NOT NULL,
-	user int NOT NULL,
+	user_id int NOT NULL,
 	read boolean NOT NULL,
 	content varchar(256) NOT NULL,
 	CONSTRAINT PK_message PRIMARY KEY (id),
-	CONSTRAINT FK_message_user FOREIGN KEY (user) REFERENCES users(user_id)
+	CONSTRAINT FK_message_user FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 COMMIT TRANSACTION;
