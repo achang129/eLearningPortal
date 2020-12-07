@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.techelevator.model.Curriculum;
+
 public class CurriculumSqlDAO implements CurriculumDAO {
 	
 	private JdbcTemplate jdbcTemplate;
@@ -46,6 +48,12 @@ public class CurriculumSqlDAO implements CurriculumDAO {
 		
 		currHomework = jdbcTemplate.queryForObject(sql, Integer.class, homework);
 		return currHomework;
+	}
+
+	@Override
+	public boolean addCurriculum(int course, Curriculum curriculum, LocalDate date) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

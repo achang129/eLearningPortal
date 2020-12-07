@@ -2,6 +2,8 @@ package com.techelevator.dao;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.techelevator.model.Course;
+
 public class CourseSqlDAO implements CourseDAO {
 	
 	private JdbcTemplate jdbcTemplate;
@@ -53,6 +55,42 @@ public class CourseSqlDAO implements CourseDAO {
 		
 		courseCost = jdbcTemplate.queryForObject(sql, Integer.class, cost);
 		return courseCost;
+	}
+
+	@Override
+	public Course[] getCoursesByStudent(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Course[] getCoursesByTeacher(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean makeCourse(Course course) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addTeacher(int course, int teacher) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addStudent(int course, int student) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Course getCourseById(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

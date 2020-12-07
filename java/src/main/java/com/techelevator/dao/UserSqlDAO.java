@@ -95,4 +95,28 @@ public class UserSqlDAO implements UserDAO {
         user.setActivated(true);
         return user;
     }
+
+	@Override
+	public List<User> findAllTeachers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<User> findAllStudents() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getRoleByUsername(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getRoleById(Long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
