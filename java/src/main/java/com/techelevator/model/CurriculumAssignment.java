@@ -1,5 +1,8 @@
 package com.techelevator.model;
 
-public class CurriculumAssignment {
+import java.time.LocalDate;
 
+public class CurriculumAssignment {
+	private Curriculum curriculum;
+	private LocalDate date;
 }

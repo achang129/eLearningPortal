@@ -9,19 +9,16 @@ any path variables) are needed.
 
 ## Calls
 
-| ----- | Method: | `GET` | `POST` | `PUT` | `DELETE` |
+| Path | `GET` | `POST` | `PUT` | `DELETE` |
+| -------- | ---- | ---- | ---- | ------ |
+| `/course` | Y | Y | Y | N |
+| `/course/{id}` | Y | Y | Y | Y |
+| `/homework` | Y | Y | N | N |
+| `/homework/{id}` | Y | Y | Y | Y |
+| `/messages` | Y | N | Y | Y |
+| `/users` | Y | N | N | N |
+| `/users/{role}` | Y | N | N | N |
 
-| ----- | -------- | ---- | ---- | ---- | ------ |
-
-| Path: | `/course` | Y | Y | Y | N |
-
-| ----- | `/course/{id}` | Y | Y | Y | Y |
-
-| ----- | `/homework` | Y | Y | N | N |
-
-| ----- | `/homework/{id}` | Y | Y | Y | Y |
-
-| ----- | `/messages` | Y | N | Y | Y |
 
 ### /course
 
@@ -87,3 +84,10 @@ any path variables) are needed.
 
 `DELETE` removes a message from their list.
 
+### /users
+
+`GET` returns a list of all users.
+
+### /users\{role\}
+
+`GET` returns a list of all users with the specified role.
