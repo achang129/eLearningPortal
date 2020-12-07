@@ -10,10 +10,16 @@ any path variables) are needed.
 ## Calls
 
 | ----- | Method: | `GET` | `POST` | `PUT` | `DELETE` |
+
 | Path: | `/course` | Y | Y | Y | N |
+
 | ----- | `/course/{id} | Y | Y | Y | Y |
+
 | ----- | `/homework` | Y | Y | N | N |
+
 | ----- | `/homework/{id} | Y | Y | Y | Y |
+
+| ----- | `/messages` | Y | N | Y | Y |
 
 ### /course
 
@@ -66,3 +72,12 @@ any path variables) are needed.
 * requires the answer given as an additional parameter
 
 `DELETE` deletes a particular homework assignment.
+
+### /messages
+
+`GET` returns a list of all messages sent to the current user.
+
+`PUT` updates a message as having been read.
+
+`DELETE` removes a message from their list.
+
