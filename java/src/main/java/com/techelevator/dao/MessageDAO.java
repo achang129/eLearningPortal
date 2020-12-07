@@ -22,3 +22,4 @@ public interface MessageDAO {
 	boolean isRead();
 	String getContent();
 
+}
