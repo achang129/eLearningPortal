@@ -16,6 +16,8 @@ public interface CourseDAO {
 	boolean addStudent(int course, int student);
 	//returns the course with the given ID
 	Course getCourseById(int id);
+	//deletes a course, returns true if successful and false otherwise
+	boolean deleteCourse(int course);
 	
 	
 	//existing

@@ -18,12 +18,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.techelevator.dao.AssignmentDAO;
 import com.techelevator.dao.CourseDAO;
 import com.techelevator.dao.CurriculumDAO;
+import com.techelevator.dao.MessageDAO;
 import com.techelevator.dao.UserDAO;
 import com.techelevator.errors.IncorrectRoleException;
 import com.techelevator.model.Assignment;
 import com.techelevator.model.Course;
 import com.techelevator.model.CourseAssignment;
 import com.techelevator.model.Curriculum;
+import com.techelevator.model.CurriculumAssignment;
+import com.techelevator.model.HomeworkAnswer;
+import com.techelevator.model.HomeworkAssignment;
 import com.techelevator.model.Message;
 import com.techelevator.model.User;
 
@@ -35,15 +39,19 @@ public class LogicController {
 	private static final String TEACHER = "teacher";
 	private static final String STUDENT = "student";
 	
-	private UserDAO userDAO;
+	private static final String HOMEWORK_SUBMIT_MESSAGE = "Student %s has submitted a new homework assignment.";
+	
+	private AssignmentDAO assignmentDAO;
 	private CourseDAO courseDAO;
 	private CurriculumDAO curriculumDAO;
-	private AssignmentDAO assignmentDAO;
+	private MessageDAO messageDAO;
+	private UserDAO userDAO;
 	
-	public LogicController(UserDAO userDAO, CourseDAO courseDAO, CurriculumDAO curriculumDAO){
+	public LogicController(UserDAO userDAO, MessageDAO messageDAO, CourseDAO courseDAO, CurriculumDAO curriculumDAO){
 		this.userDAO = userDAO;
 		this.courseDAO = courseDAO;
 		this.curriculumDAO = curriculumDAO;
+		this.messageDAO = messageDAO;
 	}
 	
 	@RequestMapping(value = "/courses", method = RequestMethod.GET)
@@ -83,96 +91,105 @@ public class LogicController {
 
     @ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.POST)
-	public boolean addCurriculum(@PathVariable("id") int id, @RequestBody Curriculum curriculum, Principal p){
-		
-		return false;
+	public boolean addCurriculum(@PathVariable("id") int id, @RequestBody CurriculumAssignment curriculum, Principal p){
+    	//validate that user is teacher for course?
+    	return curriculumDAO.addCurriculum(id, curriculum.getCurriculum(), curriculum.getDate());
 	}
 	
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.PUT)
-	public boolean editCurriculum(@PathVariable("id") int id, @RequestBody Curriculum curriculum, Principal p){
-		
-		return false;
+	public boolean editCurriculum(@PathVariable("id") int id, @RequestBody CurriculumAssignment curriculum, Principal p){
+		//validate that user is teacher for course?
+		return curriculumDAO.editCurriculum(id, curriculum.getCurriculum(), curriculum.getDate());
 	}
 	
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.DELETE)
 	public boolean deleteCourse(@PathVariable("id") int id, Principal p){
-		
-		return false;
+		//validate something??
+		return courseDAO.deleteCourse(id);
 	}
 	
 	@RequestMapping(value = "/homework/", method = RequestMethod.GET)
-	public Assignment[] getHomework(Principal p){
-		
-		return null;
+	public Assignment[] getHomework(Principal p) throws IncorrectRoleException{
+		validateRole(p, "view homework", STUDENT);
+		return assignmentDAO.getStudentAssignments(getID(p));
 	}
 
     @ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/homework/", method = RequestMethod.POST)
-	public boolean createHomework(@RequestBody Assignment homework, Principal p){
-		
-		return false;
+	public boolean createHomework(@RequestBody HomeworkAssignment homework, Principal p) throws IncorrectRoleException{
+		validateRole(p, "create homework", TEACHER);
+		return assignmentDAO.newAssignment(homework.getCourse(), homework.getDate(), homework.getHomework());
 	}
 	
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.GET)
 	public Assignment viewHomework(@PathVariable("id") int id, Principal p){
-		
-		return null;
+		//validate that the person in question has been assigned this work?
+		return assignmentDAO.getAssignmentById(id);
 	}
 
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.POST)
-	public boolean submitHomework(@PathVariable("id") int id, Principal p){
-		
-		return false;
+	public boolean submitHomework(@PathVariable("id") int id, Principal p) throws IncorrectRoleException{
+		validateRole(p, "submit homework", STUDENT);
+		int uid = getID(p);
+		if(assignmentDAO.submitAssignment(id, uid)){
+			//possible for the message not to be sent! currently prioritizing homework status.
+			messageDAO.send(assignmentDAO.getTeacher(id), String.format(HOMEWORK_SUBMIT_MESSAGE, p.getName()));
+			return true;
+		}else{return false;}
 	}
 	
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.PUT)
-	public boolean submitAnswer(@PathVariable("id") int id, @RequestBody String answer, Principal p){
-		
-		return false;
+	public boolean submitAnswer(@PathVariable("id") int id, @RequestBody HomeworkAnswer answer, Principal p) throws IncorrectRoleException{
+		validateRole(p, "submit answer", STUDENT);
+		int uid = getID(p);
+		return assignmentDAO.submitAnswer(id, answer.getQuestion(), uid, answer.getAnswer());
 	}
 	
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.DELETE)
-	public boolean deleteHomework(@PathVariable("id") int id, Principal p){
-		
-		return false;
+	public boolean deleteHomework(@PathVariable("id") int id, Principal p) throws IncorrectRoleException{
+		validateRole(p, "delete homework", TEACHER);//administrator??
+		return assignmentDAO.deleteAssignment(id);
 	}
 	
 	@RequestMapping(value = "/messages", method = RequestMethod.GET)
 	public Message[] getMessages(Principal p){
-		
-		return null;
+		return messageDAO.getList(getID(p));
 	}
-	
-	@RequestMapping(value = "/messages", method = RequestMethod.POST)
-	public boolean readMessage(@RequestBody Message message, Principal p){
-		
-		return false;
-	}
-	
+
 	@RequestMapping(value = "/messages", method = RequestMethod.DELETE)
-	public boolean deleteMessage(@RequestBody Message message, Principal p){
-		
-		return false;
+	public boolean deleteMessage(@RequestBody int id, Principal p){
+		return messageDAO.delete(id);
+	}
+	
+	@RequestMapping(value = "/messages/read", method = RequestMethod.GET)
+	public boolean checkMessage(@RequestBody int id, Principal p){
+		return messageDAO.isRead(id);
+	}
+	
+	@RequestMapping(value = "/messages/read", method = RequestMethod.PUT)
+	public boolean readMessage(@RequestBody int id, Principal p){
+		return messageDAO.markRead(id);
 	}
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public User[] getUsers(Principal p){
-		
-		return null;
+		return userDAO.findAll().toArray(new User[0]);
 	}
 
 	@RequestMapping(value = "/users/{role}", method = RequestMethod.GET)
 	public User[] getUsersByRole(@PathVariable("role") String role, Principal p){
-		
-		return null;
+		switch(role){
+		case STUDENT:
+			return userDAO.findAllStudents().toArray(new User[0]);
+		case TEACHER:
+			return userDAO.findAllTeachers().toArray(new User[0]);
+		default:
+			return new User[0];
+		}
 	}
 	
 	private int getID(Principal p){
 		return userDAO.findIdByUsername(p.getName());
-	}
-	
-	private User getUser(Principal p){
-		return userDAO.findByUsername(p.getName());
 	}
 	
 	private String getRole(Principal p){

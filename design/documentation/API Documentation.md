@@ -15,7 +15,8 @@ any path variables) are needed.
 | `/course/{id}` | Y | Y | Y | Y |
 | `/homework` | Y | Y | N | N |
 | `/homework/{id}` | Y | Y | Y | Y |
-| `/messages` | Y | N | Y | Y |
+| `/messages` | Y | N | N | Y |
+| `/messages/read` | Y | N | Y | N |
 | `/users` | Y | N | N | N |
 | `/users/{role}` | Y | N | N | N |
 
@@ -61,6 +62,7 @@ any path variables) are needed.
 * requires a 'homework assignment' object as the request body
  * has `homework` containing an assignment object
  * has `date` field containing the date the work is assigned
+ * has `course` field containing the id of the course the work is being assigned to
 
 ### /homework/\{id\}
 
@@ -80,9 +82,19 @@ any path variables) are needed.
 
 `GET` returns a list of all messages sent to the current user.
 
-`PUT` updates a message as having been read.
-
 `DELETE` removes a message from their list.
+
+* requires the message id as the request body
+
+### /messages/read
+
+`GET` returns 'true' if the given message has been read and false otherwise.
+
+* requires the message id as the request body
+
+`PUT` sets the message status to read.
+
+* requires the message id as the request body
 
 ### /users
 
