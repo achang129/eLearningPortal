@@ -1,9 +1,13 @@
 package com.techelevator.dao;
 
+import java.util.List;
+
+import com.techelevator.model.Message;
+
 public interface MessageDAO {
-	int getMessageID();
-	int getRecipientUserID();
-	//int getSenderID();
-	boolean isRead();
-	String getContent();
+	
+	boolean sendMessage(Message message);
+	List<Message> getMessageByUser(int userID);
+	Message getMessageByID(int ID);
+	
 }
