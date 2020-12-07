@@ -11,13 +11,15 @@ any path variables) are needed.
 
 | ----- | Method: | `GET` | `POST` | `PUT` | `DELETE` |
 
+| ----- | -------- | ---- | ---- | ---- | ------ |
+
 | Path: | `/course` | Y | Y | Y | N |
 
-| ----- | `/course/{id} | Y | Y | Y | Y |
+| ----- | `/course/{id}` | Y | Y | Y | Y |
 
 | ----- | `/homework` | Y | Y | N | N |
 
-| ----- | `/homework/{id} | Y | Y | Y | Y |
+| ----- | `/homework/{id}` | Y | Y | Y | Y |
 
 | ----- | `/messages` | Y | N | Y | Y |
 
@@ -27,25 +29,29 @@ any path variables) are needed.
 
 `POST` creates a new course.
 
-* requires a course object as an additional parameter.
+* requires a course object as the request body
 
 `PUT` adds students/teachers to a course.
 
-* requires the student/teacher's user id as an additional parameter.
+* requires a 'course assignment' object as the request body
+ * has `user` field containing the id of the user being assigned as a student/teacher
+ * has `course` field containing the id of the course being assigned to
 
-### /course/{id}
+### /course/\{id\}
 
 `GET` gives detailed information/curriculum for a particular course on a particular date.
 
 `POST` sets the curriculum for a particular course on a particular date.
 
-* requires a date object as an additional parameter
-* requires a curriculum object as an additional parameter
+* requires a 'curriculum assignment' object as the request body
+ * has `curriculum` field containing a curriculum object
+ * has `date` field the date the curriculum is assigned for
 
 `PUT` edits the curriculum for a particular course on a particular date.
 
-* requires a date object as an additional parameter
-* requires a curriculum object as an additional parameter
+* requires a 'curriculum assignment' object as the request body
+ * has `curriculum` field containing a curriculum object
+ * has `date` field the date the curriculum is assigned for
 
 `DELETE` deletes a course.
 
@@ -53,14 +59,13 @@ any path variables) are needed.
 
 `GET` gives a list of all homework assignments in all courses a user is taking/teaching.
 
-* Not sure the best way to implement it, but would like to have a way to limit returned courses. Optional parameters for course id/date range?
-
 `POST` creates a new homework assignment for a particular course.
 
-* requires a date object as an additional parameter (assignment date)
-* requires a homework object as an additional parameter
+* requires a 'homework assignment' object as the request body
+ * has `homework` containing an assignment object
+ * has `date` field containing the date the work is assigned
 
-### /homework/{id}
+### /homework/\{id\}
 
 `GET` gives detailed information about a particular homework assignment.
 
@@ -68,8 +73,9 @@ any path variables) are needed.
 
 `PUT` submits answer to a question on the homework from the user.
 
-* requires question number as an additional parameter
-* requires the answer given as an additional parameter
+* requires a 'homework answer' object as the request body
+ * has `question` field containing the number of the question being answered
+ * has `answer` field containing the answer given
 
 `DELETE` deletes a particular homework assignment.
 
