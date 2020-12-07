@@ -19,7 +19,13 @@ if(currentToken != null) {
 export default new Vuex.Store({
   state: {
     token: currentToken || '',
-    user: currentUser || {}
+    user: currentUser || {},
+    courses: [],
+    activeCourse: {
+      id: 0,
+      name: '',
+      homework: []
+    }
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -37,6 +43,23 @@ export default new Vuex.Store({
       state.token = '';
       state.user = {};
       axios.defaults.headers.common = {};
+    },
+    SET_COURSES(state, data) {
+      state.courses = data;
+    },
+    DELETE_COURSE(state, courseId) {
+      state.courses = state.courses.filter((course) => {
+        return course.id !== courseId;
+      });
+    },
+    SET_ACTIVE_COURSE(state, data) {
+      state.activeCourse = data;
+    },
+    DELETE_HOMEWORK(state, id) {
+      state.activeCourse.homework.splice(
+        state.activeCourse.homework.findIndex(homework => homework.id === id),
+        1
+      )
     }
   }
 })
