@@ -1,6 +1,14 @@
 package com.techelevator.dao;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 public class QuestionSqlDAO implements QuestionDAO {
+	
+	private JdbcTemplate jdbcTemplate;
+
+	public QuestionSqlDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+	}
 
 	@Override
 	public Integer getAssignment(int assignment) {
