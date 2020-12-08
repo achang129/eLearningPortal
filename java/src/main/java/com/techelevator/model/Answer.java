@@ -41,5 +41,7 @@ public class Answer {
 		this.answer = answer;
 	}
 	
+	public Answer() { }
+	
 	
 }

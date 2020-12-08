@@ -1,11 +1,12 @@
 package com.techelevator.dao;
 
+import java.util.List;
+
 import com.techelevator.model.Student;
 
 public interface StudentDAO {
 	
-	int getByStudentID(int studentID);
-	int getByCourseID(int courseID);
+	List<Student> getStudentsByCourse(int courseID);
 	boolean createStudent(Student newStudent);
 	
 }

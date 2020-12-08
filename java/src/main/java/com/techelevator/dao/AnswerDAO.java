@@ -6,8 +6,7 @@ import com.techelevator.model.Answer;
 
 public interface AnswerDAO {
 	
-	Answer getAnswerByStudent(int studentID);
-	List<Answer> getAnswersByClass(int classID);
+	List<Answer> getAnswersByStudentForHomework(int studentID, int assignment);
 	boolean createAnswer(Answer answer);
 	
 }
