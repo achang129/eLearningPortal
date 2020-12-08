@@ -1,17 +1,15 @@
 <template>
-  <div class="course">
-    <h1>Curriculum</h1>
-    <my-courses />
+  <div class="curriculum">
+    <h1>Course Details: </h1>
   </div>
 </template>
 
 <script>
-import MyCourses from '../components/MyCourses.vue';
 
 export default {
-  name: 'Course',
+  name: 'curriculum',
   components: {
-    MyCourses
+    
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="course-list">
+  <div class="curricula">
     <table>
       <thead>
         <tr>
@@ -31,7 +31,7 @@
 import courseService from "@/services/CourseService.js";
 
 export default {
-  name: "course-list",
+  name: "curricula",
   data() {
     return {
       errorMsg: ""
@@ -57,10 +57,12 @@ export default {
         });
     }
   },
+  
   created() {
     this.getCourses();
   }
 };
+
 </script>
 
 <style>

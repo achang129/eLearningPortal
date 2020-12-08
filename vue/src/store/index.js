@@ -27,6 +27,12 @@ export default new Vuex.Store({
       homework: []
     }
   },
+  getters: {
+    
+  },
+  actions: {
+
+  },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
       state.token = token;

@@ -1,12 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store/index'
+
 import Home from '../views/Home.vue'
+
+//LOGIN COMPONENTS
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
+
+//CURRICULUM  . .  displays details of a selected course
 import Curriculum from '../views/Curriculum.vue'
+//curricula is landing page for somebody to see all their courses
+import Curricula from '../views/Curricula.vue'
+import CreateCurriculum from '../views/CreateCurriculum.vue'
+
+//HomeworkList displays all upcoming homework
+import HomeworkList from '../views/HomeworkList.vue'
+import CreateHomework from '../views/CreateHomework.vue'
+//Homework displays specific assignment by ID
 import Homework from '../views/Homework.vue'
-import store from '../store/index'
+
 
 Vue.use(Router)
 
@@ -23,12 +37,14 @@ const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
+    //temporarily changing all "requiresAuth" to false. commented original value underneath.
     {
       path: '/',
       name: 'home',
       component: Home,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
+        //TRUE
       }
     },
     {
@@ -37,6 +53,7 @@ const router = new Router({
       component: Login,
       meta: {
         requiresAuth: false
+        //FALSE
       }
     },
     {
@@ -45,6 +62,7 @@ const router = new Router({
       component: Logout,
       meta: {
         requiresAuth: false
+        //FALSE
       }
     },
     {
@@ -53,24 +71,70 @@ const router = new Router({
       component: Register,
       meta: {
         requiresAuth: false
+        //FALSE
       }
     },
     {
-      path: '/course',
-      name: 'course',
-      component: Curriculum,
+      path: "/course",
+      name: "curricula",
+      component: Curricula,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
+        //TRUE
+      }
+    },
+    //Keep in mind that, if course/create were below course/:id, it would parse "create" as the id, and send
+    //to curriculum page, not create page
+    {
+      path: '/course/create',
+      name: 'create-curriculum',
+      component: CreateCurriculum,
+      meta: {
+        requiresAuth: false
+        //TRUE
+      }
+    },
+    {
+      path: '/course/:id',
+      name: 'curriculum',
+      component: Curriculum,
+      props(route) {
+        const props = {...route.params}
+        props.id = Number(props.id)
+        return props
+      },
+      meta: {
+        requiresAuth: false
+        //TRUE
       }
     },
     {
       path: '/homework',
+      name: 'homework-list',
+      component: HomeworkList,
+      meta: {
+        requiresAuth: false
+        //TRUE
+      }
+    },
+    {
+      path: '/homework/create',
+      name: 'create-homework',
+      component: CreateHomework,
+      meta: {
+        requiresAuth: false
+        //TRUE
+      }
+    },
+    {
+      path: '/homework/:id',
       name: 'homework',
       component: Homework,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
+        //TRUE
       }
-    },
+    }
   ]
 })
 
