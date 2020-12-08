@@ -14,7 +14,7 @@ INSERT INTO course
 INSERT INTO teacher (teacher, course) VALUES
   ((SELECT user_id FROM users WHERE role = 'teacher'), (SELECT id FROM course WHERE name = 'test'));
 
-INSERT INTO student (student, coruse) VALUES
+INSERT INTO student (student, course) VALUES
   ((SELECT user_id FROM users WHERE role = 'student'), (SELECT id FROM course WHERE name = 'test'));
 
 INSERT INTO curriculum
