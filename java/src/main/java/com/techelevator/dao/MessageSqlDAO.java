@@ -10,9 +10,11 @@ import com.techelevator.model.Message;
 
 public class MessageSqlDAO implements MessageDAO {
 	
-	private JdbcTemplate jdbc = new JdbcTemplate();
+	private JdbcTemplate jdbc;
 	
-	
+	public MessageSqlDAO(JdbcTemplate jdbc) {
+		this.jdbc = jdbc;
+	}
 
 	@Override
 	public boolean send(int user, String content) {

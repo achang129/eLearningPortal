@@ -85,7 +85,65 @@ public class UserSqlDAO implements UserDAO {
 
         return userCreated;
     }
+    
+    
+    @Override
+	public List<User> findAllTeachers() {//this select statement may need tweaking
+		List<User> results = new ArrayList<User>();
+		String sql = "SELECT * FROM users WHERE role = 'Teacher'";
+		
+		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
+		
+		while(rowSet.next()) {
+			results.add(mapRowToUser(rowSet));
+		}
+		
+		return results;
+	}
 
+	@Override
+	public List<User> findAllStudents() {
+		List<User> results = new ArrayList<User>();
+		String sql = "SELECT * FROM users WHERE role = 'Students'";
+		
+		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
+		
+		while(rowSet.next()) {
+			results.add(mapRowToUser(rowSet));
+		}
+		
+		return results;
+	}
+
+	@Override
+	public String getRoleByUsername(String username) {
+		String result = "";
+		String sql = "SELECT role FROM users WHERE username = ?";
+		
+		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, username);
+		
+		if(rowSet.next()) {
+			result = rowSet.getString("role");
+		}
+		
+		return result;
+	}
+
+	@Override
+	public String getRoleById(Long userId) {
+		String result = "";
+		String sql = "SELECT role FROM users WHERE user_id = ?";
+		
+		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, userId);
+		
+		if(rowSet.next()) {
+			result = rowSet.getString("role");
+		}
+		
+		return result;
+	}
+    
+    
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
         user.setId(rs.getLong("user_id"));
@@ -96,27 +154,5 @@ public class UserSqlDAO implements UserDAO {
         return user;
     }
 
-	@Override
-	public List<User> findAllTeachers() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<User> findAllStudents() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getRoleByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getRoleById(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 }
