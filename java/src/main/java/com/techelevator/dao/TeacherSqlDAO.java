@@ -1,17 +1,21 @@
 package com.techelevator.dao;
 
+import com.techelevator.model.Teacher;
+
 public class TeacherSqlDAO implements TeacherDAO {
 
 	@Override
-	public int getTeacherID() {
+	public Teacher getTeacherByCourse(int courseID) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
-	public int getCourseID() {
+	public boolean createTeacher(Teacher newTeacher) {
 		// TODO Auto-generated method stub
-		return 0;
+		return false;
 	}
+
+	
 
 }
