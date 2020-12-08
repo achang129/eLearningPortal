@@ -1,6 +1,7 @@
 package com.techelevator.dao;
 
 public interface QuestionDAO {
+	//maybe not necessary?
 	
 	Integer getAssignment(int assignment);
 	

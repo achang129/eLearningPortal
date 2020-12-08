@@ -140,4 +140,4 @@ Contains information about a notification sent to a user.
 | `read` | boolean | indicates whether or not this message has been read |
 | `content` | varchar(256) | the contents of the message |
 
-
+`read` has a default value of 'false'.

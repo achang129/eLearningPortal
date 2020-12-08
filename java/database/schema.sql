@@ -134,8 +134,8 @@ CREATE TABLE grade (
 
 CREATE TABLE message (
 	id int DEFAULT nextval('seq_message_id'::regclass) NOT NULL,
-	user_id int NOT NULL,
-	read boolean NOT NULL,
+	user int NOT NULL,
+	read boolean DEFAULT false NOT NULL,
 	content varchar(256) NOT NULL,
 	CONSTRAINT PK_message PRIMARY KEY (id),
 	CONSTRAINT FK_message_user FOREIGN KEY (user_id) REFERENCES users(user_id)

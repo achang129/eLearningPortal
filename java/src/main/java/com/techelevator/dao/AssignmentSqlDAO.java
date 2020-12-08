@@ -19,81 +19,56 @@ public class AssignmentSqlDAO implements AssignmentDAO {
         this.jdbcTemplate = jdbcTemplate;
 	}
 
-
-
 	@Override
 	public Assignment[] getStudentAssignments(int student) {
 		List<Assignment> tempByStudent = new ArrayList<Assignment>();
-		String sql = "SELECT * FROM assignment a JOIN curriculum c ON a.id = c.homework "
-				+ "JOIN student s ON c.id = s.course WHERE s.student =?";
+		String sql = "SELECT * FROM assignment a INNER JOIN curriculum c ON a.id = c.homework "
+				+ "INNER JOIN student s ON c.id = s.course WHERE s.student = ?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, student);
 		while(results.next()) {
 			Assignment result = mapRowToAssignment(results);
 			tempByStudent.add(result);
 		}
-		Assignment[] assignmentsByStudent = new Assignment[tempByStudent.size()];
-		
-		return assignmentsByStudent;
+		return tempByStudent.toArray(new Assignment[0]);
 	}
 
 	@Override
 	public boolean newAssignment(int course, LocalDate date, Assignment homework) {
-		boolean assignmentCreated = false;
-		
-		String sql = "INSERT into assignment "
-				+ "(due_date, questions) VALUES (?, ?)";
-		assignmentCreated = jdbcTemplate.update(sql, course, date, homework) ==1;
-		
-		return assignmentCreated;
+		String sql = "INSERT into assignment (due_date, questions) VALUES (?, ?)";
+		return jdbcTemplate.update(sql, course, date, homework) == 1;
 	}
 
 	@Override
 	public Assignment getAssignmentById(int id) {
-		Assignment assignmentId = null;
 		String sql = "SELECT * FROM assignment WHERE id = ?";
-		
-		assignmentId = jdbcTemplate.queryForObject(sql, Assignment.class, id);
-		return assignmentId;
+		return jdbcTemplate.queryForObject(sql, Assignment.class, id);
 	}
 
 	@Override
 	public boolean submitAssignment(int id, int student) {
-		boolean assignmentSubmitted = false;
-//		String sql = "INSERT INTO assignment ("
-		return false;
+		String sql = "INSERT INTO grade (student, assignment, turned_in) VALUES (?, ?, now())";
+		return jdbcTemplate.update(sql, student, id) == 1;
 	}
 
 	@Override
 	public int getTeacher(int id) {
-		int teacherId = 0;
-		String sql = "SELECT teacher FROM teacher t JOIN course c "
-				+ "ON t.course = c.id JOIN curriculum cr ON cr.course = c.id "
-				+ "WHERE t.teacher = ?";
-		
-		teacherId = jdbcTemplate.queryForObject(sql, int.class, id);
-		return teacherId;
+		String sql = "SELECT teacher FROM teacher t INNER JOIN course c "
+				+ "ON t.course = c.id INNER JOIN curriculum cr ON cr.course = c.id "
+				+ "WHERE cr.homework = ?";
+		return jdbcTemplate.queryForObject(sql, Integer.class, id);
 	}
 
 	@Override
 	public boolean submitAnswer(int id, int question, int student, String answer) {
 		String sql = "INSERT INTO answer (student, assignment, question, answer) "
 				+ "VALUES (?, ?, ?, ?)";
-		int worked = jdbcTemplate.update(sql, id, question, student, answer);
-		if(worked > 0) {
-			return true;
-		}else {
-		return false;
-		}
+		return jdbcTemplate.update(sql, student, id, question, answer) == 1;
 	}
 
 	@Override
 	public boolean deleteAssignment(int id) {
-		boolean assignmentDeleted = false;
-		
 		String sql = "DELETE * FROM assignment WHERE id = ?";
-		assignmentDeleted = jdbcTemplate.update(sql, id) == 1;
-		
-		return assignmentDeleted;
+		return jdbcTemplate.update(sql, id) == 1;
 	}
 	
 	private Assignment mapRowToAssignment(SqlRowSet rs) {

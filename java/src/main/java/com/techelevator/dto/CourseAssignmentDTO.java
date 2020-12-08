@@ -1,6 +1,6 @@
-package com.techelevator.model;
+package com.techelevator.dto;
 
-public class CourseAssignment {
+public class CourseAssignmentDTO {
 	private int course;
 	private int user;
 	

@@ -16,91 +16,58 @@ public class CourseSqlDAO implements CourseDAO {
         this.jdbcTemplate = jdbcTemplate;
 	}
 
-
-
 	@Override
 	public Course[] getCoursesByStudent(int id) {
 		List<Course> tempCoursesByStudent = new ArrayList<Course>();
-		String sql = "SELECT * FROM course c JOIN student s ON "
+		String sql = "SELECT * FROM course c INNER JOIN student s ON "
 					+ "s.course = c.id WHERE s.student = ?";
-		
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
 		while (results.next()) {
-			Course result = mapRowToCourse(results);
-			tempCoursesByStudent.add(result);
+			tempCoursesByStudent.add(mapRowToCourse(results));
 		}
-		Course[] coursesByStudent = new Course[tempCoursesByStudent.size()];
-		tempCoursesByStudent.toArray(coursesByStudent);
-		return coursesByStudent;
-		
+		return tempCoursesByStudent.toArray(new Course[0]);
 	}
 
 	@Override
 	public Course[] getCoursesByTeacher(int id) {
 		List<Course> tempByTeacher = new ArrayList<Course>();
-		String sql = "SELECT * FROM course c JOIN teacher t ON "
+		String sql = "SELECT * FROM course c INNER JOIN teacher t ON "
 					+ "t.course = c.id WHERE t.teacher = ?";
-		
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
 		while (results.next()) {
-			Course result = mapRowToCourse(results);
-			tempByTeacher.add(result);
+			tempByTeacher.add(mapRowToCourse(results));
 		}
-		Course[] coursesByTeacher = new Course[tempByTeacher.size()];
-		tempByTeacher.toArray(coursesByTeacher);
-		return coursesByTeacher;
+		return tempByTeacher.toArray(new Course[0]);
 	}
 
 	@Override
 	public boolean makeCourse(Course course) {
-		boolean courseCreated = false;
-		
-		String sql = "INSERT into course (name, description, difficulty, cost)"
-					+ "VALUES (?, ?, ?, ?)";
-		courseCreated = jdbcTemplate.update(sql,
-										course.getName(), course.getDescription(),
-										course.getDifficulty(), course.getCost()) == 1;
-		
-		return courseCreated;
+		String sql = "INSERT into course (name, description, difficulty) VALUES (?, ?, ?)";
+		return jdbcTemplate.update(sql, course.getName(), course.getDescription(), course.getDifficulty()) == 1;
 	}
 
 	@Override
 	public boolean addTeacher(int course, int teacher) {
-		boolean teacherAdded = false;
-		String sql = "INSERT into teacher (teacher, course)"
-					+ "VALUES (?, ?)";
-		teacherAdded = jdbcTemplate.update(sql, course, teacher) == 1;
-		
-		return teacherAdded;
+		String sql = "INSERT into teacher (teacher, course) VALUES (?, ?)";
+		return jdbcTemplate.update(sql, course, teacher) == 1;
 	}
 
 	@Override
 	public boolean addStudent(int course, int student) {
-		boolean studentAdded = false;
-		String sql = "INSERT into student (student, course)"
-				+ "VALUES (?, ?)";
-		studentAdded = jdbcTemplate.update(sql, course, student) ==1;
-		
-		return studentAdded;
+		String sql = "INSERT into student (student, course) VALUES (?, ?)";
+		return jdbcTemplate.update(sql, course, student) ==1;
 	}
 
 	@Override
 	public Course getCourseById(int id) {
-		Course courseId = null;
-		
 		String sql = "SELECT * FROM course WHERE id = ?";
-		courseId = jdbcTemplate.queryForObject(sql, Course.class, id);
-		return courseId;
+		return jdbcTemplate.queryForObject(sql, Course.class, id);
 	}
 	
 	@Override
 	public boolean deleteCourse(int course) {
-		boolean courseDeleted = false;
-		
 		String sql = "DELETE * FROM course WHERE id = ?";
-		courseDeleted = jdbcTemplate.update(sql, course) == 1;
-		
-		return courseDeleted;
+		return jdbcTemplate.update(sql, course) == 1;
 	}
 	
 	private Course mapRowToCourse(SqlRowSet rs) {
@@ -113,7 +80,4 @@ public class CourseSqlDAO implements CourseDAO {
 		
 		return c;
 	}
-
-	
-
 }

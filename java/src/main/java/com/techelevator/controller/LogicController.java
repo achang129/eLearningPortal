@@ -20,14 +20,14 @@ import com.techelevator.dao.CourseDAO;
 import com.techelevator.dao.CurriculumDAO;
 import com.techelevator.dao.MessageDAO;
 import com.techelevator.dao.UserDAO;
+import com.techelevator.dto.AssignmentDTO;
+import com.techelevator.dto.CourseAssignmentDTO;
+import com.techelevator.dto.CurriculumDTO;
 import com.techelevator.errors.IncorrectRoleException;
 import com.techelevator.model.Assignment;
 import com.techelevator.model.Course;
-import com.techelevator.model.CourseAssignment;
 import com.techelevator.model.Curriculum;
-import com.techelevator.model.CurriculumAssignment;
 import com.techelevator.model.HomeworkAnswer;
-import com.techelevator.model.HomeworkAssignment;
 import com.techelevator.model.Message;
 import com.techelevator.model.User;
 
@@ -70,7 +70,7 @@ public class LogicController {
 	}
 
 	@RequestMapping(value = "/courses", method = RequestMethod.PUT)
-	public boolean moveToCourse(@RequestBody CourseAssignment assignment, Principal p) throws IncorrectRoleException{
+	public boolean moveToCourse(@RequestBody CourseAssignmentDTO assignment, Principal p) throws IncorrectRoleException{
 		validateRole(p, "assign to course", ADMIN);
 		String role = userDAO.getRoleById(new Long(assignment.getUser()));
 		switch(role){
@@ -91,13 +91,13 @@ public class LogicController {
 
     @ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.POST)
-	public boolean addCurriculum(@PathVariable("id") int id, @RequestBody CurriculumAssignment curriculum, Principal p){
+	public boolean addCurriculum(@PathVariable("id") int id, @RequestBody CurriculumDTO curriculum, Principal p){
     	//validate that user is teacher for course?
     	return curriculumDAO.addCurriculum(id, curriculum.getCurriculum(), curriculum.getDate());
 	}
 	
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.PUT)
-	public boolean editCurriculum(@PathVariable("id") int id, @RequestBody CurriculumAssignment curriculum, Principal p){
+	public boolean editCurriculum(@PathVariable("id") int id, @RequestBody CurriculumDTO curriculum, Principal p){
 		//validate that user is teacher for course?
 		return curriculumDAO.editCurriculum(id, curriculum.getCurriculum(), curriculum.getDate());
 	}
@@ -116,7 +116,7 @@ public class LogicController {
 
     @ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/homework/", method = RequestMethod.POST)
-	public boolean createHomework(@RequestBody HomeworkAssignment homework, Principal p) throws IncorrectRoleException{
+	public boolean createHomework(@RequestBody AssignmentDTO homework, Principal p) throws IncorrectRoleException{
 		validateRole(p, "create homework", TEACHER);
 		return assignmentDAO.newAssignment(homework.getCourse(), homework.getDate(), homework.getHomework());
 	}

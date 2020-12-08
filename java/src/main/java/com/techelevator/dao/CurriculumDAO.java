@@ -10,10 +10,4 @@ public interface CurriculumDAO {
 	boolean addCurriculum(int course, Curriculum curriculum, LocalDate date);
 	//edits the curriculum for a course on a given date, returns true if successful and false otherwise
 	boolean editCurriculum(int course, Curriculum curriculum, LocalDate date);
-	
-	Integer getCourse(int course);
-	LocalDate getDate(LocalDate date);
-	String getLesson(String lesson);
-	Integer getHomework(int homework);
-
 }

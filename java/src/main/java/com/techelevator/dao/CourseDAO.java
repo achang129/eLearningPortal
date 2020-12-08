@@ -18,8 +18,4 @@ public interface CourseDAO {
 	Course getCourseById(int id);
 	//deletes a course, returns true if successful and false otherwise
 	boolean deleteCourse(int course);
-	
-	
-	//existing
-	
 }

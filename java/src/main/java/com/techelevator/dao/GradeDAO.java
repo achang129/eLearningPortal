@@ -5,6 +5,8 @@ import java.util.List;
 import com.techelevator.model.Grade;
 
 public interface GradeDAO {
+	//may fold in with assignmentDAO, depends on how we end up implementing that
+	
 	//are we doing the actual grade calculation in the db or in the java app? this will define how I get the grade class here.
 	List<Grade> getGradesByStudent(int studentID);
 	List<Grade> getGradesByCourse(int courseID);

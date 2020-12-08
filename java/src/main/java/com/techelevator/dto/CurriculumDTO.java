@@ -1,8 +1,10 @@
-package com.techelevator.model;
+package com.techelevator.dto;
 
 import java.time.LocalDate;
 
-public class CurriculumAssignment {
+import com.techelevator.model.Curriculum;
+
+public class CurriculumDTO {
 	private Curriculum curriculum;
 	private LocalDate date;
 	
