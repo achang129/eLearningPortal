@@ -25,6 +25,11 @@ export default new Vuex.Store({
       id: 0,
       name: '',
       homework: []
+    },
+    activeHomework: {
+      id: null,
+      courseId: null,
+      title: ''
     }
   },
   getters: {
@@ -66,6 +71,9 @@ export default new Vuex.Store({
         state.activeCourse.homework.findIndex(homework => homework.id === id),
         1
       )
+    },
+    SET_ACTIVE_HOMEWORK(state, data) {
+      state.activeHomework = data;
     }
   }
 })

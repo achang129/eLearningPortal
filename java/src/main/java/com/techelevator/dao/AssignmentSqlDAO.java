@@ -59,20 +59,31 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	@Override
 	public boolean submitAssignment(int id, int student) {
 		boolean assignmentSubmitted = false;
-//		String sql = ""
+//		String sql = "INSERT INTO assignment ("
 		return false;
 	}
 
 	@Override
 	public int getTeacher(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+		int teacherId = 0;
+		String sql = "SELECT teacher FROM teacher t JOIN course c "
+				+ "ON t.course = c.id JOIN curriculum cr ON cr.course = c.id "
+				+ "WHERE t.teacher = ?";
+		
+		teacherId = jdbcTemplate.queryForObject(sql, int.class, id);
+		return teacherId;
 	}
 
 	@Override
 	public boolean submitAnswer(int id, int question, int student, String answer) {
-		// TODO Auto-generated method stub
+		String sql = "INSERT INTO answer (student, assignment, question, answer) "
+				+ "VALUES (?, ?, ?, ?)";
+		int worked = jdbcTemplate.update(sql, id, question, student, answer);
+		if(worked > 0) {
+			return true;
+		}else {
 		return false;
+		}
 	}
 
 	@Override

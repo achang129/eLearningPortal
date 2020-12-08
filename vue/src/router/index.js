@@ -8,6 +8,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
+<<<<<<< HEAD
 
 //CURRICULUM  . .  displays details of a selected course
 import Curriculum from '../views/Curriculum.vue'
@@ -21,6 +22,14 @@ import CreateHomework from '../views/CreateHomework.vue'
 //Homework displays specific assignment by ID
 import Homework from '../views/Homework.vue'
 
+=======
+import Course from '../views/Course.vue'
+import Homework from '../views/Homework.vue'
+import Messages from '../views/Messages.vue'
+import AddCourse from '../views/AddCourse.vue'
+import EditCourse from '../views/EditCourse.vue'
+import store from '../store/index'
+>>>>>>> 2a6aa10f441f8bfd85b95fd47769e17a0f674d19
 
 Vue.use(Router)
 
@@ -75,6 +84,7 @@ const router = new Router({
       }
     },
     {
+<<<<<<< HEAD
       path: "/course",
       name: "curricula",
       component: Curricula,
@@ -106,6 +116,13 @@ const router = new Router({
       meta: {
         requiresAuth: false
         //TRUE
+=======
+      path: '/course',
+      name: 'course',
+      component: Course,
+      meta: {
+        requiresAuth: false
+>>>>>>> 2a6aa10f441f8bfd85b95fd47769e17a0f674d19
       }
     },
     {
@@ -134,6 +151,27 @@ const router = new Router({
         requiresAuth: false
         //TRUE
       }
+<<<<<<< HEAD
+=======
+    },
+    {
+      path: '/messages',
+      name: 'messages',
+      component: Messages,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/create-course',
+      name: 'AddCourse',
+      component: AddCourse
+    },
+    {
+      path: '/edit-course/:id',
+      name: 'EditCourse',
+      component: EditCourse
+>>>>>>> 2a6aa10f441f8bfd85b95fd47769e17a0f674d19
     }
   ]
 })
