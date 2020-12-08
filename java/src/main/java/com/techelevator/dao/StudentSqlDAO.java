@@ -1,11 +1,16 @@
 package com.techelevator.dao;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
+=======
+import java.util.List;
+
+>>>>>>> 2dbbf7adcc40506bd228a30c372e5fc7585bfc14
 import com.techelevator.model.Student;
 
 public class StudentSqlDAO implements StudentDAO {
@@ -17,16 +22,23 @@ public class StudentSqlDAO implements StudentDAO {
 	}
 	
 
+//	@Override
+//	public int getStudentID() {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+//
+//	@Override
+//	public int getCourseID() {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+
 	@Override
-	public List<Student> getStudentsByCourse(int courseID) {// not sure how to build the map function based on how the student/teacher classes are built. need Peter to give input.
-		List<Student> results = new ArrayList<Student>();
-		String sql = "SELECT * FROM student WHERE course = ?";
-		
-		SqlRowSet rowSet = jdbc.queryForRowSet(sql, courseID);
-		
-		while(rowSet.next()) {
-			
-		}
+
+	public List<Student> getStudentsByCourse(int courseID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

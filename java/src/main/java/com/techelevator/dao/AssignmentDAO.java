@@ -3,6 +3,7 @@ package com.techelevator.dao;
 import java.time.LocalDate;
 
 import com.techelevator.model.Assignment;
+import com.techelevator.model.Student;
 
 public interface AssignmentDAO {
 	//need these for API calls
@@ -21,9 +22,6 @@ public interface AssignmentDAO {
 	//deletes a homework assignment, returns true if successful or false otherwise
 	boolean deleteAssignment(int id);
 	
-	Integer getAssignmentId(int assignment);
-	LocalDate getDueDate(LocalDate dueDate);
-	Integer getQuestions(int questions);
 	
 
 }
