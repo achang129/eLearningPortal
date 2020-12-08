@@ -4,8 +4,9 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
-import Curriculum from '../views/Curriculum.vue'
+import Course from '../views/Course.vue'
 import Homework from '../views/Homework.vue'
+import Messages from '../views/Messages.vue'
 import store from '../store/index'
 
 Vue.use(Router)
@@ -58,7 +59,7 @@ const router = new Router({
     {
       path: '/course',
       name: 'course',
-      component: Curriculum,
+      component: Course,
       meta: {
         requiresAuth: true
       }
@@ -71,6 +72,14 @@ const router = new Router({
         requiresAuth: true
       }
     },
+    {
+      path: '/messages',
+      name: 'messages',
+      component: Messages,
+      meta: {
+        requiresAuth: true
+      }
+    }
   ]
 })
 
