@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     saveCourse() {
-      CourseService.addCourse(this.course)
+      courseService.addCourse(this.course)
         .then(response => {
           if (response.status === 201) {
             courseService.list().then(response => {
@@ -36,7 +36,7 @@ export default {
               d: Math.floor(Math.random() * (1000 - 100) + 100),
               name: ""
             }
-            this.$router.push('/');
+            this.$router.push('/course');
           }
         }).catch(error => {
           this.errorMsg = error.response.statusText;
@@ -45,3 +45,34 @@ export default {
   }
 };
 </script>
+
+<style>
+form {
+  padding: 20px;
+  font-size: 16px;
+}
+form * {
+  box-sizing: border-box;
+  line-height: 1.5;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.field label {
+  margin: 4px 0;
+  font-weight: bold;
+}
+.field input,
+.field textarea {
+  padding: 8px;
+  font-size: 18px;
+}
+.field textarea {
+  height: 300px;
+}
+.actions {
+  text-align: right;
+  padding: 10px 0;
+}
+</style>

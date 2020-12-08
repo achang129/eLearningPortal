@@ -7,6 +7,8 @@ import Register from '../views/Register.vue'
 import Course from '../views/Course.vue'
 import Homework from '../views/Homework.vue'
 import Messages from '../views/Messages.vue'
+import AddCourse from '../views/AddCourse.vue'
+import EditCourse from '../views/EditCourse.vue'
 import store from '../store/index'
 
 Vue.use(Router)
@@ -61,7 +63,7 @@ const router = new Router({
       name: 'course',
       component: Course,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
@@ -79,6 +81,16 @@ const router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/create-course',
+      name: 'AddCourse',
+      component: AddCourse
+    },
+    {
+      path: '/edit-course/:id',
+      name: 'EditCourse',
+      component: EditCourse
     }
   ]
 })

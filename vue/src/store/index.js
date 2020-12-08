@@ -66,7 +66,7 @@ export default new Vuex.Store({
         1
       )
     },
-    SET_ACTIVE_Homework(state, data) {
+    SET_ACTIVE_HOMEWORK(state, data) {
       state.activeHomework = data;
     }
   }
