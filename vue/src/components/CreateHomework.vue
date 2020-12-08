@@ -1,13 +1,15 @@
 <template>
-  <form v-on:submit.prevent>
-    <div class="field">
-      <label for="title">Title</label>
-      <input type="text" name="title" v-model="homework.title" />
-    </div>
-    <div class="actions">
-      <button type="submit" v-on:click="saveHomework()">Save</button>
-    </div>
-  </form>
+  <div class="create-homework">
+    <form v-on:submit.prevent>
+      <div class="field">
+        <label for="title">Title</label>
+        <input type="text" name="title" v-model="homework.title" />
+      </div>
+      <div class="actions">
+        <button type="submit" v-on:click="saveHomework()">Save</button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>

@@ -28,7 +28,7 @@ export default {
       courseService.updateCourse(course)
         .then(response => {
           if (response.status === 200) {
-            this.$router.push('/');
+            this.$router.push('/course');
           }
         }).catch(error => {
           if (error.response) {

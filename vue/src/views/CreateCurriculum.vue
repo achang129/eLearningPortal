@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="create-curriculum">
     <h1>Add New Course</h1>
     <create-course />
   </div>
@@ -9,6 +9,7 @@
 import CreateCourse from '../components/CreateCourse.vue';
 
 export default {
+  name: "create-curriculum",
   components: {
     CreateCourse
   }

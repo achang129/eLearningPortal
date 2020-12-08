@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="edit-curriculum">
     <h1>Edit Course</h1>
     <update-course v-bind:courseId="parseInt($route.params.id)" />
   </div>
@@ -9,6 +9,7 @@
 import UpdateCourse from '../components/UpdateCourse.vue';
 
 export default {
+  name: "edit-curriculum",
   components: {
     UpdateCourse
   }

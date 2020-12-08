@@ -1,13 +1,32 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store/index'
+
 import Home from '../views/Home.vue'
+
+//LOGIN COMPONENTS
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
-import Course from '../views/Course.vue'
-import Homework from '../views/Homework.vue'
+
+//ACCOUNT FEATURES/DETAILS
 import Messages from '../views/Messages.vue'
-import store from '../store/index'
+import NotFound from '../views/NotFound.vue'
+
+//CURRICULUM  . .  displays details of a selected course
+import Curriculum from '../views/Curriculum.vue'
+//curricula is landing page for somebody to see all their courses
+import Curricula from '../views/Curricula.vue'
+import CreateCurriculum from '../views/CreateCurriculum.vue'
+import EditCurriculum from '../views/EditCurriculum.vue'
+
+//HOMEWORKList displays all upcoming homework
+import HomeworkList from '../views/HomeworkList.vue'
+import CreateHomework from '../views/CreateHomework.vue'
+import EditHomework from '../views/EditHomework.vue'
+//HOMEWORK displays specific assignment by ID
+import Homework from '../views/Homework.vue'
+
 
 Vue.use(Router)
 
@@ -24,12 +43,14 @@ const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
+    //temporarily changing all "requiresAuth" to false. commented original value underneath.
     {
       path: '/',
       name: 'home',
       component: Home,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
+        //TRUE
       }
     },
     {
@@ -38,6 +59,7 @@ const router = new Router({
       component: Login,
       meta: {
         requiresAuth: false
+        //FALSE
       }
     },
     {
@@ -46,6 +68,7 @@ const router = new Router({
       component: Logout,
       meta: {
         requiresAuth: false
+        //FALSE
       }
     },
     {
@@ -54,22 +77,88 @@ const router = new Router({
       component: Register,
       meta: {
         requiresAuth: false
+        //FALSE
+      }
+    },
+    //Course will route to all of the student's or teacher's courses (maybe two separate components
+    // with a v-if type thing, this concept could be extended to most of the views, really)
+    {
+      path: "/course",
+      name: "curricula",
+      component: Curricula,
+      meta: {
+        requiresAuth: false
+        //TRUE
+      }
+    },
+    //Keep in mind that, if course/create were below course/:id, it would parse "create" as the id, and send
+    //to curriculum page, not create page
+    {
+      path: '/course/create',
+      name: 'create-curriculum',
+      component: CreateCurriculum,
+      meta: {
+        requiresAuth: false
+        //TRUE
       }
     },
     {
-      path: '/course',
-      name: 'course',
-      component: Course,
+      path: '/course/:id',
+      name: 'curriculum',
+      component: Curriculum,
+      props(route) {
+        const props = {...route.params}
+        props.id = Number(props.id)
+        return props
+      },
       meta: {
-        requiresAuth: true
+        requiresAuth: false
+        //TRUE
+      }
+    },
+    {
+      path: '/course/:id/edit',
+      name: 'edit-curriculum',
+      component: EditCurriculum,
+      meta: {
+        requiresAuth: false
+        //TRUE
       }
     },
     {
       path: '/homework',
+      name: 'homework-list',
+      component: HomeworkList,
+      meta: {
+        requiresAuth: false
+        //TRUE
+      }
+    },
+    {
+      path: '/homework/create',
+      name: 'create-homework',
+      component: CreateHomework,
+      meta: {
+        requiresAuth: false
+        //TRUE
+      }
+    },
+    {
+      path: '/homework/:id',
       name: 'homework',
       component: Homework,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
+        //TRUE
+      }
+    },
+    {
+      path: '/homework/:id/edit',
+      name: 'edit-homework',
+      component: EditHomework,
+      meta: {
+        requiresAuth: false
+        //TRUE
       }
     },
     {
@@ -77,7 +166,16 @@ const router = new Router({
       name: 'messages',
       component: Messages,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
+        //TRUE
+      }
+    },
+    {
+      path: '/error',
+      name: 'not-found',
+      component: NotFound,
+      meta: {
+        requiresAuth: false
       }
     }
   ]

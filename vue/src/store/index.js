@@ -32,6 +32,12 @@ export default new Vuex.Store({
       title: ''
     }
   },
+  getters: {
+    
+  },
+  actions: {
+
+  },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
       state.token = token;
@@ -66,7 +72,7 @@ export default new Vuex.Store({
         1
       )
     },
-    SET_ACTIVE_Homework(state, data) {
+    SET_ACTIVE_HOMEWORK(state, data) {
       state.activeHomework = data;
     }
   }
