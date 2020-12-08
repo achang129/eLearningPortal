@@ -32,13 +32,13 @@ export default {
     saveHomework() {
       homeworkService.addHomework(this.homework)
         .then(response => {
-          if (response.status === 201) {
-            this.message = {
+          if (response.status === 200) {
+            this.homework = {
                 id: Math.floor(Math.random() * (1000 - 100) + 100),
                 courseId: this.courseId,
                 title: ""
             }
-            this.$router.push(`/${this.homework.courseId}`)
+            this.$router.push('/homework')
           }
         }).catch(error => {
           this.errorMsg = error.response.statusText;

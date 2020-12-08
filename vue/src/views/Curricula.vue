@@ -1,9 +1,12 @@
 <template>
   <div class="curricula">
+    <router-link to="/course/create">Add Course</router-link>&nbsp;|&nbsp;
     <table>
       <thead>
         <tr>
           <th>Course</th>
+          <th>Difficulty</th>
+          <th>Cost</th>
           <th>Edit</th>
           <th>Delete</th>
         </tr>
@@ -12,11 +15,13 @@
         <tr v-for="course in this.$store.state.courses" v-bind:key="course.id">
           <td width="80%">
             <router-link
-              v-bind:to="{ name: 'Homework', params: { id: course.id } }"
-            >{{ course.title }}</router-link>
+              v-bind:to="{ name: 'homework-list', params: { id: course.id } }"
+            >{{ course.name }}</router-link>
           </td>
+          <td>{{ course.difficulty }}</td>
+          <td>{{ course.cost }}</td>
           <td>
-            <router-link :to="{ name: 'EditCourse', params: {id: course.id} }">Edit</router-link>
+            <router-link :to="{ name: 'edit-curriculum', params: {id: course.id} }">Edit</router-link>
           </td>
           <td>
             <a href="#" v-on:click="deleteCourse(course.id)">Delete</a>

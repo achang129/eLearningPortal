@@ -2,8 +2,8 @@
   <div class="course-homework">
     <h1>{{ this.$store.state.activeCourse.name }}</h1>
     <router-link
-      :to="{ name: 'AddHomework', params: {courseId: $store.state.activeCourse.id} }"
-      class="addHomework"
+      :to="{ name: 'create-homework', params: {courseId: $store.state.activeCourse.id} }"
+      class="AddHomework"
     >Add New Assignment</router-link>
     <div
       v-for="homework in this.$store.state.activeCourse.homework"

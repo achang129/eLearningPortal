@@ -18,8 +18,8 @@ export default{
     submitHomework(homework) {
         return http.post(`/homework/${homework.id}`, homework);
     },
-    updateHomework(homework, question, answer) {
-        return http.put(`/homework/${homework.id}`, homework, question, answer);
+    updateHomework(homework) {
+        return http.put(`/homework/${homework.id}`, homework);
     },
     deleteHomework(homeworkId) {
         return http.delete(`/homework/${homeworkId}`);

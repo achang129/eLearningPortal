@@ -4,6 +4,18 @@
       <label for="title">Title</label>
       <input type="text" v-model="course.name" />
     </div>
+    <div class="field">
+      <label for="description">Description</label>
+      <input type="text" v-model="course.description" />
+    </div>
+    <div class="field">
+      <label for="difficulty">Difficulty</label>
+      <input type="text" v-model="course.difficulty" />
+    </div>
+    <div class="field">
+      <label for="cost">Cost</label>
+      <input type="text" v-model="course.cost" />
+    </div>
     <div class="actions">
       <button type="submit" v-on:click="saveCourse()">Save</button>
     </div>
@@ -19,7 +31,10 @@ export default {
     return {
       course: {
         id: Math.floor(Math.random() * (1000 - 100) + 100),
-        name: ""
+        name: "",
+        description: "",
+        difficulty: "",
+        cost: ""
       },
       errorMsg: ""
     };
@@ -28,13 +43,16 @@ export default {
     saveCourse() {
       courseService.addCourse(this.course)
         .then(response => {
-          if (response.status === 201) {
+          if (response.status === 200) {
             courseService.list().then(response => {
               this.$store.commit("SET_COURSES", response.data);
             });
             this.course = {
               d: Math.floor(Math.random() * (1000 - 100) + 100),
-              name: ""
+              name: "",
+              description: "",
+              difficulty: "",
+              cost: ""
             }
             this.$router.push('/course');
           }

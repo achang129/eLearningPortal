@@ -1,5 +1,6 @@
 <template>
   <div class="create-curriculum">
+    <router-link to="/course">Back to Courses</router-link>&nbsp;|&nbsp;
     <h1>Add New Course</h1>
     <create-course />
   </div>

@@ -11,9 +11,9 @@ export default{
     addCourse(course) {
         return http.post('/course', course);
     },
-    updateCourse(studentId, teacherId) {
-        return http.put('/course', studentId, teacherId);
-    },
+    updateCourse(course) {
+        return http.put(`/course/${course.id}`, course);
+      },
 
     get(courseId) {
         return http.get(`/course/${courseId}`);
