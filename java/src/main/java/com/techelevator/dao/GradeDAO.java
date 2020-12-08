@@ -9,7 +9,7 @@ public interface GradeDAO {
 	List<Grade> getGradesByStudent(int studentID);
 	List<Grade> getGradesByCourse(int courseID);
 	List<Grade> getGradesByStudentAndCourse(int studentID, int courseID);
-	Grade getGradeByID(int ID);
+	//Grade getGradeByID(int ID);//there are no grade id's, their key is the combo of student and assignment pk's
 	boolean createGrade(Grade newGrade);
 	
 }

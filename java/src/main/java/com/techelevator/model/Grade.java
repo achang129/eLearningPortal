@@ -59,6 +59,8 @@ public class Grade {
 		this.numberCorrect = numberCorrect;
 		this.grade = grade;
 	}
+	
+	public Grade() {}
 
 	
 }
