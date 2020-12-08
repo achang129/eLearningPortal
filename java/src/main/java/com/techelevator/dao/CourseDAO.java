@@ -21,9 +21,5 @@ public interface CourseDAO {
 	
 	
 	//existing
-	Integer getId(int id);
-	String getName(String name);
-	String getDescription(String description);
-	String getDifficulty(String difficulty);
-	Integer getCost(int cost);
+	
 }

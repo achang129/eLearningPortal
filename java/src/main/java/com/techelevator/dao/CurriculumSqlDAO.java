@@ -52,8 +52,28 @@ public class CurriculumSqlDAO implements CurriculumDAO {
 
 	@Override
 	public boolean addCurriculum(int course, Curriculum curriculum, LocalDate date) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean curriculumAdded = false;
+		
+		String sql = "INSERT into curriculum "
+				+ "(course, date, lesson, homework) VALUES (?, ?, ?, ?)";
+		
+		curriculumAdded = jdbcTemplate.update(sql, course, curriculum, date) == 1;
+		
+		return curriculumAdded;
+	}
+
+	@Override
+	public boolean editCurriculum(int course, Curriculum curriculum, LocalDate date) {
+		boolean curriculumEdit = false;
+		
+		String sql = "UPDATE curriculum "
+						+ "SET course = ?, "
+						+ "lesson = ?, "
+						+ "homework = ?, "
+						+ "WHERE date = ?";
+		
+		curriculumEdit = jdbcTemplate.update(sql, course, curriculum, date) ==1;
+		return curriculumEdit;
 	}
 
 }
