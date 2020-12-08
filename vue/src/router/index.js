@@ -8,28 +8,25 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
-<<<<<<< HEAD
+
+//ACCOUNT FEATURES/DETAILS
+import Messages from '../views/Messages.vue'
+import NotFound from '../views/NotFound.vue'
 
 //CURRICULUM  . .  displays details of a selected course
 import Curriculum from '../views/Curriculum.vue'
 //curricula is landing page for somebody to see all their courses
 import Curricula from '../views/Curricula.vue'
 import CreateCurriculum from '../views/CreateCurriculum.vue'
+import EditCurriculum from '../views/EditCurriculum.vue'
 
-//HomeworkList displays all upcoming homework
+//HOMEWORKList displays all upcoming homework
 import HomeworkList from '../views/HomeworkList.vue'
 import CreateHomework from '../views/CreateHomework.vue'
-//Homework displays specific assignment by ID
+import EditHomework from '../views/EditHomework.vue'
+//HOMEWORK displays specific assignment by ID
 import Homework from '../views/Homework.vue'
 
-=======
-import Course from '../views/Course.vue'
-import Homework from '../views/Homework.vue'
-import Messages from '../views/Messages.vue'
-import AddCourse from '../views/AddCourse.vue'
-import EditCourse from '../views/EditCourse.vue'
-import store from '../store/index'
->>>>>>> 2a6aa10f441f8bfd85b95fd47769e17a0f674d19
 
 Vue.use(Router)
 
@@ -83,8 +80,9 @@ const router = new Router({
         //FALSE
       }
     },
+    //Course will route to all of the student's or teacher's courses (maybe two separate components
+    // with a v-if type thing, this concept could be extended to most of the views, really)
     {
-<<<<<<< HEAD
       path: "/course",
       name: "curricula",
       component: Curricula,
@@ -116,13 +114,15 @@ const router = new Router({
       meta: {
         requiresAuth: false
         //TRUE
-=======
-      path: '/course',
-      name: 'course',
-      component: Course,
+      }
+    },
+    {
+      path: '/course/:id/edit',
+      name: 'edit-curriculum',
+      component: EditCurriculum,
       meta: {
         requiresAuth: false
->>>>>>> 2a6aa10f441f8bfd85b95fd47769e17a0f674d19
+        //TRUE
       }
     },
     {
@@ -151,27 +151,32 @@ const router = new Router({
         requiresAuth: false
         //TRUE
       }
-<<<<<<< HEAD
-=======
+    },
+    {
+      path: '/homework/:id/edit',
+      name: 'edit-homework',
+      component: EditHomework,
+      meta: {
+        requiresAuth: false
+        //TRUE
+      }
     },
     {
       path: '/messages',
       name: 'messages',
       component: Messages,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
+        //TRUE
       }
     },
     {
-      path: '/create-course',
-      name: 'AddCourse',
-      component: AddCourse
-    },
-    {
-      path: '/edit-course/:id',
-      name: 'EditCourse',
-      component: EditCourse
->>>>>>> 2a6aa10f441f8bfd85b95fd47769e17a0f674d19
+      path: '/error',
+      name: 'not-found',
+      component: NotFound,
+      meta: {
+        requiresAuth: false
+      }
     }
   ]
 })

@@ -1,15 +1,17 @@
 <template>
   <div class="create-curriculum">
-    <h1>Create New Course!</h1>
+    <h1>Add New Course</h1>
+    <create-course />
   </div>
 </template>
 
 <script>
+import CreateCourse from '../components/CreateCourse.vue';
+
 export default {
-  name: "create-curriculum"
-}
+  name: "create-curriculum",
+  components: {
+    CreateCourse
+  }
+};
 </script>
-
-<style>
-
-</style>

@@ -1,19 +1,16 @@
 <template>
-  <div class='create-homework'>
-      <h1>Create New Assignment . . .</h1>
-      <homework-create-form/>
+  <div>
+    <h1>Add New Homework</h1>
+    <create-homework v-bind:courseId="parseInt(this.$route.params.courseId)" />
   </div>
 </template>
 
 <script>
-import HomeworkCreateForm from '../components/HomeworkCreateForm.vue'
+import CreateHomework from '../components/CreateHomework.vue';
 
 export default {
-  components: { HomeworkCreateForm },
-
-}
+  components: {
+    CreateHomework
+  }
+};
 </script>
-
-<style>
-
-</style>
