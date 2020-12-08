@@ -16,7 +16,7 @@
             >{{ course.title }}</router-link>
           </td>
           <td>
-            <router-link :to="{ name: 'EditCourse', params: {id: topic.id} }">Edit</router-link>
+            <router-link :to="{ name: 'EditCourse', params: {id: course.id} }">Edit</router-link>
           </td>
           <td>
             <a href="#" v-on:click="deleteCourse(course.id)">Delete</a>
