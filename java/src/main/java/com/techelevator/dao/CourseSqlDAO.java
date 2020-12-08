@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import com.techelevator.model.Course;
 
+@Component
 public class CourseSqlDAO implements CourseDAO {
 	
 	private JdbcTemplate jdbcTemplate;
@@ -61,7 +63,11 @@ public class CourseSqlDAO implements CourseDAO {
 	@Override
 	public Course getCourseById(int id) {
 		String sql = "SELECT * FROM course WHERE id = ?";
-		return jdbcTemplate.queryForObject(sql, Course.class, id);
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id);
+		if(rows.next())
+			return mapRowToCourse(rows);
+		else
+			return null;
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import java.security.Principal;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpHeaders;
@@ -68,18 +69,17 @@ public class LogicController {
 		validateRole(p, "create course", TEACHER, ADMIN);
 		return courseDAO.makeCourse(course);
 	}
-
 	@RequestMapping(value = "/courses", method = RequestMethod.PUT)
 	public boolean moveToCourse(@RequestBody CourseAssignmentDTO assignment, Principal p) throws IncorrectRoleException{
 		validateRole(p, "assign to course", ADMIN);
 		String role = userDAO.getRoleById(new Long(assignment.getUser()));
 		switch(role){
-		case TEACHER:
-			return courseDAO.addTeacher(assignment.getCourse(), assignment.getUser());
-		case STUDENT:
-			return courseDAO.addStudent(assignment.getCourse(), assignment.getUser());
-		default:
-			throw new IncorrectRoleException(role, "join course");
+			case TEACHER:
+				return courseDAO.addTeacher(assignment.getCourse(), assignment.getUser());
+			case STUDENT:
+				return courseDAO.addStudent(assignment.getCourse(), assignment.getUser());
+			default:
+				throw new IncorrectRoleException(role, "join course");
 		}
 	}
 	

@@ -3,9 +3,11 @@ package com.techelevator.dao;
 import java.time.LocalDate;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import com.techelevator.model.Curriculum;
 
+@Component
 public class CurriculumSqlDAO implements CurriculumDAO {
 	
 	private JdbcTemplate jdbcTemplate;

@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import com.techelevator.model.Grade;
 
+@Component
 public class GradeSqlDAO implements GradeDAO {
 	
 	JdbcTemplate jdbc;
