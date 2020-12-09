@@ -1,7 +1,7 @@
 <template>
   <div class="curriculum">
     <h1>Course Details: </h1>
-    <course-info/>
+    <course-info v-bind:id="$route.params.id" />
   </div>
 </template>
 

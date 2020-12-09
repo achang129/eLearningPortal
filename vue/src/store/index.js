@@ -56,7 +56,8 @@ export default new Vuex.Store({
       axios.defaults.headers.common = {};
     },
     SET_COURSES(state, data) {
-      state.courses.push(data);
+      console.log(data);
+      data.forEach((course)=>{state.courses.push(course);});
     },
     DELETE_COURSE(state, courseId) {
       state.courses = state.courses.filter((course) => {

@@ -2,10 +2,10 @@ BEGIN TRANSACTION;
 
 INSERT INTO users
   (username,password_hash,role) VALUES
-  ('teacher','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','teacher');
+  ('teacher','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_TEACHER');
 INSERT INTO users
   (username,password_hash,role) VALUES
-  ('student','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','student');
+  ('student','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
 
 INSERT INTO course
   (name, description, difficulty) VALUES

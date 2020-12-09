@@ -1,16 +1,16 @@
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS teacher;
-DROP TABLE IF EXISTS student;
-DROP TABLE IF EXISTS course;
-DROP TABLE IF EXISTS curriculum;
-DROP TABLE IF EXISTS assignment;
-DROP TABLE IF EXISTS question;
 DROP TABLE IF EXISTS mcchoice;
 DROP TABLE IF EXISTS answer;
 DROP TABLE IF EXISTS grade;
 DROP TABLE IF EXISTS message;
+DROP TABLE IF EXISTS question;
+DROP TABLE IF EXISTS curriculum;
+DROP TABLE IF EXISTS teacher;
+DROP TABLE IF EXISTS student;
+DROP TABLE IF EXISTS course;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS assignment;
 DROP SEQUENCE IF EXISTS seq_user_id;
 DROP SEQUENCE IF EXISTS seq_course_id;
 DROP SEQUENCE IF EXISTS seq_assignment_id;
@@ -100,6 +100,7 @@ CREATE TABLE question (
 	CONSTRAINT PK_question PRIMARY KEY (assignment, number),
 	CONSTRAINT FK_question_assignment FOREIGN KEY (assignment) REFERENCES assignment(id)
 );
+SELECT * FROM users;
 
 CREATE TABLE mcchoice (
 	assignment int NOT NULL,
@@ -134,7 +135,7 @@ CREATE TABLE grade (
 
 CREATE TABLE message (
 	id int DEFAULT nextval('seq_message_id'::regclass) NOT NULL,
-	user int NOT NULL,
+	user_id int NOT NULL,
 	read boolean DEFAULT false NOT NULL,
 	content varchar(256) NOT NULL,
 	CONSTRAINT PK_message PRIMARY KEY (id),

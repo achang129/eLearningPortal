@@ -1,30 +1,36 @@
 <template>
   <div class="curricula">
-    <router-link to="/course/create">Add Course</router-link>&nbsp;|&nbsp;
-    <table>
-      <thead>
-        <tr>
-          <th>Course</th>
-          <th>Edit</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="course in this.$store.state.courses" v-bind:key="course.id">
-          <td width="80%">
-            <router-link
-              v-bind:to="{ name: 'Homework', params: { id: course.id } }"
-            >{{ course.title }}</router-link>
-          </td>
-          <td>
-            <router-link :to="{ name: 'EditCourse', params: {id: course.id} }">Edit</router-link>
-          </td>
-          <td>
-            <a href="#" v-on:click="deleteCourse(course.id)">Delete</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <h3>{{course.name}}</h3>
+    <div>Description: {{course.description}}</div>
+    <div>Difficulty: {{course.difficulty}}</div>
+    <div>Cost: {{course.cost}}</div>
+    <div class="daily">
+      <h4>Curriculum</h4>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Lesson Plan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="curriculum in this.curricula" v-bind:key="curriculum.date">
+              <td>{{curriculum.date}}</td>
+              <td>{{curriculum.lesson}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <form v-on:submit.prevent="addCurriculum">
+        <label>Date</label>
+        <input type="date" v-model="newDate" />
+        <label>Lesson Plan</label>
+        <input type="text" v-model="newLesson" />
+        <label>Add Curriculum</label>
+        <input type="submit" />
+      </form>
+    </div>
   </div>
 </template>
 
@@ -33,34 +39,39 @@ import courseService from "@/services/CourseService.js";
 
 export default {
   name: "curricula",
+  props: ["id"],
   data() {
     return {
-      errorMsg: ""
+      errorMsg: "",
+      course: [],
+      newLesson: "",
+      newDate: new Date()
+    }
+  },
+  computed: {
+    curricula: function(){
+      let c = [];
+      for(let i=0;i<this.course.dates.length;i++){
+        c[i] = {date: this.course.dates[i],lesson: this.course.curricula[i].lesson};
+      }
+      return c;
     }
   },
   methods: {
-    getCourses() {
-      courseService.list().then(response => {
-        this.$store.commit("SET_COURSES", response.data);
+    getCourse() {
+      courseService.get(this.id).then(response => {
+        this.course = response.data;
+        console.log(this.course);
       });
     },
-    deleteCourse(id) {
-      courseService.deleteCourse(id)
-        .then(response => {
-          if (response.status === 200) {
-            this.$store.commit('DELETE_COURSE', id);
-            this.getCourses();
-          }
-        }).catch(error => {
-          if (error.response) {
-            this.errorMsg = error.response.statusText;
-          }
-        });
+    addCurriculum() {
+      console.log('test');
+      courseService.addCurriculum(this.id,this.newLesson,this.newDate).then(response => { 
+      })
     }
   },
-  
   created() {
-    this.getCourses();
+    this.getCourse();
   }
 };
 

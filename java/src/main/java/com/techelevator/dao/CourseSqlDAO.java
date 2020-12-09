@@ -28,6 +28,7 @@ public class CourseSqlDAO implements CourseDAO {
 		while (results.next()) {
 			tempCoursesByStudent.add(mapRowToCourse(results));
 		}
+		
 		return tempCoursesByStudent.toArray(new Course[0]);
 	}
 
@@ -41,6 +42,17 @@ public class CourseSqlDAO implements CourseDAO {
 			tempByTeacher.add(mapRowToCourse(results));
 		}
 		return tempByTeacher.toArray(new Course[0]);
+	}
+	
+	@Override
+	public Course[] getAllCourses(){
+		List<Course> tempCourses = new ArrayList<Course>();
+		String sql = "SELECT * FROM course";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+		while(results.next()){
+			tempCourses.add(mapRowToCourse(results));
+		}
+		return tempCourses.toArray(new Course[0]);
 	}
 
 	@Override
@@ -73,7 +85,7 @@ public class CourseSqlDAO implements CourseDAO {
 	
 	@Override
 	public boolean deleteCourse(int course) {
-		String sql = "DELETE * FROM course WHERE id = ?";
+		String sql = "DELETE FROM course WHERE id = ?";
 		return jdbcTemplate.update(sql, course) == 1;
 	}
 	

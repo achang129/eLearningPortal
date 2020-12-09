@@ -8,6 +8,8 @@ import javax.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.InvalidResultSetAccessException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -25,6 +27,7 @@ import com.techelevator.dto.AssignmentDTO;
 import com.techelevator.dto.CourseAssignmentDTO;
 import com.techelevator.dto.CourseDTO;
 import com.techelevator.dto.CurriculumDTO;
+import com.techelevator.errors.CurriculumDateException;
 import com.techelevator.errors.IncorrectRoleException;
 import com.techelevator.model.Assignment;
 import com.techelevator.model.Course;
@@ -35,6 +38,7 @@ import com.techelevator.model.User;
 
 @RestController
 @CrossOrigin
+@PreAuthorize("isAuthenticated()")
 public class LogicController {
 	
 	// these strings are consistent with vue and sql for now
@@ -59,10 +63,16 @@ public class LogicController {
 	
 	@RequestMapping(value = "/courses", method = RequestMethod.GET)
 	public Course[] getCourses(Principal p) throws IncorrectRoleException{
-		String role = validateRole(p, "get course list", TEACHER, STUDENT);
+		//String role = validateRole(p, "get course list", TEACHER, STUDENT);
+		String role = getRole(p);
 		if(role.equals(STUDENT))
 			return courseDAO.getCoursesByStudent(getID(p));
 		return courseDAO.getCoursesByTeacher(getID(p));
+	}
+	
+	@RequestMapping(value = "/courses/all", method = RequestMethod.GET)
+	public Course[] getAllCourses(Principal p){
+		return courseDAO.getAllCourses();
 	}
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -73,7 +83,7 @@ public class LogicController {
 	}
 	@RequestMapping(value = "/courses", method = RequestMethod.PUT)
 	public boolean moveToCourse(@RequestBody CourseAssignmentDTO assignment, Principal p) throws IncorrectRoleException{
-		validateRole(p, "assign to course", ADMIN);
+		//validateRole(p, "assign to course", ADMIN);
 		String role = userDAO.getRoleById(new Long(assignment.getUser()));
 		switch(role){
 			case TEACHER:
@@ -86,22 +96,28 @@ public class LogicController {
 	}
 	
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.GET)
-	public Course viewCourse(@PathVariable("id") int id, Principal p){
+	public CourseDTO viewCourse(@PathVariable("id") int id, Principal p) throws InvalidResultSetAccessException, CurriculumDateException{
 		//validate that user is student/teacher for course or administrator?
-		return courseDAO.getCourseById(id);
+		Course course = courseDAO.getCourseById(id);
+		curriculumDAO.getCurricula(course);
+		return new CourseDTO(course);
 	}
 
     @ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.POST)
-	public boolean addCurriculum(@PathVariable("id") int id, @RequestBody CurriculumDTO curriculum, Principal p){
+	public boolean addCurriculum(@PathVariable("id") int id, @RequestBody CurriculumDTO dto, Principal p){
     	//validate that user is teacher for course?
-    	return curriculumDAO.addCurriculum(id, curriculum.getCurriculum(), curriculum.getDate());
+    	Curriculum curriculum = new Curriculum();
+    	curriculum.setLesson(dto.getLesson());
+    	return curriculumDAO.addCurriculum(id, curriculum, dto.getDate());
 	}
 	
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.PUT)
-	public boolean editCurriculum(@PathVariable("id") int id, @RequestBody CurriculumDTO curriculum, Principal p){
+	public boolean editCurriculum(@PathVariable("id") int id, @RequestBody CurriculumDTO dto, Principal p){
 		//validate that user is teacher for course?
-		return curriculumDAO.editCurriculum(id, curriculum.getCurriculum(), curriculum.getDate());
+    	Curriculum curriculum = new Curriculum();
+    	curriculum.setLesson(dto.getLesson());
+		return curriculumDAO.editCurriculum(id, curriculum, dto.getDate());
 	}
 	
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.DELETE)
@@ -112,14 +128,14 @@ public class LogicController {
 	
 	@RequestMapping(value = "/homework/", method = RequestMethod.GET)
 	public Assignment[] getHomework(Principal p) throws IncorrectRoleException{
-		validateRole(p, "view homework", STUDENT);
+		//validateRole(p, "view homework", STUDENT);
 		return assignmentDAO.getStudentAssignments(getID(p));
 	}
 
     @ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/homework/", method = RequestMethod.POST)
 	public boolean createHomework(@RequestBody AssignmentDTO homework, Principal p) throws IncorrectRoleException{
-		validateRole(p, "create homework", TEACHER);
+		//validateRole(p, "create homework", TEACHER);
 		return assignmentDAO.newAssignment(homework.getCourse(), homework.getDate(), homework.getHomework());
 	}
 	
@@ -131,7 +147,7 @@ public class LogicController {
 
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.POST)
 	public boolean submitHomework(@PathVariable("id") int id, Principal p) throws IncorrectRoleException{
-		validateRole(p, "submit homework", STUDENT);
+		//validateRole(p, "submit homework", STUDENT);
 		int uid = getID(p);
 		if(assignmentDAO.submitAssignment(id, uid)){
 			//possible for the message not to be sent! currently prioritizing homework status.
@@ -142,14 +158,14 @@ public class LogicController {
 	
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.PUT)
 	public boolean submitAnswer(@PathVariable("id") int id, @RequestBody HomeworkAnswer answer, Principal p) throws IncorrectRoleException{
-		validateRole(p, "submit answer", STUDENT);
+		//validateRole(p, "submit answer", STUDENT);
 		int uid = getID(p);
 		return assignmentDAO.submitAnswer(id, answer.getQuestion(), uid, answer.getAnswer());
 	}
 	
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.DELETE)
 	public boolean deleteHomework(@PathVariable("id") int id, Principal p) throws IncorrectRoleException{
-		validateRole(p, "delete homework", TEACHER);//administrator??
+		//validateRole(p, "delete homework", TEACHER);//administrator??
 		return assignmentDAO.deleteAssignment(id);
 	}
 	

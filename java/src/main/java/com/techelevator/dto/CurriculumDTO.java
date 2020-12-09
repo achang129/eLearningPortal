@@ -5,9 +5,9 @@ import java.time.LocalDate;
 import com.techelevator.model.Curriculum;
 
 public class CurriculumDTO {
-	private Curriculum curriculum;
+	private String lesson;
 	private LocalDate date;
 	
-	public Curriculum getCurriculum(){return curriculum;}
+	public String getLesson(){return lesson;}
 	public LocalDate getDate(){return date;}
 }

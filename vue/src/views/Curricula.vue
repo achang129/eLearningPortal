@@ -12,19 +12,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="course in this.$store.state.courses" v-bind:key="course.id">
-          <td width="80%">
-            <router-link
-              v-bind:to="{ name: 'homework-list', params: { id: course.id } }"
-            >{{ course.name }}</router-link>
-          </td>
+        <tr v-for="course in this.courses" v-bind:key="course.id">
+          <td>{{ course.name }}</td>
           <td>{{ course.difficulty }}</td>
           <td>{{ course.cost }}</td>
           <td>
-            <router-link :to="{ name: 'edit-curriculum', params: {id: course.id} }">Edit</router-link>
+            <router-link :to="{ name: 'course-details', params: {id: course.id} }">View Details</router-link>
           </td>
           <td>
-            <a href="#" v-on:click="deleteCourse(course.id)">Delete</a>
+            <a href="#" v-on:click.prevent="deleteCourse(course.id)">Delete</a>
           </td>
         </tr>
       </tbody>
@@ -39,21 +35,21 @@ export default {
   name: "curricula",
   data() {
     return {
-      errorMsg: ""
+      errorMsg: "",
+      courses: []
     }
   },
   methods: {
-    getCourses() {
+    makeCourseList() {
       courseService.list().then(response => {
-        this.$store.commit("SET_COURSES", response.data);
+        response.data.forEach((course)=>{this.courses.push(course);});
       });
     },
     deleteCourse(id) {
       courseService.deleteCourse(id)
         .then(response => {
           if (response.status === 200) {
-            this.$store.commit('DELETE_COURSE', id);
-            this.getCourses();
+            this.courses = this.courses.filter((course)=>{return course.id !== id;});
           }
         }).catch(error => {
           if (error.response) {
@@ -64,7 +60,7 @@ export default {
   },
   
   created() {
-    this.getCourses();
+    this.makeCourseList();
   }
 };
 

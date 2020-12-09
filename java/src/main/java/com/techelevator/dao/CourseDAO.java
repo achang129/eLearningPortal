@@ -9,6 +9,8 @@ public interface CourseDAO {
 	Course[] getCoursesByStudent(int id);
 	//returns list of courses taught by the teacher with the given id
 	Course[] getCoursesByTeacher(int id);
+	//returns list of all courses
+	Course[] getAllCourses();
 	//tries to create the course passed to it, returns true if successful and false otherwise
 	boolean makeCourse(CourseDTO courseDTO);
 	//adds the teacher with the given id to the course with the given id, returns true if successful and false otherwise

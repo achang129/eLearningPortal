@@ -117,9 +117,9 @@ const router = new Router({
       }
     },
     {
-      path: '/course/:id/edit',
-      name: 'edit-curriculum',
-      component: EditCurriculum,
+      path: '/course/:id/details',
+      name: 'course-details',
+      component: Curriculum,
       meta: {
         requiresAuth: false
         //TRUE
