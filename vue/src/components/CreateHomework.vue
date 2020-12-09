@@ -32,7 +32,7 @@ export default {
     saveHomework() {
       homeworkService.addHomework(this.homework)
         .then(response => {
-          if (response.status === 200) {
+          if (response.status === 201) {
             this.homework = {
                 id: Math.floor(Math.random() * (1000 - 100) + 100),
                 courseId: this.courseId,
