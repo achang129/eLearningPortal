@@ -6,7 +6,7 @@
     <div>Cost: {{course.cost}}</div>
     <div class="daily">
       <h4>Curriculum</h4>
-      <div>
+      <div id="curriculum-table">
         <table>
           <thead>
             <tr>
@@ -21,6 +21,9 @@
             </tr>
           </tbody>
         </table>
+        <br>
+        <br>
+        <br>
       </div>
       <form v-on:submit.prevent="addCurriculum">
         <label>Date</label>
@@ -67,6 +70,7 @@ export default {
     addCurriculum() {
       console.log('test');
       courseService.addCurriculum(this.id,this.newLesson,this.newDate).then(response => { 
+        alert(response.status);
       })
     }
   },
@@ -78,6 +82,9 @@ export default {
 </script>
 
 <style>
+#curriculum-table{
+  display:table;
+}
 .course-list {
   margin: 0 auto;
   max-width: 800px;

@@ -57,6 +57,7 @@ export default {
           }
         }).catch(error => {
           this.errorMsg = error.response.statusText;
+          alert(this.errorMsg);
         });
     }
   }

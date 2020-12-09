@@ -27,6 +27,7 @@ import com.techelevator.dto.AssignmentDTO;
 import com.techelevator.dto.CourseAssignmentDTO;
 import com.techelevator.dto.CourseDTO;
 import com.techelevator.dto.CurriculumDTO;
+import com.techelevator.dto.ReturnCourseworkDTO;
 import com.techelevator.errors.CurriculumDateException;
 import com.techelevator.errors.IncorrectRoleException;
 import com.techelevator.model.Assignment;
@@ -96,11 +97,11 @@ public class LogicController {
 	}
 	
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.GET)
-	public CourseDTO viewCourse(@PathVariable("id") int id, Principal p) throws InvalidResultSetAccessException, CurriculumDateException{
+	public ReturnCourseworkDTO viewCourse(@PathVariable("id") int id, Principal p) throws InvalidResultSetAccessException, CurriculumDateException{
 		//validate that user is student/teacher for course or administrator?
 		Course course = courseDAO.getCourseById(id);
 		curriculumDAO.getCurricula(course);
-		return new CourseDTO(course);
+		return new ReturnCourseworkDTO(course);
 	}
 
     @ResponseStatus(HttpStatus.CREATED)

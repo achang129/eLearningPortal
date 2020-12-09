@@ -126,6 +126,15 @@ const router = new Router({
       }
     },
     {
+      path: '/course/:id/details/edit',
+      name: 'edit-curriculum',
+      component: EditCurriculum,
+      meta: {
+        requiresAuth: false
+        //TRUE
+      }
+    },
+    {
       path: '/homework',
       name: 'homework-list',
       component: HomeworkList,

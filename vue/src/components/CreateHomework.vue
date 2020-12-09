@@ -21,6 +21,7 @@ export default {
   data() {
     return {
       homework: {
+        //database generates id numbers
         id: Math.floor(Math.random() * (1000 - 100) + 100),
         courseId: this.courseId,
         title: ""
@@ -34,7 +35,6 @@ export default {
         .then(response => {
           if (response.status === 201) {
             this.homework = {
-                id: Math.floor(Math.random() * (1000 - 100) + 100),
                 courseId: this.courseId,
                 title: ""
             }
