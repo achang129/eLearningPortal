@@ -1,5 +1,9 @@
 <template>
   <div class="curricula">
+      <header class="currHeader">
+      <img src="../assets/coursesBanner.png" alt="Courses Banner" class="banner">
+    </header>
+    <dev-header/>
     <router-link to="/course/create">Add Course</router-link>&nbsp;|&nbsp;
     <table>
       <thead>
@@ -30,8 +34,10 @@
 
 <script>
 import courseService from "@/services/CourseService.js";
+import DevHeader from '../components/DevHeader.vue';
 
 export default {
+  components: { DevHeader },
   name: "curricula",
   data() {
     return {
@@ -67,6 +73,21 @@ export default {
 </script>
 
 <style>
+.currHeader {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 10px;
+}
+
+.currHeader img {
+  border-radius: 24px;
+}
+
+.curricula {
+  background-color: #05AED8;
+  
+}
+
 .course-list {
   margin: 0 auto;
   max-width: 800px;

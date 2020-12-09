@@ -38,15 +38,17 @@
       <button type="submit">Sign in</button>
       <div><router-link :to="{ name: 'register' }">Need an account?</router-link></div>
     </form>
+    <dev-header/>
   </div>
 </template>
 
 <script>
+import DevHeader from '../components/DevHeader.vue';
 import authService from "../services/AuthService";
 
 export default {
   name: "login",
-  components: {},
+  components: {DevHeader},
   data() {
     return {
       user: {
