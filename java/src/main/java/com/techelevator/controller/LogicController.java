@@ -66,7 +66,7 @@ public class LogicController {
     @ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/courses", method = RequestMethod.POST)
 	public boolean newCourse(@RequestBody Course course, Principal p) throws IncorrectRoleException{
-		validateRole(p, "create course", TEACHER, ADMIN);
+		//validateRole(p, "create course", TEACHER, ADMIN);
 		return courseDAO.makeCourse(course);
 	}
 	@RequestMapping(value = "/courses", method = RequestMethod.PUT)

@@ -170,13 +170,17 @@ const router = new Router({
         //TRUE
       }
     },
+    //TODO: specific error components (lack permission, homework or course creation error, ... etc)
     {
       path: '/error',
       name: 'not-found',
-      component: NotFound,
-      meta: {
-        requiresAuth: false
-      }
+      component: NotFound
+    },
+    //any undefined url
+    {
+      path: '/**',
+      name: 'not-found',
+      component: NotFound
     }
   ]
 })
