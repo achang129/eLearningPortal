@@ -36,6 +36,16 @@
           required
         />
       </div>
+      <br>
+      <div>
+        <input type="radio" name="role" v-model="user.role" v-bind:value="'user'">
+        <label for="user">Student</label>
+        <input type="radio" name="role" v-model="user.role" v-bind:value="'teacher'">
+        <label for="user">Instructor</label>
+        <br>
+        <br>
+        <br>
+      </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">
         Create Account
       </button>
@@ -55,7 +65,7 @@ export default {
         username: '',
         password: '',
         confirmPassword: '',
-        role: 'user',
+        role: '',
       },
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',

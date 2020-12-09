@@ -36,10 +36,11 @@ import com.techelevator.model.User;
 @RestController
 @CrossOrigin
 public class LogicController {
-
-	private static final String ADMIN = "admin";
-	private static final String TEACHER = "teacher";
-	private static final String STUDENT = "student";
+	
+	// these strings are consistent with vue and sql for now
+	private static final String ADMIN = "ROLE_ADMIN";
+	private static final String TEACHER = "ROLE_TEACHER";
+	private static final String STUDENT = "ROLE_USER";
 	
 	private static final String HOMEWORK_SUBMIT_MESSAGE = "Student %s has submitted a new homework assignment.";
 	

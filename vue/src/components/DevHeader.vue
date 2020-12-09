@@ -2,10 +2,13 @@
     <div class="dev-header">
         <ul id="primary-nav">
             &nbsp;|&nbsp;
-            <router-link class="head-link" v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp;
-            <router-link class="head-link" v-bind:to="{ name: 'login' }" v-if="$store.state.token == ''">Login</router-link>&nbsp;|&nbsp;
+            <router-link class="head-link" v-bind:to="{ name: 'home' }">Home</router-link>
+            <e v-if="$store.state.token == ''">&nbsp;|&nbsp;</e>            
+            <router-link class="head-link" v-bind:to="{ name: 'login' }" v-if="$store.state.token == ''">Login</router-link>
+            <e v-if="$store.state.token == ''">&nbsp;|&nbsp;</e>
             <router-link class="head-link" v-bind:to="{ name: 'register' }" v-if="$store.state.token == ''">Register</router-link>&nbsp;|&nbsp;
             <router-link class="head-link" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
+            <e v-if="$store.state.token != ''">&nbsp;|&nbsp;</e>
             <router-link class="head-link" v-bind:to="{ name: 'curricula' }">My Courses!</router-link>&nbsp;|&nbsp;
             <router-link class="head-link" v-bind:to="{ name: 'homework-list' }">All Upcoming Homework</router-link>&nbsp;|&nbsp;
             <router-link class="head-link" v-bind:to="{ name: 'messages' }">Messages and Notifications</router-link>&nbsp;|&nbsp;
