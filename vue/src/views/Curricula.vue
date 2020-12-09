@@ -76,11 +76,14 @@ export default {
 .currHeader {
   display: flex;
   justify-content: space-around;
-  padding-top: 10px;
 }
 
 .currHeader img {
+  border: solid rgb(155, 180, 202);
   border-radius: 24px;
+  height: 17rem;
+  width: 69%;
+  
 }
 
 .curricula {

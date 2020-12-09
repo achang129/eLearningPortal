@@ -22,11 +22,15 @@ export default {
 .homeHeader {
   display: flex;
   justify-content: space-around;
-  padding-top: 10px;
+ 
 }
 
 .homeHeader img {
+  border: solid black;
+  border-color: rgb(155, 180, 202);
   border-radius: 24px;
+  height: 17rem;
+  width: 70%;
 }
 
 .home {

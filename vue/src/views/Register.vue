@@ -51,13 +51,16 @@
       </button>
       <div><router-link :to="{ name: 'login' }">Have an account?</router-link></div>
     </form>
+    <dev-header />
   </div>
 </template>
 
 <script>
+import DevHeader from '../components/DevHeader.vue';
 import authService from '../services/AuthService';
 
 export default {
+  components: { DevHeader },
   name: 'register',
   data() {
     return {
@@ -107,5 +110,9 @@ export default {
 <style>
 .input {
   margin-bottom: 10px;
+}
+
+.form-register {
+  border: solid rgb(155, 180, 202);
 }
 </style>

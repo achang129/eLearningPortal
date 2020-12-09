@@ -83,7 +83,7 @@ export default {
 
 <style>
 form {
-  border: 3px solid #f1f1f1;
+ border: solid 3px rgb(155, 180, 202);
 }
 
 .text-center {
