@@ -34,7 +34,6 @@ export default {
   data() {
     return {
       course: {
-        id: Math.floor(Math.random() * (1000 - 100) + 100),
         name: "" || "Enter the name of your course (up to 64 characters)",
         description: "" || "Brief description of the curriculum (256 characters)",
         difficulty: "" || "This helps people find the best course for their needs (12 characters)",
@@ -50,7 +49,6 @@ export default {
           if (response.status === 200) {
             this.$store.commit("SET_COURSES", this.course);
             this.course = {
-              id: Math.floor(Math.random() * (1000 - 100) + 100),
               name: "",
               description: "",
               difficulty: "",

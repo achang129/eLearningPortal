@@ -29,7 +29,7 @@ public class Course {
 	public void setName(String name){this.name = name;}
 	public void setDescription(String description){this.description = description;}
 	public void setDifficulty(String difficulty){this.difficulty = difficulty;}
-	public void setName(int cost){this.cost = cost;}
+	public void setCost(int cost){this.cost = cost;}
 	
 	//modify curriculum
 	public void setCurriculum(LocalDate date, Curriculum curriculum) throws CurriculumDateException{

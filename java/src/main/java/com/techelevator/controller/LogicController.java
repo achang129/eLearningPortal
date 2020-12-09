@@ -23,6 +23,7 @@ import com.techelevator.dao.MessageDAO;
 import com.techelevator.dao.UserDAO;
 import com.techelevator.dto.AssignmentDTO;
 import com.techelevator.dto.CourseAssignmentDTO;
+import com.techelevator.dto.CourseDTO;
 import com.techelevator.dto.CurriculumDTO;
 import com.techelevator.errors.IncorrectRoleException;
 import com.techelevator.model.Assignment;
@@ -65,9 +66,9 @@ public class LogicController {
 
     @ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/courses", method = RequestMethod.POST)
-	public boolean newCourse(@RequestBody Course course, Principal p) throws IncorrectRoleException{
+	public boolean newCourse(@RequestBody CourseDTO courseDTO, Principal p) throws IncorrectRoleException{
 		//validateRole(p, "create course", TEACHER, ADMIN);
-		return courseDAO.makeCourse(course);
+		return courseDAO.makeCourse(courseDTO);
 	}
 	@RequestMapping(value = "/courses", method = RequestMethod.PUT)
 	public boolean moveToCourse(@RequestBody CourseAssignmentDTO assignment, Principal p) throws IncorrectRoleException{

@@ -1,5 +1,6 @@
 package com.techelevator.dao;
 
+import com.techelevator.dto.CourseDTO;
 import com.techelevator.model.Course;
 
 public interface CourseDAO {
@@ -9,7 +10,7 @@ public interface CourseDAO {
 	//returns list of courses taught by the teacher with the given id
 	Course[] getCoursesByTeacher(int id);
 	//tries to create the course passed to it, returns true if successful and false otherwise
-	boolean makeCourse(Course course);
+	boolean makeCourse(CourseDTO courseDTO);
 	//adds the teacher with the given id to the course with the given id, returns true if successful and false otherwise
 	boolean addTeacher(int course, int teacher);
 	//adds the student with the given id to the course with the given id, returns true if successful and false otherwise

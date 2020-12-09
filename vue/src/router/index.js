@@ -173,7 +173,7 @@ const router = new Router({
     //TODO: specific error components (lack permission, homework or course creation error, ... etc)
     {
       path: '/error',
-      name: 'not-found',
+      name: 'error',
       component: NotFound
     },
     //any undefined url
