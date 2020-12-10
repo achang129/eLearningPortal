@@ -37,6 +37,6 @@ export default {
   display: grid;
   grid-template-columns: 1fr 4fr;
   grid-template-areas: 
-  "sidebar allcourses"
+  "sidebar allhomework"
 }
 </style>
