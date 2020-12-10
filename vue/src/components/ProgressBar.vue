@@ -27,8 +27,6 @@ export default {
 	height: 20px;
 	position: relative;
 	background: grey;
-	-moz-border-radius: 25px;
-	-webkit-border-radius: 25px;
 	border-radius: 25px;
 	padding: 10px;
 }
