@@ -1,5 +1,6 @@
 <template>
   <div id="register" class="text-center">
+    <login-register-header />
     <form class="form-register" @submit.prevent="register">
       <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
@@ -51,16 +52,15 @@
       </button>
       <div><router-link :to="{ name: 'login' }">Have an account?</router-link></div>
     </form>
-    <dev-header />
   </div>
 </template>
 
 <script>
-import DevHeader from '../components/DevHeader.vue';
+import LoginRegisterHeader from '../components/LoginRegisterHeader.vue';
 import authService from '../services/AuthService';
 
 export default {
-  components: { DevHeader },
+  components: { LoginRegisterHeader },
   name: 'register',
   data() {
     return {

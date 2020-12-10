@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store/index'
-
 import Home from '../views/Home.vue'
 
 //LOGIN COMPONENTS
@@ -13,19 +12,17 @@ import Register from '../views/Register.vue'
 import Messages from '../views/Messages.vue'
 import NotFound from '../views/NotFound.vue'
 
-//CURRICULUM  . .  displays details of a selected course
-import Curriculum from '../views/Curriculum.vue'
-//curricula is landing page for somebody to see all their courses
-import Curricula from '../views/Curricula.vue'
-import CreateCurriculum from '../views/CreateCurriculum.vue'
-import EditCurriculum from '../views/EditCurriculum.vue'
+//COURSE Related Components 
+import Course from '../views/Course.vue'
+import AllCourses from '../views/AllCourses.vue'
+import CreateCourse from '../views/CreateCourse.vue'
+import EditCourse from '../views/EditCourse.vue'
 
-//HOMEWORKList displays all upcoming homework
-import HomeworkList from '../views/HomeworkList.vue'
+//HOMEWORK
+import Homework from '../views/Homework.vue'
+import AllHomework from '../views/AllHomework.vue'
 import CreateHomework from '../views/CreateHomework.vue'
 import EditHomework from '../views/EditHomework.vue'
-//HOMEWORK displays specific assignment by ID
-import Homework from '../views/Homework.vue'
 
 
 Vue.use(Router)
@@ -49,7 +46,7 @@ const router = new Router({
       name: 'home',
       component: Home,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
         //TRUE
       }
     },
@@ -80,66 +77,52 @@ const router = new Router({
         //FALSE
       }
     },
-    //Course will route to all of the student's or teacher's courses (maybe two separate components
+    //Courses will route to all of the student's or teacher's courses (maybe two separate components
     // with a v-if type thing, this concept could be extended to most of the views, really)
     {
-      path: "/course",
-      name: "curricula",
-      component: Curricula,
+      path: "/courses",
+      name: "all-courses",
+      component: AllCourses,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
         //TRUE
       }
     },
-    //Keep in mind that, if course/create were below course/:id, it would parse "create" as the id, and send
+    //Keep in mind that, if courses/create were below courses/:id, it would parse "create" as the id, and send
     //to curriculum page, not create page
     {
-      path: '/course/create',
-      name: 'create-curriculum',
-      component: CreateCurriculum,
+      path: '/courses/create',
+      name: 'create-course',
+      component: CreateCourse,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
         //TRUE
       }
     },
     {
-      path: '/course/:id',
-      name: 'curriculum',
-      component: Curriculum,
-      props(route) {
-        const props = {...route.params}
-        props.id = Number(props.id)
-        return props
-      },
+      path: '/courses/:id',
+      name: 'course',
+      component: Course,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
         //TRUE
       }
     },
     {
-      path: '/course/:id/details',
-      name: 'course-details',
-      component: Curriculum,
+      path: '/courses/:id/edit',
+      name: 'edit-course',
+      component: EditCourse,
       meta: {
-        requiresAuth: false
-        //TRUE
-      }
-    },
-    {
-      path: '/course/:id/details/edit',
-      name: 'edit-curriculum',
-      component: EditCurriculum,
-      meta: {
-        requiresAuth: false
+        requiresAuth: true
         //TRUE
       }
     },
     {
       path: '/homework',
-      name: 'homework-list',
-      component: HomeworkList,
+      name: 'all-homework',
+      component: AllHomework,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
         //TRUE
       }
     },
@@ -148,7 +131,7 @@ const router = new Router({
       name: 'create-homework',
       component: CreateHomework,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
         //TRUE
       }
     },
@@ -157,7 +140,7 @@ const router = new Router({
       name: 'homework',
       component: Homework,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
         //TRUE
       }
     },
@@ -166,7 +149,7 @@ const router = new Router({
       name: 'edit-homework',
       component: EditHomework,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
         //TRUE
       }
     },
@@ -175,7 +158,7 @@ const router = new Router({
       name: 'messages',
       component: Messages,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
         //TRUE
       }
     },

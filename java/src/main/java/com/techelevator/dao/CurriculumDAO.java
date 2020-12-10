@@ -16,4 +16,6 @@ public interface CurriculumDAO {
 	boolean editCurriculum(int course, Curriculum curriculum, LocalDate date);
 	//adds the curricula to an existing course object
 	void getCurricula(Course course) throws InvalidResultSetAccessException, CurriculumDateException;
+	//deletes curricula associated with a course id so that we can delete a course
+	boolean deleteCurriculum(int courseId);
 }

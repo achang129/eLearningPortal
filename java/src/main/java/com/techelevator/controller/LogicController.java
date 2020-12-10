@@ -125,6 +125,9 @@ public class LogicController {
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.DELETE)
 	public boolean deleteCourse(@PathVariable("id") int id, Principal p){
 		//validate something??
+		//foreign key constraint was preventing it from working before:
+		//course must have no associated curriculum before being deleted, so:
+		curriculumDAO.deleteCurriculum(id);
 		return courseDAO.deleteCourse(id);
 	}
 	

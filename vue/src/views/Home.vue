@@ -1,19 +1,18 @@
 <template>
   <div class="home">
     <header class="homeHeader">
-      <img src="../assets/homeBanner.png" alt="Home Banner">
+      <img src="../assets/homeBanner.png" alt="Fancy Blue Home Banner yaaaaayyyyyyyyyyy">
     </header>
-    <dev-header />
-    <!-- <h1>Home</h1> -->
-    <!-- <div><router-link to="/course">Courses</router-link>&nbsp;</div>
-    <router-link to="/homework">Homework</router-link>&nbsp; -->
+    <user-sidebar v-if="$store.state.token != ''"/>
+    <login-register-header v-if="$store.state.token == ''"/>
   </div>
 </template>
 
 <script>
-import DevHeader from '../components/DevHeader.vue';
+import UserSidebar from '../components/UserSidebar.vue';
+import LoginRegisterHeader from '../components/LoginRegisterHeader.vue';
 export default {
-  components: { DevHeader },
+  components: { UserSidebar, LoginRegisterHeader },
   name: "home"
 };
 </script>
@@ -34,6 +33,6 @@ export default {
 }
 
 .home {
-  background-color: #05AED8 ;
+  background-color: #33b3d3c7 ;
 }
 </style>

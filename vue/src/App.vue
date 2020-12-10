@@ -1,14 +1,13 @@
 <template>
   <div id="app" >
-    <!-- <dev-header/> -->
     <router-view />
   </div>
 </template>
 
 <script>
-import DevHeader from './components/DevHeader.vue';
+//import DevHeader from './components/DevHeader.vue';
 export default {
-  components: { DevHeader },
+  //components: { DevHeader },
   
 }
 </script>

@@ -31,6 +31,21 @@ public class CurriculumSqlDAO implements CurriculumDAO {
 		String sql = "UPDATE curriculum SET lesson = ?, homework = ? WHERE date = ? AND course = ?";
 		return jdbcTemplate.update(sql, curriculum.getLesson(), curriculum.getHomework(), date, course) == 1;
 	}
+	@Override
+	public boolean deleteCurriculum(int courseId) {
+		//N.B. in the table curriculum, what you may expect to be 
+		//the course.id field is called "course"
+		//DELETE all curriculum associated with course
+		String sql = "DELETE FROM curriculum WHERE course = ?";
+		jdbcTemplate.update(sql, courseId);
+		
+		//check that a search will return zero, return that logical eval as a bool
+		String noneRemain = "SELECT * FROM curriculum WHERE course = ?";
+		
+		//this expression will evaluate TRUE if noneRemain queries for 0 Rows
+		//meaning this will evaluate true if the delete was successful.
+		return !(jdbcTemplate.queryForRowSet(noneRemain, courseId).first());
+	}
 	
 	@Override
 	public void getCurricula(Course course) throws InvalidResultSetAccessException, CurriculumDateException{

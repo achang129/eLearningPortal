@@ -14,7 +14,7 @@ export default{
     updateCourse(course) {
         return http.put(`/courses/${course.id}`, course);
     },
-    get(courseId) {
+    getCoursework(courseId) {
         return http.get(`/courses/${courseId}`);
     },
     addCurriculum(course, lesson, date) {
