@@ -13,18 +13,22 @@ import org.springframework.web.bind.annotation.*;
 import com.techelevator.dao.AssignmentDAO;
 import com.techelevator.dao.CourseDAO;
 import com.techelevator.dao.CurriculumDAO;
+import com.techelevator.dao.GradeDAO;
 import com.techelevator.dao.MessageDAO;
 import com.techelevator.dao.UserDAO;
 import com.techelevator.dto.AssignmentDTO;
 import com.techelevator.dto.CourseAssignmentDTO;
 import com.techelevator.dto.CourseDTO;
 import com.techelevator.dto.CurriculumDTO;
+import com.techelevator.dto.GradeDTO;
 import com.techelevator.dto.CourseDetailsDTO;
+import com.techelevator.dto.CourseGradeDTO;
 import com.techelevator.errors.CurriculumDateException;
 import com.techelevator.errors.IncorrectRoleException;
 import com.techelevator.model.Assignment;
 import com.techelevator.model.Course;
 import com.techelevator.model.Curriculum;
+import com.techelevator.model.Grade;
 import com.techelevator.model.HomeworkAnswer;
 import com.techelevator.model.Message;
 import com.techelevator.model.User;
@@ -44,14 +48,17 @@ public class LogicController {
 	private AssignmentDAO assignmentDAO;
 	private CourseDAO courseDAO;
 	private CurriculumDAO curriculumDAO;
+	private GradeDAO gradeDAO;
 	private MessageDAO messageDAO;
 	private UserDAO userDAO;
 	
-	public LogicController(UserDAO userDAO, MessageDAO messageDAO, CourseDAO courseDAO, CurriculumDAO curriculumDAO){
+	public LogicController(GradeDAO gradeDAO, UserDAO userDAO, MessageDAO messageDAO, CourseDAO courseDAO, CurriculumDAO curriculumDAO, AssignmentDAO assignmentDAO){
 		this.userDAO = userDAO;
 		this.courseDAO = courseDAO;
 		this.curriculumDAO = curriculumDAO;
 		this.messageDAO = messageDAO;
+		this.assignmentDAO = assignmentDAO;
+		this.gradeDAO = gradeDAO;
 	}
 	
 	@RequestMapping(value = "/courses", method = RequestMethod.GET)
@@ -78,6 +85,7 @@ public class LogicController {
 		//validateRole(p, "create course", TEACHER, ADMIN);
 		return courseDAO.makeCourse(courseDTO);
 	}
+    
 	@RequestMapping(value = "/courses", method = RequestMethod.PUT)
 	public boolean moveToCourse(@RequestBody CourseAssignmentDTO assignment, Principal p) throws IncorrectRoleException{
 		//validateRole(p, "assign to course", ADMIN);
@@ -120,10 +128,71 @@ public class LogicController {
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.DELETE)
 	public boolean deleteCourse(@PathVariable("id") int id, Principal p){
 		//validate something??
-		//foreign key constraint was preventing it from working before:
-		//course must have no associated curriculum before being deleted, so:
 		curriculumDAO.deleteCurriculum(id);
 		return courseDAO.deleteCourse(id);
+	}
+	
+	@RequestMapping(value = "/grades/", method = RequestMethod.GET)
+	public CourseGradeDTO[] getCourseGrades(Principal p){
+		int id = getID(p);
+		CourseGradeDTO[] dtos = new CourseGradeDTO[0];
+		Course[] courses = new Course[0];
+		switch(getRole(p)){
+		case STUDENT:
+			courses = courseDAO.getCoursesByStudent(id);
+			dtos = new CourseGradeDTO[courses.length];
+			for(int i=0; i<courses.length; i++){
+				Grade[] grades = gradeDAO.getGradesByStudentAndCourse(getID(p), courses[i].getId());
+				CourseGradeDTO dto = new CourseGradeDTO();
+				dto.setName(courses[i].getName());
+				dto.setStudent(p.getName());
+				int avg = 0;
+				int total = 0;
+				for(Grade grade:grades){
+					if(grade.getGrade() >= 0){
+						avg += grade.getGrade();
+						total++;
+					}
+				}
+				dto.setGrade(((double)avg)/((double)total));
+				dtos[i] = dto;
+			}
+			return dtos;
+		case TEACHER:
+			courses = courseDAO.getCoursesByTeacher(id);
+			int studentCount = 0;
+			User[][] students = new User[courses.length][];
+			int[][] avgs = new int[courses.length][];
+			int[][] totals = new int[courses.length][];
+			for(int i=0; i<courses.length; i++){
+				students[i] = courseDAO.getStudents(courses[i].getId());
+				studentCount += students[i].length;
+				avgs[i] = new int[students[i].length];
+				totals[i] = new int[students[i].length];
+			}
+			dtos = new CourseGradeDTO[studentCount];
+			for(int i=0; i<courses.length; i++){
+				for(int j=0; j<students[i].length; j++){
+					Grade[] grades = gradeDAO.getGradesByStudentAndCourse(students[i][j].getId().intValue(), courses[i].getId());
+					CourseGradeDTO dto = new CourseGradeDTO();
+					dto.setStudent(students[i][j].getUsername());
+					dto.setName(courses[i].getName());
+					avgs[i][j] = 0;
+					totals[i][j] = 0;
+					for(Grade grade:grades){
+						if(grade.getGrade() >= 0){
+							avgs[i][j] += grade.getGrade();
+							totals[i][j]++;
+						}
+					}
+					dto.setGrade((double)avgs[i][j]/(double)totals[i][j]);
+					dtos[i*courses.length+j] = dto;
+				}
+			}
+			return dtos;
+		}
+		
+		return dtos;
 	}
 	
 	@RequestMapping(value = "/homework/", method = RequestMethod.GET)
@@ -136,7 +205,7 @@ public class LogicController {
 	@RequestMapping(value = "/homework/", method = RequestMethod.POST)
 	public boolean createHomework(@RequestBody AssignmentDTO homework, Principal p) throws IncorrectRoleException{
 		//validateRole(p, "create homework", TEACHER);
-		return assignmentDAO.newAssignment(homework.getCourse(), homework.getDate(), homework.getHomework());
+		return assignmentDAO.newAssignment(homework.getCourse(), homework.getDate(), null);
 	}
 	
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.GET)

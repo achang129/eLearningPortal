@@ -1,10 +1,30 @@
 package com.techelevator.model;
 
 public class Question {
-	//properties
+	private static final String TEXT = "text";
+	private static final String MC = "mc";
+	private static final String MMC = "mmc";
 	
 	
-	//getters
+	private String type;
+	private String statement;
+	private String[] answers;
+	private boolean[] correct;
 	
-	//setters
+	public String getType(){return type;}
+	public String getStatement(){return statement;}
+	public String[] getAnswers(){return answers;}
+	public boolean[] getCorrect(){return correct;}
+	
+	public void setType(String type){this.type = type;}
+	public void setStatement(String statement){this.statement = statement;}
+	public void setAnswers(String[] answers){this.answers = answers;}
+	public void setCorrect(boolean[] correct){this.correct = correct;}
+	
+	public Question(){
+		type = "";
+		statement = "";
+		answers = new String[0];
+		correct = new boolean[0];
+	}
 }

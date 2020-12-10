@@ -14,61 +14,47 @@ public class GradeSqlDAO implements GradeDAO {
 	
 	JdbcTemplate jdbc;
 	
-	
 	 public GradeSqlDAO(JdbcTemplate jdbc) {
 		 this.jdbc = jdbc;
 	}
 	
-
 	@Override
-	public List<Grade> getGradesByStudent(int studentID) {
+	public Grade[] getGradesByStudent(int studentID) {
 		List<Grade> results = new ArrayList<Grade>();
 		String sql = "SELECT * FROM grade WHERE student = ?";
-		
 		SqlRowSet rowSet = jdbc.queryForRowSet(sql, studentID);
-		
-		while(rowSet.next()) {
+		while(rowSet.next()) 
 			results.add(mapToGrade(rowSet));
-		}
-		
-		return results;
+		return results.toArray(new Grade[0]);
 	}
 
 	@Override
-	public List<Grade> getGradesByCourse(int courseID) {
+	public Grade[] getGradesByCourse(int courseID) {
 		List<Grade> results = new ArrayList<Grade>();
 		String sql = "SELECT * FROM grade g JOIN assignment a ON g.assignment = a.id " +
 					 "JOIN curriculum c ON a.id = c.homework WHERE c.course = ?";
-		
 		SqlRowSet rowSet = jdbc.queryForRowSet(sql, courseID);
-		
-		while(rowSet.next()) {
+		while(rowSet.next())
 			results.add(mapToGrade(rowSet));
-		}
-		
-		return results;
+		return results.toArray(new Grade[0]);
 	}
 
 	@Override
-	public List<Grade> getGradesByStudentAndCourse(int studentID, int courseID) {
+	public Grade[] getGradesByStudentAndCourse(int studentID, int courseID) {
 		List<Grade> results = new ArrayList<Grade>();
 		String sql = "SELECT * FROM grade g JOIN assignment a ON g.assignment = a.id " +
 					 "JOIN curriculum c ON a.id = c.homework WHERE c.course = ? AND g.student = ?";
-		
 		SqlRowSet rowSet = jdbc.queryForRowSet(sql, courseID, studentID);
-		
-		while(rowSet.next()) {
+		while(rowSet.next())
 			results.add(mapToGrade(rowSet));
-		}
-		
-		return results;
+		return results.toArray(new Grade[0]);
 	}
 
 
 	@Override
 	public boolean createGrade(Grade newGrade) {
 		String sql = "INSERT INTO grade (student, assignment, turned_in, correct, grade)" +
-					 "VALUES (?, ?, ?, ?)";
+					 "VALUES (?, ?, ?, ?, ?, ?)";
 		
 		int worked = jdbc.update(sql, newGrade.getStudentID(), newGrade.getAssignmentID(), newGrade.getTimeTurnedIn(), 
 				newGrade.getNumberCorrect(), newGrade.getGrade());
@@ -88,7 +74,6 @@ public class GradeSqlDAO implements GradeDAO {
 		result.setTimeTurnedIn(rowSet.getTimestamp("turned_in"));
 		result.setNumberCorrect(rowSet.getInt("correct"));
 		result.setGrade(rowSet.getInt("grade"));
-		
 		
 		return result;
 	}

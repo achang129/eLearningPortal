@@ -74,7 +74,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	
 	private Assignment mapRowToAssignment(SqlRowSet rs) {
 		Assignment a = new Assignment();
-		a.setID(rs.getLong("id"));
+		a.setId(rs.getInt("id"));
 		a.setDueDate(rs.getDate("due_date").toLocalDate());
 		
 		return a;

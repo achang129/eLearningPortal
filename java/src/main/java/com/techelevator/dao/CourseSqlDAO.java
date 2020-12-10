@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.techelevator.dto.CourseDTO;
 import com.techelevator.model.Course;
+import com.techelevator.model.User;
 
 @Component
 public class CourseSqlDAO implements CourseDAO {
@@ -87,6 +88,17 @@ public class CourseSqlDAO implements CourseDAO {
 	public boolean deleteCourse(int course) {
 		String sql = "DELETE FROM course WHERE id = ?";
 		return jdbcTemplate.update(sql, course) == 1;
+	}
+	
+	@Override
+	public User[] getStudents(int course){
+		String sql = "SELECT s.student, u.username FROM student s INNER JOIN users u ON s.student = u.user_id WHERE s.course = ?";
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, course);
+		List<User> students = new ArrayList<User>();
+		while(rows.next()){
+			students.add(new User(rows.getLong(1), rows.getString(2), "", ""));
+		}
+		return students.toArray(new User[0]);
 	}
 	
 	private Course mapRowToCourse(SqlRowSet rs) {

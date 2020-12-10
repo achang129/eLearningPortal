@@ -87,6 +87,7 @@ CREATE TABLE curriculum (
 
 CREATE TABLE assignment (
 	id int DEFAULT nextval('seq_assignment_id'::regclass) NOT NULL,
+	name varchar(64),
 	due_date date,
 	questions int NOT NULL,
 	CONSTRAINT PK_assignment PRIMARY KEY (id)
@@ -100,7 +101,6 @@ CREATE TABLE question (
 	CONSTRAINT PK_question PRIMARY KEY (assignment, number),
 	CONSTRAINT FK_question_assignment FOREIGN KEY (assignment) REFERENCES assignment(id)
 );
-SELECT * FROM users;
 
 CREATE TABLE mcchoice (
 	assignment int NOT NULL,
@@ -128,6 +128,7 @@ CREATE TABLE grade (
 	turned_in timestamp NOT NULL,
 	correct int,
 	grade int,
+	comment varchar(256) DEFAULT '' NOT NULL,
 	CONSTRAINT PK_grade PRIMARY KEY (student, assignment),
 	CONSTRAINT FK_grade_student FOREIGN KEY (student) REFERENCES users(user_id),
 	CONSTRAINT FK_grade_assignment FOREIGN KEY (assignment) REFERENCES assignment(id)

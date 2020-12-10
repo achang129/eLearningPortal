@@ -6,16 +6,18 @@ import java.time.LocalDate;
 
 public class Assignment {
 	//properties
-	private long id;
+	private int id;
+	private String name;
 	private LocalDate dueDate;
 	private List<Question> questions;
 	
 	//getters
-	public long getID(){return id;}
+	public int getId(){return id;}
+	public String getName(){return name;}
 	public LocalDate getDueDate(){return dueDate;}
 	public List<Question> getQuestions(){return questions;}
 	//setters
-	public void setID(long id){this.id = id;}
+	public void setId(int id){this.id = id;}
 	public void setDueDate(LocalDate dueDate){this.dueDate = dueDate;}
 	
 	//modify questions list

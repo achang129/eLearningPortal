@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.dto.CourseDTO;
 import com.techelevator.model.Course;
+import com.techelevator.model.User;
 
 public interface CourseDAO {
 	/**Returns list of courses in which the student with the given id is enrolled.*/
@@ -20,4 +21,6 @@ public interface CourseDAO {
 	Course getCourseById(int id);
 	/**Deletes a course, returns true if successful and false otherwise.*/
 	boolean deleteCourse(int course);
+	/**Returns the students enrolled in a given course.*/
+	User[] getStudents(int course);
 }
