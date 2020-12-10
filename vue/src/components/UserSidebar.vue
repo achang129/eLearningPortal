@@ -1,15 +1,21 @@
 <template>
     <div class="user-sidebar">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
         <ul id="primary-nav" class="flex-container">
             <br>
+            <router-link class="head-icon" v-bind:to="{ name: 'home' }"><i class="fas fa-home fa-3x" data-fa-mask="fas fa-square" style="background:rgb(155, 180, 202)"></i></router-link>
             <router-link class="head-link" v-bind:to="{ name: 'home' }">Home</router-link>
             &nbsp;_______&nbsp;
+            <router-link class="head-icon" v-bind:to="{ name: 'home' }"><i class="fas fa-envelope fa-3x" data-fa-mask="fas fa-square" style="background:rgb(155, 180, 202)"></i></router-link>
             <router-link class="head-link" v-bind:to="{ name: 'messages' }">Messages</router-link>
             &nbsp;_______&nbsp;
+            <router-link class="head-icon" v-bind:to="{ name: 'home' }"><i class="fas fa-chalkboard fa-3x" data-fa-mask="fas fa-square" style="background:rgb(155, 180, 202)"></i></router-link>
             <router-link class="head-link" v-bind:to="{ name: 'all-courses' }">Courses</router-link>
             &nbsp;_______&nbsp;
+            <router-link class="head-icon" v-bind:to="{ name: 'home' }"><i class="fas fa-book-open fa-3x" data-fa-mask="fas fa-square" style="background:rgb(155, 180, 202)"></i></router-link>
             <router-link class="head-link" v-bind:to="{ name: 'all-homework' }">Homework</router-link>
             &nbsp;_______&nbsp;
+            <router-link class="head-icon" v-bind:to="{ name: 'home' }"><i class="fas fa-sign-out-alt fa-3x" data-fa-mask="fas fa-square" style="background:rgb(155, 180, 202)"></i></router-link>
             <router-link class="head-link" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
             <br>
         </ul>
@@ -61,5 +67,15 @@ export default {
 
 .head-link:hover {
     text-decoration: underline;
+}
+
+.head-icon{
+    font-weight: bolder;
+    text-decoration: none;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    color: rgb(87, 42, 192);
+    background-color: rgb(155, 180, 202);
 }
 </style>
