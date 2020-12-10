@@ -34,6 +34,7 @@ export default {
 
 <style>
 .flex-container{
+    margin-top: 40px;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -47,11 +48,12 @@ export default {
     font: 16px/3 helvetica, arial, sans-serif;
     background-color: rgb(155, 180, 202);
     
+    
     display: flex;
     flex-direction: column;
     width: fit-content;
     align-content: center;
-    padding-right: 25px;
+    padding-right: 35px;
     justify-content: space-evenly;
     
 }

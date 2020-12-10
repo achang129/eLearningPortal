@@ -24,7 +24,9 @@ export default {
 
 <style scoped>
 .progress { 
-	height: 20px;
+    
+    height: 20px;
+    width: 25%;
 	position: relative;
 	background: grey;
 	border-radius: 25px;

@@ -3,9 +3,10 @@
     <header class="homeHeader">
       <img src="../assets/HomeGIF.gif" alt="Parthenon Home GIF">
     </header>
+    <progress-bar class="progressbar"/>
     <user-sidebar v-if="$store.state.token != ''"/>
     <login-register-header v-if="$store.state.token == ''"/>
-    <progress-bar />
+    
   </div>
 </template>
 
@@ -21,7 +22,15 @@ export default {
 </script>
 
 <style>
+
+
+.progressbar{
+  margin-top: 10px;
+  grid-area: progressbar;
+}
+
 .homeHeader {
+  grid-area: header;
   display: flex;
   justify-content: space-around;
  
