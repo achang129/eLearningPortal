@@ -1,6 +1,6 @@
 <template>
     <div id="course-view-grid-container">
-      <div class="curriculum">
+      <div class="course">
         <div id="course-page-title">
           <h1>Course Details:</h1>
         </div>
@@ -17,7 +17,7 @@
 import CourseInfo from "../components/CourseInfo.vue"
 import UserSidebar from "../components/UserSidebar.vue"
 export default {
-  name: 'curriculum',
+  name: 'course',
   components: {
     CourseInfo,
     UserSidebar
@@ -26,8 +26,8 @@ export default {
 </script>
 
 <style>
-.curriculum {
-  grid-area: curriculum;
+.course {
+  grid-area: course;
 }
 #course-view-user-sidebar {
   grid-area: sidebar;
@@ -36,7 +36,7 @@ export default {
 #course-view-grid-container {
   display: grid;
   grid-template-columns: 1fr 4fr;
-  grid-template-areas: "sidebar curriculum"
+  grid-template-areas: "sidebar course"
 }
 
 #course-page-title {
