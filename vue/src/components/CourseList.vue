@@ -27,7 +27,7 @@
     <br>
     <br>
     <br>
-    <router-link v-bind:to="{ name: 'create-course' }">Add Course</router-link>&nbsp;|&nbsp;
+    <router-link v-bind:to="{ name: 'create-course' }">Add Course</router-link>&nbsp;
   </table>
 </template>
 

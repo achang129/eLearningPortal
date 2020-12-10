@@ -1,10 +1,10 @@
 <template>
   <div id="all-courses-view-page">
-    <div class="all-courses">
-      <header class="currHeader">
+    <header class="currHeader">
         <img src="../assets/coursesBanner.png" alt="Courses Banner" class="banner">
-      </header>
-      
+    </header>
+    <div class="all-courses">
+      <course-list></course-list>
     </div>
     <div id="all-courses-page-sidebar">
       <user-sidebar/>
@@ -26,8 +26,13 @@ export default {
 
 <style>
 
+.currHeader {
+  grid-area: header;
+}
+
 .all-courses {
   grid-area: allcourses;
+  padding-top: 20px;
 }
 #all-courses-page-sidebar {
   grid-area: sidebar;
@@ -36,7 +41,9 @@ export default {
 #all-courses-view-page {
   display: grid;
   grid-template-columns: 1fr 4fr;
-  grid-template-areas: "sidebar allcourses"
+  grid-template-areas: 
+  "header header"
+  "sidebar allcourses"
 }
 
 .currHeader {
@@ -45,15 +52,15 @@ export default {
 }
 
 .currHeader img {
-  border: solid rgb(155, 180, 202);
+  border: solid black;
+  border-color: rgb(155, 180, 202);
   border-radius: 24px;
   height: 17rem;
-  width: 69%;
-  
+  width: 70%;
 }
 
 .curricula {
-  background-color: #05AED8;
+  background-color: #33b3d3c7;
   
 }
 
