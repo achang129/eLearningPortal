@@ -125,6 +125,7 @@ Contains information about the grade a student has received on an assignment.
 | `turned_in` | timestamp | the date/time the assignment was submitted |
 | `correct` | int | the number of questions answered correctly |
 | `grade` | int | the final grade on the assignment |
+| `comment` | varchar(64) | teacher comments on the assignment |
 
 `student` and `assignment` together are a primary key.
 `grade` and `correct` can be null, for assignments that have been submitted but not graded.

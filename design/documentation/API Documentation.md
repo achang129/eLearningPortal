@@ -13,6 +13,8 @@ any path variables) are needed.
 | -------- | ---- | ---- | ---- | ------ |
 | `/course` | Y | Y | Y | N |
 | `/course/{id}` | Y | Y | Y | Y |
+| `/grades/` | Y | N | N | N |
+| `/grades/{id}` | Y | N | Y | N |
 | `/homework` | Y | Y | N | N |
 | `/homework/{id}` | Y | Y | Y | Y |
 | `/messages` | Y | N | N | Y |
@@ -27,11 +29,15 @@ any path variables) are needed.
 
 `POST` creates a new course.
 
-* requires a course object as the request body
+* `GET` and `POST` use a 'CourseDTO' object
+ * has `name` field containing the name of the course
+ * has `description` field containing the description of the course
+ * has `difficulty` field containing the difficulty of the course
+ * has `cost` field containing the cost of the course
 
 `PUT` adds students/teachers to a course.
 
-* requires a 'course assignment' object as the request body
+* requires a 'CourseAssignmentDTO' object as the request body
  * has `user` field containing the id of the user being assigned as a student/teacher
  * has `course` field containing the id of the course being assigned to
 
@@ -39,19 +45,47 @@ any path variables) are needed.
 
 `GET` gives detailed information/curriculum for a particular course on a particular date.
 
-`POST` sets the curriculum for a particular course on a particular date.
+* returns a 'CourseDetailsDTO' object
+ * has `name` field containing the name of the course
+ * has `description` field containing the description of the course
+ * has `difficulty` field containing the difficulty of the course
+ * has `cost` field containing the cost of the course
+ * has `dates` field containing a list of dates on which curricula have been assigned
+ * has `curricula` field containing a list of curriculum objects corresponding to the dates in the above field
+  * curricula have `lesson` field containing the daily lesson plan
+  * curricula have `homework` field containing the id of the homework assigned on that day (or zero if there isn't any)
 
-* requires a 'curriculum assignment' object as the request body
- * has `curriculum` field containing a curriculum object
- * has `date` field the date the curriculum is assigned for
+`POST` sets the curriculum for a particular course on a particular date.
 
 `PUT` edits the curriculum for a particular course on a particular date.
 
-* requires a 'curriculum assignment' object as the request body
- * has `curriculum` field containing a curriculum object
+* `POST`/`PUT` use a 'CurriculumDTO' object
+ * has `lesson` field containing the daily lesson plan for the curriculum
+ * has `homework` field containing the id of the homework assigned on that date, or 0 if there is no homework
  * has `date` field the date the curriculum is assigned for
 
 `DELETE` deletes a course.
+
+### /grades/
+
+`GET` gives a list of grades for courses the user is enrolled in, or for students enrolled in the user's courses if user is a teacher.
+
+* uses a 'CourseGradeDTO' object
+ * has `course` field containing the name of the course
+ * has `student` field containing the name of the student whose grade it is
+ * has `grade` field containing the grade
+
+### /grades/\{id\}
+
+`GET` gives the user's grade on a particular assignment if they are a student, or gives all students' grades on a particular assignment if the user is a teacher.
+
+`PUT` submits a grade for a particular assignment.
+
+* uses a 'GradeDTO' object
+ * has `assignment` field containing the name of the assignment
+ * has `status` field containing the status of the assignment ('unsubmitted', 'submitted', or 'graded')
+ * has `grade` field containing the grade of the assignment
+ * has `comment` field containing any comments made about the grade/assignment
 
 ### /homework
 
@@ -59,20 +93,38 @@ any path variables) are needed.
 
 `POST` creates a new homework assignment for a particular course.
 
-* requires a 'homework assignment' object as the request body
- * has `homework` containing an assignment object
+* both use an 'AssignmentDTO' object
+ * has `name` field containing the assignment name
  * has `date` field containing the date the work is assigned
+ * has `dueDate` field containing the date the work is due
  * has `course` field containing the id of the course the work is being assigned to
+ * has `questions` field containing a list of the questions making up the assignment
+ * questions have `type` field containing 'text' (for short-answer questions), 'mc' (for multiple-choice questions), or 'mmc' (for multiple-choice questions that let you select multiple answers)
+ * questions have `statement` field containing the text of the question statement
+ * questions have `answers` field containing a list of the selectable answers to the question or a list of accepted answers for text questions
+ * questions have `correct` field containing a list of true/false values indicating which of the selectable answers is correct (ignored for text questions)
 
 ### /homework/\{id\}
 
 `GET` gives detailed information about a particular homework assignment.
 
+* returns an 'AssignmentDTO' object
+ * has `name` field containing the assignment name
+ * has `date` field containing the date the work is assigned
+ * has `dueDate` field containing the date the work is due
+ * has `course` field containing the id of the course the work is being assigned to
+ * has `questions` field containing a list of the questions making up the assignment
+ * questions have `type` field containing 'text' (for short-answer questions), 'mc' (for multiple-choice questions), or 'mmc' (for multiple-choice questions that let you select multiple answers)
+ * questions have `statement` field containing the text of the question statement
+ * questions have `answers` field containing a list of the selectable answers to the question or a list of accepted answers for text questions
+ * questions have `correct` field containing a list of true/false values indicating which of the selectable answers is correct (ignored for text questions)
+
 `POST` submits homework for grading.
 
 `PUT` submits answer to a question on the homework from the user.
 
-* requires a 'homework answer' object as the request body
+* requires an 'AnswerDTO' object as the request body
+ * has `assignment` field containing the id of the assignment
  * has `question` field containing the number of the question being answered
  * has `answer` field containing the answer given
 
@@ -90,11 +142,9 @@ any path variables) are needed.
 
 `GET` returns 'true' if the given message has been read and false otherwise.
 
-* requires the message id as the request body
-
 `PUT` sets the message status to read.
 
-* requires the message id as the request body
+* both require the message id as the request body
 
 ### /users
 
