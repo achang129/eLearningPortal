@@ -39,7 +39,7 @@ public class UserSqlDAO implements UserDAO {
 	}
 
     @Override
-    public List<User> findAll() {
+    public User[] findAll() {
         List<User> users = new ArrayList<>();
         String sql = "select * from users";
 
@@ -49,7 +49,7 @@ public class UserSqlDAO implements UserDAO {
             users.add(user);
         }
 
-        return users;
+        return users.toArray(new User[0]);
     }
 
     @Override
@@ -81,14 +81,14 @@ public class UserSqlDAO implements UserDAO {
                     return ps;
                 }
                 , keyHolder) == 1;
-        int newUserId = (int) keyHolder.getKeys().get(id_column);
+        //int newUserId = (int) keyHolder.getKeys().get(id_column);
 
         return userCreated;
     }
     
     
     @Override
-	public List<User> findAllTeachers() {//this select statement may need tweaking
+	public User[] findAllTeachers() {//this select statement may need tweaking
 		List<User> results = new ArrayList<User>();
 		String sql = "SELECT * FROM users WHERE role = 'Teacher'";
 		
@@ -97,12 +97,12 @@ public class UserSqlDAO implements UserDAO {
 		while(rowSet.next()) {
 			results.add(mapRowToUser(rowSet));
 		}
-		
-		return results;
+
+        return results.toArray(new User[0]);
 	}
 
 	@Override
-	public List<User> findAllStudents() {
+	public User[] findAllStudents() {
 		List<User> results = new ArrayList<User>();
 		String sql = "SELECT * FROM users WHERE role = 'Students'";
 		
@@ -111,8 +111,8 @@ public class UserSqlDAO implements UserDAO {
 		while(rowSet.next()) {
 			results.add(mapRowToUser(rowSet));
 		}
-		
-		return results;
+
+        return results.toArray(new User[0]);
 	}
 
 	@Override

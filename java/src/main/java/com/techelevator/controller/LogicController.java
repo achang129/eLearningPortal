@@ -5,19 +5,11 @@ import java.security.Principal;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.InvalidResultSetAccessException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.techelevator.dao.AssignmentDAO;
 import com.techelevator.dao.CourseDAO;
 import com.techelevator.dao.CurriculumDAO;
@@ -27,8 +19,7 @@ import com.techelevator.dto.AssignmentDTO;
 import com.techelevator.dto.CourseAssignmentDTO;
 import com.techelevator.dto.CourseDTO;
 import com.techelevator.dto.CurriculumDTO;
-import com.techelevator.dto.NewCourseDTO;
-import com.techelevator.dto.ReturnCourseworkDTO;
+import com.techelevator.dto.CourseDetailsDTO;
 import com.techelevator.errors.CurriculumDateException;
 import com.techelevator.errors.IncorrectRoleException;
 import com.techelevator.model.Assignment;
@@ -73,13 +64,17 @@ public class LogicController {
 	}
 	
 	@RequestMapping(value = "/courses/all", method = RequestMethod.GET)
-	public Course[] getAllCourses(Principal p){
-		return courseDAO.getAllCourses();
+	public CourseDTO[] getAllCourses(Principal p){
+		Course[] courses = courseDAO.getAllCourses();
+		CourseDTO[] dtos = new CourseDTO[courses.length];
+		for(int i=0; i<courses.length; i++)
+			dtos[i] = new CourseDTO(courses[i]);
+		return dtos;
 	}
 
     @ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/courses", method = RequestMethod.POST)
-	public boolean newCourse(@RequestBody NewCourseDTO courseDTO, Principal p) throws IncorrectRoleException{
+	public boolean newCourse(@RequestBody CourseDTO courseDTO, Principal p) throws IncorrectRoleException{
 		//validateRole(p, "create course", TEACHER, ADMIN);
 		return courseDAO.makeCourse(courseDTO);
 	}
@@ -98,11 +93,11 @@ public class LogicController {
 	}
 	
 	@RequestMapping(value = "/courses/{id}", method = RequestMethod.GET)
-	public ReturnCourseworkDTO viewCourse(@PathVariable("id") int id, Principal p) throws InvalidResultSetAccessException, CurriculumDateException{
+	public CourseDetailsDTO viewCourse(@PathVariable("id") int id, Principal p) throws InvalidResultSetAccessException, CurriculumDateException{
 		//validate that user is student/teacher for course or administrator?
 		Course course = courseDAO.getCourseById(id);
 		curriculumDAO.getCurricula(course);
-		return new ReturnCourseworkDTO(course);
+		return new CourseDetailsDTO(course);
 	}
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -196,16 +191,16 @@ public class LogicController {
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public User[] getUsers(Principal p){
-		return userDAO.findAll().toArray(new User[0]);
+		return userDAO.findAll();
 	}
 
 	@RequestMapping(value = "/users/{role}", method = RequestMethod.GET)
 	public User[] getUsersByRole(@PathVariable("role") String role, Principal p){
 		switch(role){
 		case STUDENT:
-			return userDAO.findAllStudents().toArray(new User[0]);
+			return userDAO.findAllStudents();
 		case TEACHER:
-			return userDAO.findAllTeachers().toArray(new User[0]);
+			return userDAO.findAllTeachers();
 		default:
 			return new User[0];
 		}

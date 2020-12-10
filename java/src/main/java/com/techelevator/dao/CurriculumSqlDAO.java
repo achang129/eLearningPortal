@@ -50,7 +50,7 @@ public class CurriculumSqlDAO implements CurriculumDAO {
 	@Override
 	public void getCurricula(Course course) throws InvalidResultSetAccessException, CurriculumDateException{
 		String sql = "SELECT date, lesson FROM curriculum WHERE course = ? ORDER BY date";
-		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, course.getID());
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, course.getId());
 		while(rows.next()){
 			Curriculum curriculum = new Curriculum();
 			curriculum.setLesson(rows.getString("lesson"));

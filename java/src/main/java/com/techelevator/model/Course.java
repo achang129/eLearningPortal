@@ -9,7 +9,7 @@ import com.techelevator.errors.CurriculumDateException;
 
 public class Course {
 	//properties
-	private long id;
+	private int id;
 	private String name;
 	private String description;
 	private String difficulty;
@@ -17,7 +17,7 @@ public class Course {
 	private Map<LocalDate, Curriculum> curriculum;
 	
 	//getters
-	public long getID(){return id;}
+	public int getId(){return id;}
 	public String getName(){return name;}
 	public String getDescription(){return description;}
 	public String getDifficulty(){return difficulty;}
@@ -25,7 +25,7 @@ public class Course {
 	public Map<LocalDate, Curriculum> getCurriculum(){return curriculum;}
 	
 	//setters
-	public void setID(long id){this.id = id;}
+	public void setId(int id){this.id = id;}
 	public void setName(String name){this.name = name;}
 	public void setDescription(String description){this.description = description;}
 	public void setDifficulty(String difficulty){this.difficulty = difficulty;}

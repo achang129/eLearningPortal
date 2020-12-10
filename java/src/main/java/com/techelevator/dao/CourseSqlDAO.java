@@ -8,7 +8,6 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import com.techelevator.dto.CourseDTO;
-import com.techelevator.dto.NewCourseDTO;
 import com.techelevator.model.Course;
 
 @Component
@@ -57,7 +56,7 @@ public class CourseSqlDAO implements CourseDAO {
 	}
 
 	@Override
-	public boolean makeCourse(NewCourseDTO courseDTO) {
+	public boolean makeCourse(CourseDTO courseDTO) {
 		String sql = "INSERT into course (name, description, difficulty,cost) VALUES (?, ?, ?,?)";
 		return jdbcTemplate.update(sql, courseDTO.getName(), courseDTO.getDescription(), courseDTO.getDifficulty(), courseDTO.getCost()) == 1;
 	}
@@ -92,7 +91,7 @@ public class CourseSqlDAO implements CourseDAO {
 	
 	private Course mapRowToCourse(SqlRowSet rs) {
 		Course c = new Course();
-		c.setID(rs.getLong("id"));
+		c.setId(rs.getInt("id"));
 		c.setName(rs.getString("name"));
 		c.setDescription(rs.getString("description"));
 		c.setDifficulty(rs.getString("difficulty"));
