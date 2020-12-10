@@ -1,8 +1,8 @@
 <template>
   <div id="register" class="text-center">
-    <login-register-header />
+    <!-- <login-register-header /> -->
     <form class="form-register" @submit.prevent="register">
-      <h1 class="h3 mb-3 font-weight-normal">Create Account</h1>
+      <h1 class="registertext">Create Your Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
         {{ registrationErrorMsg }}
       </div>
@@ -45,22 +45,24 @@
         <label for="user">Instructor</label>
         <br>
         <br>
-        <br>
       </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">
         Create Account
       </button>
-      <div><router-link :to="{ name: 'login' }">Have an account?</router-link></div>
+      <div class="loginlink"><router-link :to="{ name: 'login' }">Already have an account? Login here</router-link></div>
     </form>
+    <div class="login-register-gif">
+        <img src="../assets/Login_RegisterGIF.gif" alt="Parthenon Logo Gif">
+      </div>
   </div>
 </template>
 
 <script>
-import LoginRegisterHeader from '../components/LoginRegisterHeader.vue';
+// import LoginRegisterHeader from '../components/LoginRegisterHeader.vue';
 import authService from '../services/AuthService';
 
 export default {
-  components: { LoginRegisterHeader },
+  components: {},
   name: 'register',
   data() {
     return {
@@ -108,11 +110,22 @@ export default {
 </script>
 
 <style>
+.registertext{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  color: black;
+  text-shadow: -1px -1px 0 #e6c2bf, 1px -1px 0 #e6c2bf, -1px 1px 0 #e6c2bf, 1px 1px 0 #e6c2bf;
+  font-size: 51px;
+}
+
+.loginlink{
+  margin-top: 20px;
+}
+
 .input {
   margin-bottom: 10px;
 }
 
-.form-register {
+/* .form-register {
   border: solid rgb(155, 180, 202);
-}
+} */
 </style>
