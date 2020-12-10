@@ -1,7 +1,7 @@
 <template>
     <div class="progress">
-        <div class="bar" :style="'height:30px;background:blue;width:' + progress() + '%'"></div>
-        <div>{{ progress() }}% Completed</div>
+        <span :style="'width:' + progress() + '%'"></span>
+        <h3>{{ progress() }}% completed</h3>
     </div>
 </template>
 
@@ -21,3 +21,26 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.progress { 
+	height: 20px;
+	position: relative;
+	background: grey;
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
+	padding: 10px;
+}
+.progress > span {
+  display: block;
+  height: 100%;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background-color: blue;
+  position: relative;
+  overflow: hidden;
+}
+</style>
