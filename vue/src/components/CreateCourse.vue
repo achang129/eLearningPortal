@@ -53,11 +53,10 @@ export default {
               difficulty: "",
               cost: ""
             }
-            this.$router.push('/course');
+            this.$router.push('/courses');
           }
         }).catch(error => {
           this.errorMsg = error.response.statusText;
-          alert(this.errorMsg);
         });
     }
   }

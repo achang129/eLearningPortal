@@ -1,16 +1,12 @@
 <template>
-    <div class="messagesNotifications">
-        <header>
-            
-        </header>
-     <dev-header />
+    <div class="message-notifications">
+            <h1>Messages and Notifications</h1>
     </div>
 </template>
 
 <script>
-import DevHeader from './DevHeader.vue'
 export default {
-  components: { DevHeader },
+  name: "message-notifications"
 
 }
 </script>
