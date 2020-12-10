@@ -2,16 +2,16 @@
   <table id="all-courses-table-container">
     <caption> </caption>
     <thead>
-      <tr>
-        <th>Course</th>
-        <th>Difficulty</th>
-        <th>Cost</th>
-        <th>Edit</th>
-        <th>Delete</th>
+      <tr class="table-rows">
+        <th>COURSE</th>
+        <th>DIFFICULTY</th>
+        <th>COST</th>
+        <th>EDIT</th>
+        <th>DELETE</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="course in this.courses" v-bind:key="course.id">
+      <tr v-for="course in this.courses" v-bind:key="course.id" class="course-values">
         <td>{{ course.name }}</td>
         <td>{{ course.difficulty }}</td>
         <td>{{ course.cost }}</td>
@@ -67,3 +67,18 @@ export default {
   }
 }
 </script>
+
+<style>
+  /* #all-courses-table-container{
+    
+    
+  } */
+
+  .table-rows{
+    font-size: 20px;
+  }
+
+  .course-values{
+    font-size: 23px;
+  }
+</style>

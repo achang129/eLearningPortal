@@ -26,13 +26,15 @@ export default {
 
 <style>
 
-.currHeader {
-  grid-area: header;
-}
-
 .all-courses {
+  
+  width: 81.1%;
+  padding-left: 0px;
+  border: solid black;
   grid-area: allcourses;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   padding-top: 20px;
+  
 }
 #all-courses-page-sidebar {
   grid-area: sidebar;
@@ -40,7 +42,7 @@ export default {
 
 #all-courses-view-page {
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: .75fr 4fr;
   grid-template-areas: 
   "header header"
   "sidebar allcourses"
@@ -49,11 +51,12 @@ export default {
 .currHeader {
   display: flex;
   justify-content: space-around;
+  grid-area: header;
 }
 
 .currHeader img {
   border: solid black;
-  border-color: rgb(155, 180, 202);
+  border-color: #e6c2bf;
   border-radius: 24px;
   height: 17rem;
   width: 70%;

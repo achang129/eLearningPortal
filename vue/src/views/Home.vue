@@ -1,20 +1,23 @@
 <template>
   <div class="home">
     <header class="homeHeader">
-      <img src="../assets/homeBanner.png" alt="Fancy Blue Home Banner yaaaaayyyyyyyyyyy">
+      <img src="../assets/HomeGIF.gif" alt="Parthenon Home GIF">
     </header>
     <user-sidebar v-if="$store.state.token != ''"/>
     <login-register-header v-if="$store.state.token == ''"/>
+    <progress-bar />
   </div>
 </template>
 
 <script>
 import UserSidebar from '../components/UserSidebar.vue';
 import LoginRegisterHeader from '../components/LoginRegisterHeader.vue';
+import ProgressBar from '../components/ProgressBar.vue';
 export default {
-  components: { UserSidebar, LoginRegisterHeader },
+  components: { UserSidebar, LoginRegisterHeader, ProgressBar },
   name: "home"
-};
+,
+    };
 </script>
 
 <style>
@@ -26,13 +29,10 @@ export default {
 
 .homeHeader img {
   border: solid black;
-  border-color: rgb(155, 180, 202);
+  border-color: #e6c2bf;
   border-radius: 24px;
   height: 17rem;
   width: 70%;
 }
 
-.home {
-  background-color: #33b3d3c7 ;
-}
 </style>
