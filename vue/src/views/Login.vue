@@ -36,7 +36,7 @@
             required
           />
         </div>
-        <button class="submitbutton" type="submit">Sign in</button>
+        <button class="signinbtn" type="submit">Sign in</button>
         <div class="needacc-link"><router-link :to="{ name: 'register' }">Need an account? Register here</router-link></div>
       </form>
       <div class="login-register-gif">
@@ -85,20 +85,39 @@ export default {
 </script>
 
 <style>
-/* form {
- border: solid 3px rgb(155, 180, 202);
-} */
-
-.submitbutton:hover{
-  background-color: rgb(145, 209, 229);
+.signinbtn {
+	box-shadow:inset 0px 1px 0px 0px #000000;
+	background:linear-gradient(to bottom, #e6c2bf 5%, #ff6d63 100%);
+	background-color:#e6c2bf;
+	border-radius:6px;
+	border:1px solid #0a000a;
+	display:inline-block;
+	cursor:pointer;
+	color:#0a000a;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
 }
+.signinbtn:hover {
+	background:linear-gradient(to bottom, #63a7ff 5%, #3accd1 100%);
+	background-color:#ff6d63;
+}
+.signinbtn:active {
+	position:relative;
+	top:1px;
+}
+
+
 
 .text-center {
   text-align: center;
 }
 
 .form-control:hover{
-  background-color: rgb(145, 175, 229);
+ background-color: #bde3fc;
 }
 
 .form-control {

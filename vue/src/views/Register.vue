@@ -40,14 +40,14 @@
       </div>
       <br>
       <div>
-        <input type="radio" name="role" v-model="user.role" v-bind:value="'user'">
+        <input class="radioBtn" type="radio" name="role" v-model="user.role" v-bind:value="'user'">
         <label for="user">Student</label>
-        <input type="radio" name="role" v-model="user.role" v-bind:value="'teacher'">
+        <input class="radioBtn" type="radio" name="role" v-model="user.role" v-bind:value="'teacher'">
         <label for="user">Instructor</label>
         <br>
         <br>
       </div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
+      <button class="createAccButton" type="submit">
         Create Account
       </button>
       <div class="loginlink"><router-link :to="{ name: 'login' }">Already have an account? Login here</router-link></div>
@@ -111,6 +111,38 @@ export default {
 </script>
 
 <style>
+/* .radioBtn:hover{
+	
+} */
+
+
+.createAccButton {
+	box-shadow:inset 0px 1px 0px 0px #000000;
+	background:linear-gradient(to bottom, #e6c2bf 5%, #ff6d63 100%);
+	background-color:#e6c2bf;
+	border-radius:6px;
+	border:1px solid #0a000a;
+	display:inline-block;
+	cursor:pointer;
+	color:#0a000a;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+}
+.createAccButton:hover {
+	
+	background:linear-gradient(to bottom, #63a7ff 5%, #3accd1 100%);
+	background-color:#ff6d63;
+}
+
+.createAccButton:active {
+	position:relative;
+	top:1px;
+}
+
 .registertext{
   font-family: Georgia, 'Times New Roman', Times, serif;
   color: black;
@@ -143,6 +175,6 @@ export default {
 }
 
 .form-control-confirm:hover{
-  background-color: rgb(145, 175, 229);
+  background-color: #bde3fc;
 }
 </style>
