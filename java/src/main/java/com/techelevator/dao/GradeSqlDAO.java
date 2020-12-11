@@ -49,31 +49,51 @@ public class GradeSqlDAO implements GradeDAO {
 			results.add(mapToGrade(rowSet));
 		return results.toArray(new Grade[0]);
 	}
-
+	
+	@Override
+	public Grade[] getAllGradesByAssignment(int assignment){
+		String sql = "SELECT * FROM grade WHERE assignment = ?";
+		SqlRowSet rows = jdbc.queryForRowSet(sql, assignment);
+		List<Grade> grades = new ArrayList<Grade>();
+		while(rows.next())
+			grades.add(mapToGrade(rows));
+		return grades.toArray(new Grade[0]);
+	}
+	
+	@Override
+	public Grade getStudentGradeByAssignment(int student, int assignment){
+		String sql = "SELECT * FROM grade WHERE assignment = ? AND student = ?";
+		SqlRowSet rows = jdbc.queryForRowSet(sql);
+		if(rows.next())
+			return mapToGrade(rows);
+		return null;
+	}
 
 	@Override
 	public boolean createGrade(Grade newGrade) {
-		String sql = "INSERT INTO grade (student, assignment, turned_in, correct, grade)" +
+		String sql = "INSERT INTO grade (student, assignment, turned_in, correct, grade, comment)" +
 					 "VALUES (?, ?, ?, ?, ?, ?)";
-		
-		int worked = jdbc.update(sql, newGrade.getStudentID(), newGrade.getAssignmentID(), newGrade.getTimeTurnedIn(), 
-				newGrade.getNumberCorrect(), newGrade.getGrade());
-		
-		if(worked > 0) {
-			return true;
-		}else {
-			return false;
-		}
+		return jdbc.update(sql, newGrade.getStudent(), newGrade.getAssignment(), newGrade.getTimeTurnedIn(), 
+				newGrade.getNumberCorrect(), newGrade.getGrade(), newGrade.getComment()) == 1;
 	}
 
+	@Override
+	public boolean updateGrade(Grade grade){
+		String sql1 = "UPDATE grade SET grade = ? WHERE student = ? AND assignment = ?";
+		String sql2 = "UPDATE grade SET comment = ? WHERE student = ? AND assignment = ?";
+		return jdbc.update(sql1, grade.getGrade(), grade.getStudent(), grade.getAssignment()) == 1 &&
+			   jdbc.update(sql2, grade.getComment(), grade.getStudent(), grade.getAssignment()) == 1;
+	}
+	
 	private Grade mapToGrade(SqlRowSet rowSet) {
 		Grade result = new Grade();
 		
-		result.setStudentID(rowSet.getInt("student"));
-		result.setAssignmentID(rowSet.getInt("assignment"));
+		result.setStudent(rowSet.getInt("student"));
+		result.setAssignment(rowSet.getInt("assignment"));
 		result.setTimeTurnedIn(rowSet.getTimestamp("turned_in"));
 		result.setNumberCorrect(rowSet.getInt("correct"));
 		result.setGrade(rowSet.getInt("grade"));
+		result.setComment(rowSet.getString("comment"));
 		
 		return result;
 	}

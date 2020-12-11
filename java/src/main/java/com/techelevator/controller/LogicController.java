@@ -195,6 +195,43 @@ public class LogicController {
 		return dtos;
 	}
 	
+
+	@RequestMapping(value = "/grades/{id}", method = RequestMethod.GET)
+	public GradeDTO[] getAssignmentGrade(@PathVariable int id, Principal p){
+		GradeDTO[] dtos = new GradeDTO[0];
+		Assignment assignment = assignmentDAO.getAssignmentById(id);
+		switch(getRole(p)){
+		case STUDENT:
+			dtos = new GradeDTO[1];
+			dtos[0] = new GradeDTO(gradeDAO.getStudentGradeByAssignment(getID(p), id));
+			dtos[0].setAssignment(assignment.getName());
+			dtos[0].setStudent(p.getName());
+			dtos[0].numberToRaw(assignment.getQuestions().size());
+			return dtos;
+		case TEACHER:
+			Grade[] grades = gradeDAO.getAllGradesByAssignment(id);
+			dtos = new GradeDTO[grades.length];
+			for(int i=0; i<grades.length; i++){
+				dtos[i] = new GradeDTO(grades[i]);
+				dtos[i].setAssignment(assignment.getName());
+				dtos[i].setStudent(userDAO.getUserById(new Long(grades[i].getStudent())).getUsername());
+				dtos[i].numberToRaw(assignment.getQuestions().size());
+			}
+			return dtos;
+		}
+		return dtos;
+	}
+
+	@RequestMapping(value = "/grades/{id}", method = RequestMethod.PUT)
+	public boolean getAssignmentGrade(@PathVariable int id, @RequestBody GradeDTO dto, Principal p){
+		Grade grade = new Grade();
+		grade.setAssignment(id);
+		grade.setStudent(userDAO.findIdByUsername(dto.getStudent()));
+		grade.setComment(dto.getComment());
+		grade.setGrade(dto.getGrade());
+		return gradeDAO.updateGrade(grade);
+	}
+	
 	@RequestMapping(value = "/homework/", method = RequestMethod.GET)
 	public Assignment[] getHomework(Principal p) throws IncorrectRoleException{
 		//validateRole(p, "view homework", STUDENT);

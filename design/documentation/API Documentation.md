@@ -83,7 +83,10 @@ any path variables) are needed.
 
 * uses a 'GradeDTO' object
  * has `assignment` field containing the name of the assignment
+ * has `student` field containing the name of the student who submitted the assignment
  * has `status` field containing the status of the assignment ('unsubmitted', 'submitted', or 'graded')
+ * has `submitted` field containing the timestamp of when the assignment was submitted
+ * has `rawGrade` field containing the grade automatically calculated for the assignment
  * has `grade` field containing the grade of the assignment
  * has `comment` field containing any comments made about the grade/assignment
 
