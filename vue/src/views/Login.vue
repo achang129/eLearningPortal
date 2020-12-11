@@ -14,7 +14,7 @@
           v-if="this.$route.query.registration"
         >Thank you for registering, please sign in.</div>
         <div class="input">
-          <label for="username" class="sr-only">Username </label>
+          <label for="username" class="sr-only"></label>
           <input
             type="text"
             id="username"
@@ -26,7 +26,7 @@
           />
         </div>
         <div class="input">
-          <label for="password" class="sr-only">Password </label>
+          <label for="password" class="sr-only"></label>
           <input
             type="password"
             id="password"
@@ -36,7 +36,7 @@
             required
           />
         </div>
-        <button type="submit">Sign in</button>
+        <button class="submitbutton" type="submit">Sign in</button>
         <div class="needacc-link"><router-link :to="{ name: 'register' }">Need an account? Register here</router-link></div>
       </form>
       <div class="login-register-gif">
@@ -89,17 +89,31 @@ export default {
  border: solid 3px rgb(155, 180, 202);
 } */
 
+.submitbutton:hover{
+  background-color: rgb(145, 209, 229);
+}
+
 .text-center {
   text-align: center;
 }
 
-.input {
-  margin-bottom: 10px;
-  
+.form-control:hover{
+  background-color: rgb(145, 175, 229);
 }
 
 .form-control {
   background-color: white;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  width: 10%;
+  border: solid #e6c2bf;
+  font-family: inherit;
+  padding: 0;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 0;
+  transition: all .15s ease;
 }
 
 .signintext{
@@ -113,8 +127,9 @@ export default {
   margin-top: 20px;
 }
 
+
 .login-register-gif{
-  margin-top: 55px;
+  margin-top: 25px;
   width: fit-content;
   display: inline-flex;
   flex-direction: column;
@@ -123,4 +138,8 @@ export default {
   border: solid;
   border-color: #e6c2bf;;
 }
+
+
+
+
 </style>

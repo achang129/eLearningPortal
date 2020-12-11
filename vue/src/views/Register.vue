@@ -2,12 +2,12 @@
   <div id="register" class="text-center">
     <!-- <login-register-header /> -->
     <form class="form-register" @submit.prevent="register">
-      <h1 class="registertext">Create Your Account</h1>
+      <h1 class="registertext">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
         {{ registrationErrorMsg }}
       </div>
       <div class="input">
-        <label for="username" class="sr-only">Username </label>
+        <label for="username" class="sr-only"></label>
         <input
           type="text"
           id="username"
@@ -19,7 +19,7 @@
         />
       </div>
       <div class="input">
-        <label for="password" class="sr-only">Password </label>
+        <label for="password" class="sr-only"></label>
         <input
           type="password"
           id="password"
@@ -28,10 +28,11 @@
           v-model="user.password"
           required
         />
+        <br>
         <input
           type="password"
           id="confirmPassword"
-          class="form-control"
+          class="form-control-confirm"
           placeholder="Confirm Password"
           v-model="user.confirmPassword"
           required
@@ -125,7 +126,23 @@ export default {
   margin-bottom: 10px;
 }
 
-/* .form-register {
-  border: solid rgb(155, 180, 202);
-} */
+.form-control-confirm{
+  margin-top: 10px;
+   background-color: white;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  width: 10%;
+  border: solid #e6c2bf;
+  font-family: inherit;
+  padding: 0;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 0;
+  transition: all .15s ease;
+}
+
+.form-control-confirm:hover{
+  background-color: rgb(145, 175, 229);
+}
 </style>

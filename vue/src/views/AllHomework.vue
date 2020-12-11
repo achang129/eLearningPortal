@@ -1,7 +1,10 @@
 <template>
   <div class="homework-list">
+    <header class="hw-header">
+      <img src="../assets/assignmentsbanner.png" alt="Homework Banner">
+    </header>
     <div class="all-homework">
-      <h1>Upcoming Assignments</h1>
+      
       <course-homework />
     </div>
       <div id="all-homework-page-sidebar">
@@ -26,6 +29,20 @@ export default {
 </script>
 
 <style>
+.hw-header{
+  display: flex;
+  justify-content: space-around;
+  grid-area: header;
+}
+
+.hw-header img{
+  border: solid black;
+  border-color: #e6c2bf;
+  border-radius: 24px;
+  height: 17rem;
+  width: 70%;
+}
+
 .all-homework {
   grid-area: allhomework;
 }
@@ -37,6 +54,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr 4fr;
   grid-template-areas: 
+  "header header"
   "sidebar allhomework"
 }
 </style>

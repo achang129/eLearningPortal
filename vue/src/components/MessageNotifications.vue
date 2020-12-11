@@ -1,6 +1,6 @@
 <template>
     <div class="message-notifications">
-      <h1>Messages and Notifications</h1>
+      
     <div v-for="message in this.$store.state.messages" v-bind:key="message.id" class="message bubble" >
       <h3>{{ message.title }}</h3>
       <p>{{ message.messageText }}</p>
