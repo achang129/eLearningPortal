@@ -5,7 +5,7 @@
           <img src="../assets/coursesBanner.png" alt="Courses Banner" class="banner">
       </header>
       <div class="all-courses">
-        <course-list></course-list>
+        <course-list/>
       </div>
       <div id="all-courses-page-sidebar">
         <user-sidebar/>
