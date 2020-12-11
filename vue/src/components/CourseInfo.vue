@@ -1,6 +1,7 @@
 <template>
   <div class="course">
-    <select-teacher v-if='this.$store.state.user.authorities[0]["name"]=="USER_ADMIN"'/>
+      <select-teacher>
+      </select-teacher>
     <div id="course-details-heading">
       <div>Class: {{course.name}}</div>
       <div>Description: {{course.description}}</div>
@@ -43,10 +44,11 @@
 </template>
 
 <script>
-import courseService from "@/services/CourseService.js";
+import courseService from "../services/CourseService.js";
+import SelectTeacher from "./SelectTeacher.vue";
 
 export default {
-  components: { },
+  components: { SelectTeacher },
   name: "course",
   props: ["id"],
   data() {

@@ -1,29 +1,41 @@
 <template>
-  <div class="homework-list">
-    <header class="hw-header">
-      <img src="../assets/assignmentsbanner.png" alt="Homework Banner">
-    </header>
-    <div class="all-homework">
-      
-      <course-homework />
+  <loading-screen v-if="isLoading"></loading-screen>
+    <div class="homework-list" v-else>
+      <header class="hw-header">
+        <img src="../assets/assignmentsbanner.png" alt="Homework Banner">
+      </header>
+      <div class="all-homework">
+        
+        <course-homework />
+      </div>
+        <div id="all-homework-page-sidebar">
+          <user-sidebar/>
+      </div>
     </div>
-      <div id="all-homework-page-sidebar">
-        <user-sidebar/>
-    </div>
-  </div>
 </template>
 
 <script>
 
 import UserSidebar from '../components/UserSidebar.vue';
-import CourseHomework from '../components/CourseHomework.vue'
+import CourseHomework from '../components/CourseHomework.vue';
+import LoadingScreen from '../components/LoadingScreen.vue';
 
 export default {
-  components: { UserSidebar, CourseHomework },
+  components: { UserSidebar, CourseHomework, LoadingScreen },
     name: "homework-list",
     component: {
         UserSidebar,
         CourseHomework
+    },
+    data() {
+      return {
+        isLoading: true
+      }
+    },
+    mounted () {
+      setTimeout(() => {
+      this.isLoading = false
+    }, 1000)
     }
 }
 </script>

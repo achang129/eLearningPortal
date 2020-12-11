@@ -1,24 +1,36 @@
 <template>
-  <div id="messages-view-page">
-    <header class="mess-header">
-      <img src="../assets/messagesbanner.png" alt="Message Banner">
-    </header>
-    <div>
-      <message-notifications id="messages-notifications-container"/>
+  <loading-screen v-if="isLoading"></loading-screen>
+    <div id="messages-view-page" v-else>
+      <header class="mess-header">
+        <img src="../assets/messagesbanner.png" alt="Message Banner">
+      </header>
+      <div>
+        <message-notifications id="messages-notifications-container"/>
+      </div>
+      <div id="messages-page-sidebar">
+        <user-sidebar/>
+      </div>
+        
     </div>
-    <div id="messages-page-sidebar">
-      <user-sidebar/>
-    </div>
-      
-  </div>
 </template>
 
 <script>
 import UserSidebar from "../components/UserSidebar.vue"
 import MessageNotifications from "../components/MessageNotifications.vue"
+import LoadingScreen from '../components/LoadingScreen.vue'
 
 export default {
-  components: {UserSidebar, MessageNotifications},
+  components: {UserSidebar, MessageNotifications, LoadingScreen},
+  data() {
+      return {
+        isLoading: true
+      }
+    },
+    mounted () {
+      setTimeout(() => {
+      this.isLoading = false
+    }, 1000)
+    }
 }
 </script>
 

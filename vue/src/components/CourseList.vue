@@ -30,7 +30,7 @@
     <tr><student-list></student-list></tr>
     <br>
     <br>
-    <router-link v-if='this.$store.state.user.authorities[0]["name"]=="USER_ADMIN"' 
+    <router-link v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' 
     v-bind:to="{ name: 'create-course' }">Add Course</router-link>&nbsp;
   </table>
 </template>
