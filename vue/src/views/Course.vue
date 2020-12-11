@@ -16,12 +16,23 @@
 
 import CourseInfo from "../components/CourseInfo.vue"
 import UserSidebar from "../components/UserSidebar.vue"
+import LoadingScreen from '../components/LoadingScreen.vue'
+
 export default {
   name: 'course',
   components: {
     CourseInfo,
-    UserSidebar
-  }
+    UserSidebar,
+    LoadingScreen
+  },
+  data() {
+      return {
+        isLoading: true
+      }
+    },
+    mounted () {
+      this.isLoading = false
+    }
 }
 </script>
 

@@ -1,18 +1,29 @@
 <template>
-  <div>
-    <router-link to="/homework">Back to Homework</router-link>&nbsp;
-    <h1>Add New Homework</h1>
-    <create-homework v-bind:courseId="parseInt(this.$route.params.courseId)" />
-  </div>
+  <loading-screen v-if="isLoading"></loading-screen>
+    <div v-else>
+      <router-link to="/homework">Back to Homework</router-link>&nbsp;
+      <h1>Add New Homework</h1>
+      <create-homework v-bind:courseId="parseInt(this.$route.params.courseId)" />
+    </div>
 </template>
 
 <script>
 import CreateHomework from '../components/CreateHomework.vue';
+import LoadingScreen from '../components/LoadingScreen.vue';
 
 export default {
   name: 'add-homework',
   components: {
-    CreateHomework
-  }
+    CreateHomework,
+    LoadingScreen
+  },
+  data() {
+      return {
+        isLoading: true
+      }
+    },
+    mounted () {
+      this.isLoading = false
+    }
 };
 </script>

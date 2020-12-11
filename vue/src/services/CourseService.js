@@ -8,6 +8,12 @@ export default{
     list() {
         return http.get('/courses/all');
     },
+    listTeachers() {
+        return http.get('/users/teacher');
+    },
+    addTeacherToCourse(){
+        return http.put('/courses')
+    },
     addCourse(course) {
         return http.post('/courses', course);
     },
@@ -26,5 +32,8 @@ export default{
     },
     deleteCourse(courseId) {
         return http.delete(`/courses/${courseId}`);
+    },
+    listStudents() {
+        return http.get('/users/user')
     }
 }
