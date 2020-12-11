@@ -47,6 +47,9 @@ export default {
       courseService.addCourse(this.course)
         .then(response => {
           if (response.status === 201) {
+              courseService.list().then(response => {
+              this.$store.commit("SET_COURSES", response.data);
+            });
             this.course = {
               name: "",
               description: "",

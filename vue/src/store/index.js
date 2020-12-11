@@ -21,6 +21,7 @@ export default new Vuex.Store({
     token: currentToken || '',
     user: currentUser || {},
     courses: [],
+    messages: [],
     activeCourse: {
       id: 0,
       name: '',
@@ -75,6 +76,11 @@ export default new Vuex.Store({
     },
     SET_ACTIVE_HOMEWORK(state, data) {
       state.activeHomework = data;
+    },
+    DELETE_MESSAGE(state, messageId) {
+      state.messages = state.messages.filter((message) => {
+        return message.id !== messageId;
+      });
     }
   }
 })
