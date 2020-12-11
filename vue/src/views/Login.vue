@@ -155,7 +155,7 @@ export default {
   justify-content: center;
   align-items: center;
   border: solid;
-  border-color: #e6c2bf;;
+  border-color: #e6c2bf;
 }
 
 
