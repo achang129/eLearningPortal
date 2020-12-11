@@ -35,5 +35,8 @@ export default{
     },
     deleteCourse(courseId) {
         return http.delete(`/courses/${courseId}`);
+    },
+    listStudents() {
+        return http.get('/users/{STUDENT}')
     }
 }
