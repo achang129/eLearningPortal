@@ -1,5 +1,6 @@
 <template>
   <div class="course">
+    <select-teacher v-if='this.$store.state.user.authorities[0]["name"]=="USER_ADMIN"'/>
     <div id="course-details-heading">
       <div>Class: {{course.name}}</div>
       <div>Description: {{course.description}}</div>
@@ -45,6 +46,7 @@
 import courseService from "@/services/CourseService.js";
 
 export default {
+  components: { },
   name: "course",
   props: ["id"],
   data() {

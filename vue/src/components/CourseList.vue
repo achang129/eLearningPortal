@@ -3,7 +3,8 @@
     <caption> </caption>
     <thead>
       <tr class="table-rows">
-        <th>COURSE</th>
+        <th>ID</th>
+        <th>COURSE Name</th>
         <th>DIFFICULTY</th>
         <th>COST</th>
         <th>EDIT</th>
@@ -12,6 +13,7 @@
     </thead>
     <tbody>
       <tr v-for="course in this.courses" v-bind:key="course.id" class="course-values">
+        <td>{{ course.id }}</td>
         <td>{{ course.name }}</td>
         <td>{{ course.difficulty }}</td>
         <td>{{ course.cost }}</td>
