@@ -1,20 +1,24 @@
 <template>
   <div >
       <table>
-          <tr>
-              <th>&nbsp;</th>
-              <th>ID</th>
-              <th>Student Name</th>
-          </tr>
-          <tr v-for="student in students" 
-              v-bind:key="student.id">
-                <td>
-                    <input type="checkbox" v-bind:id="student.id" v-bind:value="student.id" 
-                           v-on:change="selectStudent($event)">
-                </td>
-                <td>{{student.id}}</td>
-                <td>{{student.username}}</td>
-          </tr>
+          <thead>
+            <tr>
+                <th>Select Student</th>
+                <th>ID</th>
+                <th>Student Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="student in this.students" 
+                v-bind:key="student.id">
+                    <td>
+                        <input type="checkbox" v-bind:id="student.id" v-bind:value="student.id" 
+                        v-on:change="selectUser($event)"/>
+                    </td>
+                    <td>{{student.id}}</td>
+                    <td>{{student.username}}</td>
+            </tr>
+          </tbody>
       </table>
   </div>
 </template>
@@ -23,7 +27,7 @@
 import courseService from '../services/CourseService';
 
 export default {
-    name: 'list-student',
+    name: 'student-list',
     data() {
         return {
             students: [],
@@ -32,18 +36,18 @@ export default {
     },
     methods: {
         displayAllStudents() {
-            courseService.listTeachers().then(response => {
-                response.data.forEach(teacher => {
-                    this.teachers.push(teacher);
+            courseService.listStudents().then(response => {
+                response.data.forEach(student => {
+                    this.students.push(student);
                 });
             });
         },
-        selectStudent(event) {
+        selectUser(event) {
             if(event.target.checked) {
                 this.selectedStudents.push(parseInt(event.target.id));
             }else {
                 this.selectedStudents = this.selectedStudents.filter(student => {
-                    return student != parseInt(event.target.id);
+                return student != parseInt(event.target.id);
                 });
             }
         }    

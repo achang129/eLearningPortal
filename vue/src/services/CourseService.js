@@ -14,9 +14,6 @@ export default{
     addTeacherToCourse(){
         return http.put('/courses')
     },
-    listStudents() {
-        return http.get('/users/user');
-    },
     addCourse(course) {
         return http.post('/courses', course);
     },
@@ -37,6 +34,6 @@ export default{
         return http.delete(`/courses/${courseId}`);
     },
     listStudents() {
-        return http.get('/users/{STUDENT}')
+        return http.get('/users/user')
     }
 }

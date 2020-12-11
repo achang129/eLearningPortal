@@ -27,6 +27,7 @@
     </tbody>
     <br>
     <br>
+    <tr><student-list></student-list></tr>
     <br>
     <br>
     <router-link v-if='this.$store.state.user.authorities[0]["name"]=="USER_ADMIN"' 
@@ -36,8 +37,10 @@
 
 <script>
 import courseService from "@/services/CourseService.js";
+import StudentList from './StudentList';
 
 export default {
+  components: {StudentList},
   name: "course-list",
   data() {
     return {
