@@ -1,6 +1,6 @@
 <template>
     <div class="loading">
-        <img src="../assets/LoadingGIF.gif" />
+        <img src="../assets/correctLoading.gif" />
     </div>
 </template>
 
@@ -11,11 +11,15 @@ export default {
 </script>
 
 <style>
-/* img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  height: 100vh;
-  width: 100vw;
-} */
+ .loading {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    align-self: center;
+    height: 100vh;
+} 
+.loading img{
+    border:groove black;
+}
 </style>
