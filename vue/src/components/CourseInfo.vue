@@ -6,8 +6,9 @@
       <div>Difficulty: {{course.difficulty}}</div>
       <div>Cost: {{course.cost}}</div>
     </div>
-    <div id="teacher-select-section">
+    <div id="user-select-section">
       <select-teacher v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' />
+      <student-list v-if='this.$store.state.user.authorities[0]["name"]!="ROLE_STUDENT"'/>
     </div>
     <div class="daily">
       <div id="curricula-container">
@@ -47,9 +48,10 @@
 <script>
 import courseService from "../services/CourseService.js";
 import SelectTeacher from "./SelectTeacher.vue";
+import StudentList from './StudentList';
 
 export default {
-  components: { SelectTeacher },
+  components: { SelectTeacher, StudentList },
   name: "course",
   props: ["id"],
   data() {
