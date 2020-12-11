@@ -9,12 +9,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="teacher in this.teachers" v-bind:key="teacher.user_id">
-                    <td>{{teacher.user_id}}</td>
+                <tr v-for="teacher in this.teachers" v-bind:key="teacher.id">
+                    <td>{{teacher.id}}</td>
                     <td>{{teacher.username}}</td>
                     <td>
                         <a href='#' 
-                        @click.prevent="addTeacherToCourse(teacher.user_id)
+                        @click.prevent="addTeacherToCourse(teacher.id)
                         ">Add teacher to course</a>
                     </td>
                 </tr>
@@ -28,15 +28,19 @@ import courseService from '../services/CourseService'
 
 export default {
     name: 'select-teacher',
+    components: {},
     data() {
         return {
-            teachers: []
+            teachers: [],
+            selectedTeachers: []
         }
     },
     methods: {
         displayAllTeachers(){
             courseService.listTeachers().then(response=>{
-                response.data.forEach(teacher=>{this.teachers.push(teacher);});
+                response.data.forEach(teacher=>{
+                    this.teachers.push(teacher);
+                    });
             });
         },
         addTeacherToCourse() {
