@@ -34,7 +34,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    
+    getRole: state => {
+      return state.user.authorities[0]["name"]
+    }
   },
   actions: {
 

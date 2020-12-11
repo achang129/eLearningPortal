@@ -2,7 +2,7 @@
   <div class="create-course">
     <router-link to="/courses">Back to Courses</router-link>&nbsp;
     <h1>Add New Course</h1>
-    <create-course />
+    <create-course/>
   </div>
 </template>
 
