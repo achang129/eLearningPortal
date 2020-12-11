@@ -1,25 +1,37 @@
 <template>
-  <div id="all-courses-view-page">
-    <header class="currHeader">
-        <img src="../assets/coursesBanner.png" alt="Courses Banner" class="banner">
-    </header>
-    <div class="all-courses">
-      <course-list></course-list>
+  <loading-screen v-if="isLoading"></loading-screen>
+    <div id="all-courses-view-page" v-else>
+      <header class="currHeader">
+          <img src="../assets/coursesBanner.png" alt="Courses Banner" class="banner">
+      </header>
+      <div class="all-courses">
+        <course-list></course-list>
+      </div>
+      <div id="all-courses-page-sidebar">
+        <user-sidebar/>
+      </div>
     </div>
-    <div id="all-courses-page-sidebar">
-      <user-sidebar/>
-    </div>
-  </div>
 </template>
 
 <script>
 
 import UserSidebar from '../components/UserSidebar.vue';
 import CourseList from '../components/CourseList.vue';
+import LoadingScreen from '../components/LoadingScreen.vue';
 
 export default {
   name: "all-courses",
-  components: { UserSidebar, CourseList }
+  components: { UserSidebar, CourseList, LoadingScreen },
+  data() {
+      return {
+        isLoading: true
+      }
+    },
+    mounted () {
+      setTimeout(() => {
+      this.isLoading = false
+    }, 1000)
+    }
 };
 
 </script>
