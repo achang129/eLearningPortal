@@ -1,12 +1,13 @@
 <template>
   <div class="course">
-      <select-teacher>
-      </select-teacher>
     <div id="course-details-heading">
       <div>Class: {{course.name}}</div>
       <div>Description: {{course.description}}</div>
       <div>Difficulty: {{course.difficulty}}</div>
       <div>Cost: {{course.cost}}</div>
+    </div>
+    <div id="teacher-select-section">
+      <select-teacher v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' />
     </div>
     <div class="daily">
       <div id="curricula-container">
