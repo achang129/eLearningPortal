@@ -302,7 +302,8 @@ public class LogicController {
 
 	@RequestMapping(value = "/users/{role}", method = RequestMethod.GET)
 	public User[] getUsersByRole(@PathVariable("role") String role, Principal p){
-		switch(role){
+		String fullRole = "ROLE_" + role.toUpperCase();
+		switch(fullRole){
 		case STUDENT:
 			return userDAO.findAllStudents();
 		case TEACHER:

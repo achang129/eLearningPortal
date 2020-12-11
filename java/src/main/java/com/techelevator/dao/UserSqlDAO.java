@@ -90,7 +90,7 @@ public class UserSqlDAO implements UserDAO {
     @Override
 	public User[] findAllTeachers() {//this select statement may need tweaking
 		List<User> results = new ArrayList<User>();
-		String sql = "SELECT * FROM users WHERE role = 'Teacher'";
+		String sql = "SELECT * FROM users WHERE role = 'ROLE_TEACHER'";
 		
 		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
 		
@@ -104,7 +104,7 @@ public class UserSqlDAO implements UserDAO {
 	@Override
 	public User[] findAllStudents() {
 		List<User> results = new ArrayList<User>();
-		String sql = "SELECT * FROM users WHERE role = 'Students'";
+		String sql = "SELECT * FROM users WHERE role = 'ROLE_USER'";
 		
 		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
 		
