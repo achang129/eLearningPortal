@@ -27,7 +27,7 @@ public class MessageSqlDAO implements MessageDAO {
 	@Override
 	public Message[] getList(int user) {
 		List<Message> tempResults = new ArrayList<Message>();
-		String sql = "SELECT * FROM message WHERE user = ?";
+		String sql = "SELECT * FROM message WHERE user_id = ?";
 		SqlRowSet rowSet = this.jdbc.queryForRowSet(sql, user);
 		while(rowSet.next()) {
 			tempResults.add(mapToMessage(rowSet));
@@ -57,7 +57,7 @@ public class MessageSqlDAO implements MessageDAO {
 		Message result = new Message();
 		
 		result.setId(rowSet.getInt("id"));
-		result.setUser(rowSet.getInt("user"));
+		result.setUser(rowSet.getInt("user_id"));
 		result.setIsRead(rowSet.getBoolean("read"));
 		result.setContent(rowSet.getString("content"));
 		
