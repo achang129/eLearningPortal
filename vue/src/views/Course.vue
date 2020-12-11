@@ -1,10 +1,10 @@
 <template>
-  <loading-screen v-if="isLoading"></loading-screen>
-    <div id="course-view-grid-container" v-else>
+    <div id="course-view-grid-container">
+      <loading-screen v-if="isLoading"></loading-screen>
+      <header class="courseHeader">
+        <img src="../assets/courseDetailsBanner.png" alt="Course Details Banner">
+      </header>
       <div class="course">
-        <div id="course-page-title">
-          <h1>Course Details:</h1>
-        </div>
         <course-info v-bind:id="$route.params.id" />
       </div>
       <div id="course-view-user-sidebar">
@@ -38,6 +38,20 @@ export default {
 </script>
 
 <style>
+.courseHeader{
+   display: flex;
+  justify-content: space-around;
+  grid-area: header;
+}
+
+.courseHeader img{
+   border: solid black;
+  border-color: #e6c2bf;
+  border-radius: 24px;
+  height: 17rem;
+  width: 70%;
+}
+
 .course {
   grid-area: course;
 }
@@ -47,16 +61,13 @@ export default {
 
 #course-view-grid-container {
   display: grid;
-  grid-template-columns: 1fr 4fr;
-  grid-template-areas: "sidebar course"
+  grid-template-columns: .60fr 4fr;
+  grid-template-areas: 
+  "header header"
+  "sidebar course";
 }
 
-#course-page-title {
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  display:flex;
-}
+
 
 
 

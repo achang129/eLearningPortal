@@ -6,15 +6,16 @@
       <div>Difficulty: {{course.difficulty}}</div>
       <div>Cost: {{course.cost}}</div>
     </div>
-    <div id="teacher-select-section">
+    <div id="user-select-section">
       <select-teacher v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' />
+      <student-list v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'/>
     </div>
     <div class="daily">
       <div id="curricula-container">
         <table id="curriculum-table" style="width:100%">
-          <caption>Upcoming coursework:</caption>
+          <caption class="tablecaption">Upcoming coursework</caption>
           <thead>
-            <tr>
+            <tr class="courseinforows">
               <th id="date-column">Date</th>
               <th id="lesson-column">Lesson Plan</th>
               <th id="homework-column">Homework</th>
@@ -32,13 +33,13 @@
         <br>
         <br>
       </div>
-      <form v-on:submit.prevent="addCurriculum">
-        <label>Date</label>
-        <input type="date" v-model="newDate" />
-        <label>Lesson Plan</label>
-        <input type="text" v-model="newLesson" />
-        <label>Add Curriculum</label>
-        <input type="submit" />
+      <form class="formtext" v-on:submit.prevent="addCurriculum">
+        <label>Date: </label>
+        <input type="date" v-model="newDate" class="form-control-date"/> |
+        <label>Lesson Plan: </label>
+        <input type="text" v-model="newLesson" class="form-control-lesson"/> |
+        <label></label>
+        <input type="submit" class="courseButton" />
       </form>
     </div>
   </div>
@@ -47,9 +48,10 @@
 <script>
 import courseService from "../services/CourseService.js";
 import SelectTeacher from "./SelectTeacher.vue";
+import StudentList from './StudentList';
 
 export default {
-  components: { SelectTeacher },
+  components: { SelectTeacher, StudentList },
   name: "course",
   props: ["id"],
   data() {
@@ -94,6 +96,101 @@ export default {
 </script>
 
 <style>
+.formtext{
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.courseinforows{
+  text-decoration: underline;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+#course-details-heading{
+  background-color:#e6c2bf;
+  width: 84%;
+  border: solid black;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 40px;
+  letter-spacing: 0px;
+  word-spacing: 0px;
+  color: #000000;
+  font-weight: 700;
+  font-style: normal;
+  font-variant: small-caps;
+  text-transform: capitalize;
+  
+}
+
+.courseButton {
+	background-color:#e6c2bf;
+	border-radius:28px;
+	border:1px solid #0d0c0c;
+	display:inline-block;
+	cursor:pointer;
+	color:#000000;
+	font-family:Arial;
+	font-size:17px;
+	padding:16px 31px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+.courseButton:hover {
+	background-color:#3accd1;
+}
+.courseButton:active {
+	position:relative;
+	top:1px;
+}
+
+.form-control-date {
+  background-color: white;
+  -webkit-appearance: none;
+  width: 160px;
+  border: solid #e6c2bf;
+  font-family: inherit;
+  padding: 0;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 0;
+  transition: all .15s ease;
+}
+
+.form-control-date:hover{
+  background-color: #bde3fc;
+}
+
+.form-control-lesson:hover{
+ background-color: #bde3fc;
+}
+
+.form-control-lesson{
+   background-color: white;
+  -webkit-appearance: none;
+  width: 300px;
+  border: solid #e6c2bf;
+  font-family: inherit;
+  padding: 0;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 0;
+  transition: all .15s ease;
+}
+.tablecaption{
+  margin-top: 5px;
+  width: 83%;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 40px;
+  letter-spacing: 0px;
+  word-spacing: 0px;
+  color: #000000;
+  font-weight: 700;
+  text-decoration: underline;
+  font-style: normal;
+  font-variant: small-caps;
+  text-transform: capitalize;
+}
 #curricula-container{
   display:flex;
   flex-direction: column;

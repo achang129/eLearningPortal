@@ -31,7 +31,6 @@
     </table>
     <br>
     <br>
-    <student-list v-if='this.$store.state.user.authorities[0]["name"]!="ROLE_STUDENT"'/>
     <br>
     <br>
   </div>
@@ -39,10 +38,8 @@
 
 <script>
 import courseService from "@/services/CourseService.js";
-import StudentList from './StudentList';
 
 export default {
-  components: {StudentList},
   name: "course-list",
   data() {
     return {

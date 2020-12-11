@@ -1,5 +1,6 @@
 <template>
-  <div >
+  <div>
+      <caption>Select Student for Course</caption>
       <table>
           <thead>
             <tr>
