@@ -1,6 +1,5 @@
 <template>
-  <loading-screen v-if="isLoading"></loading-screen>
-    <div id="course-view-grid-container" v-else>
+    <div id="course-view-grid-container">
       <div class="course">
         <div id="course-page-title">
           <h1>Course Details:</h1>
@@ -17,25 +16,12 @@
 
 import CourseInfo from "../components/CourseInfo.vue"
 import UserSidebar from "../components/UserSidebar.vue"
-import LoadingScreen from '../components/LoadingScreen.vue'
-
 export default {
   name: 'course',
   components: {
     CourseInfo,
-    UserSidebar,
-    LoadingScreen
-  },
-  data() {
-      return {
-        isLoading: true
-      }
-    },
-    mounted () {
-      setTimeout(() => {
-      this.isLoading = false
-    }, 1000)
-    }
+    UserSidebar
+  }
 }
 </script>
 
