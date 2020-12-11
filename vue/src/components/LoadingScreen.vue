@@ -11,11 +11,11 @@ export default {
 </script>
 
 <style>
-img {
+/* img {
   display: block;
   margin-left: auto;
   margin-right: auto;
   height: 100vh;
   width: 100vw;
-}
+} */
 </style>
