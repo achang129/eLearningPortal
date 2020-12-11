@@ -8,7 +8,7 @@
     </div>
     <div id="user-select-section">
       <select-teacher v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' />
-      <student-list v-if='this.$store.state.user.authorities[0]["name"]!="ROLE_STUDENT"'/>
+      <student-list v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'/>
     </div>
     <div class="daily">
       <div id="curricula-container">
