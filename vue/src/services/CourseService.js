@@ -8,6 +8,15 @@ export default{
     list() {
         return http.get('/courses/all');
     },
+    listTeachers() {
+        return http.get('/users/teacher');
+    },
+    addTeacherToCourse(){
+        return http.put('/courses')
+    },
+    listStudents() {
+        return http.get('/users/user');
+    },
     addCourse(course) {
         return http.post('/courses', course);
     },
