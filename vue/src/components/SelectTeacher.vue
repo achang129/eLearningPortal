@@ -1,11 +1,12 @@
 <template>
-    <div id="select-teacher">
+    <div id="select-teacher-course-grid">
         <table id="select-teacher-for-course">
             <caption>Select Teacher for course</caption>
             <thead>
-                <tr class="table-rows">
-                    <th>USER ID</th>
+                <tr class="table-rows-teacher-list">
+                    <th>TEACHER ID</th>
                     <th>TEACHER NAME</th>
+                    <th>SELECT TEACHER</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,5 +54,21 @@ export default {
 </script>
 
 <style>
+
+#select-teacher-course-grid{
+    background-color:#72aa7e;
+  opacity: 70%;
+  border-radius: 2%;
+  border-style:ridge;
+  border-color: rgb(26, 58, 39);
+  width: 84%;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 20px;
+  letter-spacing: 0px;
+  word-spacing: 0px;
+  color: #000000;
+  font-weight: 700;
+  font-style: normal;
+}
 
 </style>

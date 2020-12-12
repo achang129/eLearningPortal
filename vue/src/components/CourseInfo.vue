@@ -13,23 +13,33 @@
     <div class="daily">
       <div id="curricula-container">
         <table id="curriculum-table" style="width:100%">
-          <caption class="tablecaption">Upcoming coursework</caption>
+          <caption class="tablecaption">Upcoming coursework<br/><br/>
+          </caption>
           <thead>
             <tr class="courseinforows">
               <th id="date-column">Date</th>
               <th id="lesson-column">Lesson Plan</th>
               <th id="homework-column">Homework</th>
+              <th id="empty-column"></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="curriculum in this.curricula" v-bind:key="curriculum.date">
               <td class="curriculum-datum">{{curriculum.date}}</td>
               <td class="curriculum-datum">{{curriculum.lesson}}</td>
-              <td class="curriculum-datum">TODO homework section</td>
+              <td></td>
+              <td></td>
             </tr>
           </tbody>
         </table>
+        <div id="empty-message">
+          <br>~~~<br>
+          <p v-show="this.emptyCurriculum">Looks Like There are No Lessons So Far!</p>
+          <br>~~~<br>
+        </div>
         <br>
+        <br>
+        <a href="#" @click.prevent="goToAddHomework">Add Assignment</a>
         <br>
         <br>
       </div>
@@ -51,7 +61,7 @@ import SelectTeacher from "./SelectTeacher.vue";
 import StudentList from './StudentList';
 
 export default {
-  components: { SelectTeacher, StudentList },
+  components: { SelectTeacher, StudentList},
   name: "course",
   props: ["id"],
   data() {
@@ -59,7 +69,8 @@ export default {
       errorMsg: "",
       course: [],
       newLesson: "",
-      newDate: new Date()
+      newDate: new Date(),
+      emptyCurriculum: false
     }
   },
   computed: {
@@ -75,6 +86,10 @@ export default {
     getCoursework() {
       courseService.getCoursework(this.id).then(response => {
         this.course = response.data;
+        if (isNaN(this.course[0])){
+          //NaN == Not a Number i.e. an empty array
+          this.emptyCurriculum=true;
+        }
       });
     },
     addCurriculum() {
@@ -86,6 +101,9 @@ export default {
           this.getCoursework();
         }
       })
+    },
+    goToAddHomework() {
+      this.$router.push({name: 'create-homework', params: {id: this.id}});
     }
   },
   created() {
@@ -105,12 +123,23 @@ export default {
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
+#empty-message{
+  justify-items: center;
+  justify-content: center;
+  display: inline-flex;
+  color: rgb(131, 43, 40);
+  font-size: 30px;
+}
+
 #course-details-heading{
-  background-color:#e6c2bf;
+  background-color:#7754af;
+  opacity: 70%;
+  border-radius: 2%;
+  border-style:ridge;
+  border-color: darkmagenta;
   width: 84%;
-  border: solid black;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
-  font-size: 40px;
+  font-size: 20px;
   letter-spacing: 0px;
   word-spacing: 0px;
   color: #000000;

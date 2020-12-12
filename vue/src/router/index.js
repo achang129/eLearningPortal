@@ -127,7 +127,7 @@ const router = new Router({
       }
     },
     {
-      path: '/homework/create',
+      path: 'courses/:id/homework/create',
       name: 'create-homework',
       component: CreateHomework,
       meta: {
@@ -136,7 +136,7 @@ const router = new Router({
       }
     },
     {
-      path: '/homework/:id',
+      path: 'courses/:id/homework/:hwId',
       name: 'homework',
       component: Homework,
       meta: {
@@ -145,7 +145,7 @@ const router = new Router({
       }
     },
     {
-      path: '/homework/:id/edit',
+      path: 'courses/:id/homework/:hwId/edit',
       name: 'edit-homework',
       component: EditHomework,
       meta: {

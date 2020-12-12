@@ -23,7 +23,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	@Override
 	public Assignment[] getStudentAssignments(int student) {
 		List<Assignment> tempByStudent = new ArrayList<Assignment>();
-		String sql = "SELECT * FROM assignment a INNER JOIN curriculum c ON a.id = c.homework "
+		String sql = "SELECT * FROM assignment a INNER JOIN course c ON a.course=c.id "
 				+ "INNER JOIN student s ON c.id = s.course WHERE s.student = ?";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sql, student);
 		while(results.next()) {
@@ -34,9 +34,9 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	}
 
 	@Override
-	public boolean newAssignment(int course, LocalDate date, Assignment homework) {
-		String sql = "INSERT into assignment (due_date, questions) VALUES (?, ?)";
-		return jdbcTemplate.update(sql, course, date, homework) == 1;
+	public boolean newAssignment(int course, LocalDate date, String name) {
+		String sql = "INSERT into assignment (course, due_date, name) VALUES (?, ?, ?)";
+		return jdbcTemplate.update(sql, course, date, name) == 1;
 	}
 
 	@Override

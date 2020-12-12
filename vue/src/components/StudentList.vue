@@ -1,23 +1,23 @@
 <template>
-  <div>
-      <caption>Select Student for Course</caption>
+  <div id="select-student-course-grid">
       <table>
+      <caption>Select Student for Course</caption>
           <thead>
             <tr>
-                <th>Select Student</th>
-                <th>ID</th>
-                <th>Student Name</th>
+                <th>STUDENT ID</th>
+                <th>STUDENT NAME</th>
+                <th>SELECT STUDENT</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="student in this.students" 
                 v-bind:key="student.id">
+                    <td>{{student.id}}</td>
+                    <td>{{student.username}}</td>
                     <td>
                         <input type="checkbox" v-bind:id="student.id" v-bind:value="student.id" 
                         v-on:change="selectUser($event)"/>
                     </td>
-                    <td>{{student.id}}</td>
-                    <td>{{student.username}}</td>
             </tr>
           </tbody>
       </table>
@@ -60,5 +60,21 @@ export default {
 </script>
 
 <style>
+#select-student-course-grid{
+  background-color:#cc7979;
+  opacity: 70%;
+  border-radius: 2%;
+  border-style:ridge;
+  border-color: rgb(156, 100, 122);
+  width: 84%;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 20px;
+  letter-spacing: 0px;
+  word-spacing: 0px;
+  color: #000000;
+  font-weight: 700;
+  font-style: normal;
+}
+
 
 </style>

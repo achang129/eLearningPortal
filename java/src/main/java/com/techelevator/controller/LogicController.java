@@ -132,7 +132,7 @@ public class LogicController {
 		return courseDAO.deleteCourse(id);
 	}
 	
-	@RequestMapping(value = "/grades/", method = RequestMethod.GET)
+	@RequestMapping(value = "/grades", method = RequestMethod.GET)
 	public CourseGradeDTO[] getCourseGrades(Principal p){
 		int id = getID(p);
 		CourseGradeDTO[] dtos = new CourseGradeDTO[0];
@@ -232,17 +232,17 @@ public class LogicController {
 		return gradeDAO.updateGrade(grade);
 	}
 	
-	@RequestMapping(value = "/homework/", method = RequestMethod.GET)
+	@RequestMapping(value = "/homework", method = RequestMethod.GET)
 	public Assignment[] getHomework(Principal p) throws IncorrectRoleException{
 		//validateRole(p, "view homework", STUDENT);
 		return assignmentDAO.getStudentAssignments(getID(p));
 	}
 
     @ResponseStatus(HttpStatus.CREATED)
-	@RequestMapping(value = "/homework/", method = RequestMethod.POST)
+	@RequestMapping(value = "/homework", method = RequestMethod.POST)
 	public boolean createHomework(@RequestBody AssignmentDTO homework, Principal p) throws IncorrectRoleException{
 		//validateRole(p, "create homework", TEACHER);
-		return assignmentDAO.newAssignment(homework.getCourse(), homework.getDate(), null);
+		return assignmentDAO.newAssignment(homework.getCourse(), homework.getDate(), homework.getName());
 	}
 	
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.GET)

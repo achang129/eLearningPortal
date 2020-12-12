@@ -8,9 +8,9 @@ DROP TABLE IF EXISTS question;
 DROP TABLE IF EXISTS curriculum;
 DROP TABLE IF EXISTS teacher;
 DROP TABLE IF EXISTS student;
+DROP TABLE IF EXISTS assignment;
 DROP TABLE IF EXISTS course;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS assignment;
 DROP SEQUENCE IF EXISTS seq_user_id;
 DROP SEQUENCE IF EXISTS seq_course_id;
 DROP SEQUENCE IF EXISTS seq_assignment_id;
@@ -89,7 +89,8 @@ CREATE TABLE assignment (
 	id int DEFAULT nextval('seq_assignment_id'::regclass) NOT NULL,
 	name varchar(64),
 	due_date date,
-	questions int NOT NULL,
+	questions int,
+	course int NOT NULL,
 	CONSTRAINT PK_assignment PRIMARY KEY (id)
 );
 
