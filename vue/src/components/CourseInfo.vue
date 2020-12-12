@@ -35,7 +35,7 @@
         </table>
         <div id="empty-message">
           <br>~~~<br>
-          <p v-show="this.emptyCurriculum">Looks Like There are No Lessons So Far!</p>
+          <p v-show="this.curricula.length==0">Looks Like There are No Lessons So Far!</p>
           <br>~~~<br>
         </div>
         <br>
