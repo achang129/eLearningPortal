@@ -8,7 +8,7 @@
             <br>
             TODO: the difficulty field for course has been replaced with class size, which justin seemed
             more interested in. Still need to change the business logic on SQLDAO to check how many students before
-            adding more.
+            adding more. (though all the object models and DAO types have been updated)
             <br>
             TODO: build on the extremely not at all finished "add homework" so that we can now add questions
             to a particular homework assignment

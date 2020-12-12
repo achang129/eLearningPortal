@@ -1,6 +1,7 @@
 <template>
   <div class="course">
     <div id="course-details-heading">
+      <div>Course Id: {{this.id}}</div>
       <div>Class: {{course.name}}</div>
       <div>Description: {{course.description}}</div>
       <div>Class Limit: {{course.classSize}}</div>
@@ -39,7 +40,10 @@
         </div>
         <br>
         <br>
-        <a href="#" @click.prevent="goToAddHomework">Add Assignment</a>
+        <div>
+        <span>Add Assignment</span>
+        <create-homework v-bind="this.id"/>
+        </div>
         <br>
         <br>
       </div>
@@ -59,9 +63,10 @@
 import courseService from "../services/CourseService.js";
 import SelectTeacher from "./SelectTeacher.vue";
 import StudentList from './StudentList';
+import CreateHomework from './CreateHomework';
 
 export default {
-  components: { SelectTeacher, StudentList},
+  components: { SelectTeacher, StudentList , CreateHomework},
   name: "course",
   props: ["id"],
   data() {
@@ -70,7 +75,8 @@ export default {
       course: [],
       newLesson: "",
       newDate: new Date(),
-      emptyCurriculum: false
+      emptyCurriculum: false,
+      showCourseForm: false
     }
   },
   computed: {
@@ -103,7 +109,7 @@ export default {
       })
     },
     goToAddHomework() {
-      this.$router.push({name: 'create-homework', params: {id: this.id}});
+      this.$router.push({name: 'create-homework', params: {id: this.course.id}});
     }
   },
   created() {
