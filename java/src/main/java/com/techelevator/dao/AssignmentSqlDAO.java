@@ -35,8 +35,8 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 
 	@Override
 	public boolean newAssignment(int course, LocalDate date, String name) {
-		String sql = "INSERT into assignment (course, due_date, name) VALUES (?, ?, ?)";
-		return jdbcTemplate.update(sql, course, date, name) == 1;
+		String sql = "INSERT into assignment (course, due_date, created_date, name) VALUES (?, ?, ?, ?)";
+		return jdbcTemplate.update(sql, course, date, LocalDate.now(), name) == 1;
 	}
 
 	@Override

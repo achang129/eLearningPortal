@@ -3,7 +3,7 @@
     <div id="course-details-heading">
       <div>Class: {{course.name}}</div>
       <div>Description: {{course.description}}</div>
-      <div>Difficulty: {{course.difficulty}}</div>
+      <div>Class Limit: {{course.classSize}}</div>
       <div>Cost: {{course.cost}}</div>
     </div>
     <div id="user-select-section">

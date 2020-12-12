@@ -12,7 +12,7 @@ public class Course {
 	private int id;
 	private String name;
 	private String description;
-	private String difficulty;
+	private int classSize;
 	private int cost;
 	private Map<LocalDate, Curriculum> curriculum;
 	
@@ -20,7 +20,7 @@ public class Course {
 	public int getId(){return id;}
 	public String getName(){return name;}
 	public String getDescription(){return description;}
-	public String getDifficulty(){return difficulty;}
+	public int getClassSize(){return classSize;}
 	public int getCost(){return cost;}
 	public Map<LocalDate, Curriculum> getCurriculum(){return curriculum;}
 	
@@ -28,7 +28,7 @@ public class Course {
 	public void setId(int id){this.id = id;}
 	public void setName(String name){this.name = name;}
 	public void setDescription(String description){this.description = description;}
-	public void setDifficulty(String difficulty){this.difficulty = difficulty;}
+	public void setClassSize(int classSize){this.classSize = classSize;}
 	public void setCost(int cost){this.cost = cost;}
 	
 	//modify curriculum
@@ -59,7 +59,7 @@ public class Course {
 		id=0;
 		name="";
 		description="";
-		difficulty="";
+		classSize=0;
 		cost=0;
 		clearCurriculum();
 	}

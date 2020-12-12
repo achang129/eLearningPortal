@@ -11,9 +11,9 @@
         v-model="course.description" @focus="course.description=''"/>
     </div>
     <div class="field">
-      <label for="difficulty">Difficulty</label>
+      <label for="classSize">Class Size Limit</label>
         <input type="text"  
-        v-model="course.difficulty" @focus="course.difficulty=''"/>
+        v-model="course.classSize" @focus="course.classSize=''"/>
     </div>
     <div class="field">
       <label for="cost">Cost</label>
@@ -36,7 +36,7 @@ export default {
       course: {
         name: "" || "Enter the name of your course (up to 64 characters)",
         description: "" || "Brief description of the curriculum (256 characters)",
-        difficulty: "" || "This helps people find the best course for their needs (12 characters)",
+        classSize: "" || "Enter your class size limit",
         cost: "" || "(US Dollars)"
       },
       errorMsg: ""
@@ -53,7 +53,7 @@ export default {
             this.course = {
               name: "",
               description: "",
-              difficulty: "",
+              classSize: "",
               cost: ""
             }
             this.$router.push('/courses');

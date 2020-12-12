@@ -8,7 +8,7 @@
         <tr class="table-rows">
           <th>ID   &nbsp;  &nbsp;</th>
           <th>NAME &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
-          <th>DIFFICULTY</th>
+          <th>CLASS LIMIT</th>
           <th>COST</th>
           <th>DETAILS</th>
           <th>DELETE</th>
@@ -18,7 +18,7 @@
         <tr v-for="course in this.courses" v-bind:key="course.id" class="course-values">
           <td>{{ course.id }}</td>
           <td>{{ course.name }}</td>
-          <td>{{ course.difficulty }}</td>
+          <td>{{ course.classSize }}</td>
           <td>{{ course.cost }}</td>
           <td>
             <router-link :to="{ name: 'course', params: {id: course.id} }">Course Details</router-link>

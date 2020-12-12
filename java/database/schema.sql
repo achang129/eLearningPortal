@@ -55,7 +55,7 @@ CREATE TABLE course (
 	id int DEFAULT nextval('seq_course_id'::regclass) NOT NULL,
 	name varchar(64) NOT NULL,
 	description varchar(256) NOT NULL,
-	difficulty varchar(32) NOT NULL,
+	class_size int NOT NULL,
 	cost int DEFAULT 0 NOT NULL,
 	CONSTRAINT PK_course PRIMARY KEY (id)
 );
@@ -88,7 +88,8 @@ CREATE TABLE curriculum (
 CREATE TABLE assignment (
 	id int DEFAULT nextval('seq_assignment_id'::regclass) NOT NULL,
 	name varchar(64),
-	due_date date,
+	created_date date,
+	due_date  date,
 	questions int,
 	course int NOT NULL,
 	CONSTRAINT PK_assignment PRIMARY KEY (id)

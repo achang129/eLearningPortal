@@ -58,8 +58,8 @@ public class CourseSqlDAO implements CourseDAO {
 
 	@Override
 	public boolean makeCourse(CourseDTO courseDTO) {
-		String sql = "INSERT into course (name, description, difficulty,cost) VALUES (?, ?, ?,?)";
-		return jdbcTemplate.update(sql, courseDTO.getName(), courseDTO.getDescription(), courseDTO.getDifficulty(), courseDTO.getCost()) == 1;
+		String sql = "INSERT into course (name, description, class_size, cost) VALUES (?, ?, ?,?)";
+		return jdbcTemplate.update(sql, courseDTO.getName(), courseDTO.getDescription(), courseDTO.getClassSize(), courseDTO.getCost()) == 1;
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public class CourseSqlDAO implements CourseDAO {
 		c.setId(rs.getInt("id"));
 		c.setName(rs.getString("name"));
 		c.setDescription(rs.getString("description"));
-		c.setDifficulty(rs.getString("difficulty"));
+		c.setClassSize(rs.getInt("class_size"));
 		c.setCost(rs.getInt("cost"));
 		
 		return c;
