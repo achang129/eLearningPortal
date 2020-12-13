@@ -29,6 +29,7 @@ import courseService from '../services/CourseService'
 
 export default {
     name: 'select-teacher',
+    props: ["id"],
     components: {},
     data() {
         return {
@@ -44,7 +45,8 @@ export default {
                     });
             });
         },
-        addTeacherToCourse() {
+        addTeacherToCourse(teacher) {
+            courseService.addTeacherToCourse(this.id, teacher);
         }
     },
     created(){
