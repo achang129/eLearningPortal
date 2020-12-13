@@ -1,5 +1,5 @@
 BEGIN TRANSACTION;
-
+DELETE FROM assignment;
 INSERT INTO users
   (username,password_hash,role) VALUES
   ('teacher','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_TEACHER');
@@ -8,11 +8,11 @@ INSERT INTO users
   ('student','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
 
 INSERT INTO course
-  (name, description, difficulty) VALUES
-  ('test','this is a test course', 'easy');
+  (name, description, class_size) VALUES
+  ('test','this is a test course', '25');
 
 INSERT INTO teacher (teacher, course) VALUES
-  ((SELECT user_id FROM users WHERE role = 'ROLE_TEACHER'), (SELECT id FROM course WHERE name = 'test'));
+  ((SELECT user_id FROM users WHERE username = 'teacher'), (SELECT id FROM course WHERE name = 'test'));
 
 INSERT INTO student (student, course) VALUES
   ((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM course WHERE name = 'test'));
@@ -20,8 +20,14 @@ INSERT INTO student (student, course) VALUES
 INSERT INTO curriculum
   (course, date, lesson) VALUES
   ((SELECT id FROM course WHERE name='test'), '2020-02-02', 'test curriculum');
+  
+INSERT INTO curriculum
+  (course, date, lesson) VALUES
+  ((SELECT id FROM course WHERE name='second test curriculum'), '2020-02-06', 'test curriculum again?!?!');
 
-INSERT INTO assignment (due_date, questions) VALUES ('2020-02-22', 3);
+INSERT INTO assignment (due_date, questions, course) VALUES ('2020-02-22', 3 , (SELECT id FROM course WHERE name = 'test'));
+INSERT INTO assignment (due_date, questions, course) VALUES ('2020-02-24', 10 , (SELECT id FROM course WHERE name = 'test'));
+
 
 INSERT INTO curriculum
   (course, date, lesson, homework) VALUES
@@ -69,7 +75,6 @@ INSERT INTO message (user_id, read, content) VALUES
   ((SELECT user_id FROM users WHERE username = 'student'), false, 'assignment graded');
 INSERT INTO message (user_id, read, content) VALUES
   ((SELECT user_id FROM users WHERE username = 'student'), true, 'new assignment');
-
 
 COMMIT TRANSACTION;
 
