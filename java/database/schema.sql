@@ -91,6 +91,7 @@ CREATE TABLE curriculum (
 CREATE TABLE assignment (
 	id int DEFAULT nextval('seq_assignment_id'::regclass) NOT NULL,
 	name varchar(64),
+	description varchar(128),
 	created_date date,
 	due_date  date,
 	questions int,
@@ -101,6 +102,7 @@ CREATE TABLE assignment (
 CREATE TABLE question (
 	assignment int NOT NULL,
 	number int NOT NULL,
+	weight int DEFAULT 1 NOT NULL,
 	type varchar(4) NOT NULL,
 	statement varchar(256) NOT NULL,
 	CONSTRAINT PK_question PRIMARY KEY (assignment, number),

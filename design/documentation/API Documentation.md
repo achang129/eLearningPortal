@@ -98,6 +98,7 @@ any path variables) are needed.
 
 * both use an 'AssignmentDTO' object
  * has `name` field containing the assignment name
+ * has `description` field containing the assignment description
  * has `date` field containing the date the work is assigned
  * has `dueDate` field containing the date the work is due
  * has `course` field containing the id of the course the work is being assigned to
@@ -106,6 +107,7 @@ any path variables) are needed.
  * questions have `statement` field containing the text of the question statement
  * questions have `answers` field containing a list of the selectable answers to the question or a list of accepted answers for text questions
  * questions have `correct` field containing a list of true/false values indicating which of the selectable answers is correct (ignored for text questions)
+ * questions have `points` field indicating how many points the question is worth
 
 ### /homework/\{id\}
 

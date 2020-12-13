@@ -7,18 +7,21 @@ import com.techelevator.model.Question;
 
 public class AssignmentDTO {
 	private String name;
+	private String description;
 	private LocalDate date;
 	private LocalDate dueDate;
 	private int course;
 	private Question[] questions;
 	
 	public String getName(){return name;}
+	public String getDescription(){return description;}
 	public LocalDate getDate(){return date;}
 	public LocalDate getDueDate(){return dueDate;}
 	public int getCourse(){return course;}
 	public Question[] getQuestions(){return questions;}
 	
 	public void setName(String name){this.name = name;}
+	public void setDescription(String description){this.description = description;}
 	public void setDate(LocalDate date){this.date = date;}
 	public void setDueDate(LocalDate dueDate){this.dueDate = dueDate;}
 	public void setCourse(int course){this.course = course;}
@@ -26,6 +29,7 @@ public class AssignmentDTO {
 	
 	public AssignmentDTO(){
 		name = "";
+		description = "";
 		date = LocalDate.now();
 		dueDate = LocalDate.now();
 		course = 0;
@@ -34,6 +38,7 @@ public class AssignmentDTO {
 	
 	public AssignmentDTO(Assignment assignment, LocalDate date, int course){
 		name = assignment.getName();
+		description = assignment.getDescription();
 		this.date = date;
 		dueDate = assignment.getDueDate();
 		this.course = course;
