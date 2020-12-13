@@ -5,7 +5,7 @@
         <img src="../assets/assignmentsbanner.png" alt="Homework Banner">
       </header>
       <div class="all-homework">
-        <course-homework />
+        <course-homework v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'/>
       </div>
         <div id="all-homework-page-sidebar">
           <user-sidebar/>

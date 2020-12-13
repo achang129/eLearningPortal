@@ -40,14 +40,14 @@
         </div>
         <br>
         <br>
-        <div>
+        <div v-bind="this.id" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
         <span>Add Assignment</span>
-        <create-homework v-bind="this.id"/>
+        <create-homework/>
         </div>
         <br>
         <br>
       </div>
-      <form class="formtext" v-on:submit.prevent="addCurriculum">
+      <form class="formtext" v-on:submit.prevent="addCurriculum" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
         <label>Date: </label>
         <input type="date" v-model="newDate" class="form-control-date"/> |
         <label>Lesson Plan: </label>

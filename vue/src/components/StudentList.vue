@@ -16,7 +16,7 @@
                     <td>{{student.username}}</td>
                     <td>
                         <input type="checkbox" v-bind:id="student.id" v-bind:value="student.id" 
-                        v-on:change="selectUser($event)"/>
+                        v-on:change="selectUser($event)" class="sendIt"/>
                     </td>
             </tr>
           </tbody>
@@ -55,8 +55,6 @@ export default {
             }
         },
         addSelected() {
-            alert(this.id)
-            alert(this.selectedStudents)
             courseService.addStudentsToCourse(this.id, this.selectedStudents);
         }    
     },
