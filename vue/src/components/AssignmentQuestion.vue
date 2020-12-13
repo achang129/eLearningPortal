@@ -1,20 +1,26 @@
 <template>
   <div>
         <div v-for="(item, questionIndex) in assignment.questions" :key="questionIndex" focusable>
-            <h1 slot="header">{{item.question}}</h1>
-            <div>
+            <h1 slot="header">Question {{questionIndex+1}}:</h1>
+            <form>
                 <div>
+                    <label>Question Statement:</label>
                     <textarea label="Question" :value="item.question"></textarea>
+                    <label>Points:</label>
                     <textarea type="number" label="Points" :value="item.points"></textarea>
                 </div>
                 <div v-for="(answer, answerIndex) in item.answers" :key="answerIndex">
+                    <label>Answer:</label>
                     <textarea label="Answer" :value="answer.answer"></textarea>
-                    <button @click="removeAnswer({question, answer})">Remove</button>
+                    <button @click.prevent="removeAnswer(questionIndex, answerIndex)">Remove</button>
                 </div>
                 <div>
-                    <button v-if="item.answers.length < 5" @click="addAnswer(question)">Add Answer</button>
-                    <button @click="removeQuestion(question)">Remove Question</button>
+                    <button v-if="item.answers.length < 5" @click.prevent="addAnswer(questionIndex)">Add Answer</button>
+                    <button @click.prevent="removeQuestion(questionIndex)">Remove Question</button>
                 </div>
+            </form>
+            <div>
+               
             </div>
         </div>
   </div>

@@ -108,24 +108,19 @@ export default new Vuex.Store({
       state.assignment.description = info.description;
     },
     ADD_ANSWER(state, question) {
-      const answers = state.assignment.questions[question].answers;
-      if (answers.length < 5) {
-        answers.push({
-          answer: '',
-          isCorrect: false
-        })
-      }
+      console.log('hi');
+      state.assignment.questions[question].answers.push({
+        answer: '',
+        isCorrect: false
+      });
     },
-    REMOVE_ANSWER(state, data) {
-      const questionIndex = data.questionIndex;
-      const answerIndex = data.answerIndex;
-      const question = state.assignment.questions[questionIndex];
-      if (question.answers.length > 1) {
-        question.answers.splice(answerIndex, 1);
+    REMOVE_ANSWER(state, question, answer) {
+      if (state.assignment.questions[question].answers.length > 1) {
+        state.assignment.questions[question].answers.splice(answer, 1);
       }
     },
     ADD_QUESTION(state) {
-      state.assignment.questions.push({question: "Question", points: 0, answers:[]})
+      state.assignment.questions.push({question: "Question", points: 1, answers:[]})
     },
     REMOVE_QUESTION(state, question) {
       if (state.assignment.questions.length > 1) {
