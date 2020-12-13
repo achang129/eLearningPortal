@@ -5,7 +5,6 @@
         <img src="../assets/assignmentsbanner.png" alt="Homework Banner">
       </header>
       <div class="all-homework">
-        
         <course-homework />
       </div>
         <div id="all-homework-page-sidebar">
@@ -21,12 +20,8 @@ import CourseHomework from '../components/CourseHomework.vue';
 import LoadingScreen from '../components/LoadingScreen.vue';
 
 export default {
-  components: { UserSidebar, CourseHomework, LoadingScreen },
     name: "homework-list",
-    component: {
-        UserSidebar,
-        CourseHomework
-    },
+    components: { UserSidebar, CourseHomework, LoadingScreen },
     data() {
       return {
         isLoading: true

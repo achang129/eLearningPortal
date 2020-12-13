@@ -31,12 +31,29 @@ export default new Vuex.Store({
       id: null,
       courseId: null,
       title: ''
+    },
+    assignment: {
+      title: '',
+      description: '',
+      questions: [
+        {
+          question: '',
+          points: 10,
+          answers: [
+            {
+              answer: '',
+              isCorrect: false
+            }
+          ]
+        }
+      ]
     }
   },
   getters: {
     getRole: state => {
       return state.user.authorities[0]["name"]
-    }
+    },
+    assignment: ({assignment}) => assignment
   },
   actions: {
 
@@ -83,6 +100,37 @@ export default new Vuex.Store({
       state.messages = state.messages.filter((message) => {
         return message.id !== messageId;
       });
+    },
+    UPDATE_ASSIGNMENT_TITLE(state, info) {
+      state.assignment.title = info.title;
+    },
+    UPDATE_ASSIGNMENT_DESC(state, info) {
+      state.assignment.description = info.description;
+    },
+    ADD_ANSWER(state, question) {
+      const answers = state.assignment.questions[question].answers;
+      if (answers.length < 5) {
+        answers.push({
+          answer: '',
+          isCorrect: false
+        })
+      }
+    },
+    REMOVE_ANSWER(state, data) {
+      const questionIndex = data.questionIndex;
+      const answerIndex = data.answerIndex;
+      const question = state.assignment.questions[questionIndex];
+      if (question.answers.length > 1) {
+        question.answers.splice(answerIndex, 1);
+      }
+    },
+    ADD_QUESTION(state) {
+      state.assignment.questions.push({question: "Question", points: 0, answers:[]})
+    },
+    REMOVE_QUESTION(state, question) {
+      if (state.assignment.questions.length > 1) {
+        state.assignment.questions.splice(question, 1);
+      }
     }
   }
 })

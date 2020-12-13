@@ -1,6 +1,6 @@
 <template>
-    <div id="course-view-grid-container">
-      <loading-screen v-if="isLoading" />
+  <loading-screen v-if="isLoading" />
+    <div id="course-view-grid-container" v-else>
       <header class="courseHeader">
         <img src="../assets/courseDetailsBanner.png" alt="Course Details Banner">
       </header>

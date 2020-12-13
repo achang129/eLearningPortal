@@ -21,7 +21,7 @@ import EditCourse from '../views/EditCourse.vue'
 //HOMEWORK
 import Homework from '../views/Homework.vue'
 import AllHomework from '../views/AllHomework.vue'
-import CreateHomework from '../views/CreateHomework.vue'
+import CreateHomework from '../views/CreateAssignment.vue'
 import EditHomework from '../views/EditHomework.vue'
 
 
