@@ -21,6 +21,7 @@
             </tr>
           </tbody>
       </table>
+      <button type="submit" v-on:submit.prevent v-on:click="addSelected()">Add Selected</button>
   </div>
 </template>
 
@@ -45,7 +46,6 @@ export default {
             });
         },
         selectUser(event) {
-            alert(this.selectedStudents);
             if(event.target.checked) {
                 this.selectedStudents.push(event.target.id);
             }else {
@@ -53,7 +53,11 @@ export default {
                 return student != event.target.id;
                 });
             }
-            alert(this.selectedStudents);
+        },
+        addSelected() {
+            alert(this.id)
+            alert(this.selectedStudents)
+            courseService.addStudentsToCourse(this.id, this.selectedStudents);
         }    
     },
     created() {
