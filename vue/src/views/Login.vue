@@ -1,8 +1,13 @@
 <template>
     <div id="login" class="text-center">
       <!-- <login-register-header /> -->
+      <h1 class="signintext">PARTHENON</h1>
+      <h2 class="descriptiontext">Parthenon is an education organizational tool, designed to be your education center.
+        
+        <br>
+        Our goal is to make organizing and staying on top of your education needs easier. For both students and faculty.
+      </h2>
       <form class="form-signin" @submit.prevent="login">
-        <h1 class="signintext">PARTHENON</h1>
         <div
           class="alert alert-danger"
           role="alert"
@@ -85,6 +90,32 @@ export default {
 </script>
 
 <style>
+#login{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: .2fr .2fr .2fr;
+  grid-template-areas: 
+  ". parthenontext login"
+  ". description ."
+  ". gif .";
+}
+
+.descriptiontext{
+  border: solid black;
+  font-size: 2em;
+  width: 100vh;
+  
+  grid-area: description;
+}
+
+.form-signin{
+  width: fit-content;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  margin-left: 70px;
+  grid-area: login;
+}
+
 .signinbtn {
 	box-shadow:inset 0px 1px 0px 0px #000000;
 	background:linear-gradient(to bottom, #e6c2bf 5%, #ff6d63 100%);
@@ -124,7 +155,7 @@ export default {
   background-color: white;
   box-sizing: border-box;
   -webkit-appearance: none;
-  width: 10%;
+  width: 110%;
   border: solid #e6c2bf;
   font-family: inherit;
   padding: 0;
@@ -140,6 +171,7 @@ export default {
   color: black;
   text-shadow: -1px -1px 0 #e6c2bf, 1px -1px 0 #e6c2bf, -1px 1px 0 #e6c2bf, 1px 1px 0 #e6c2bf;
   font-size: 70px;
+  grid-area: parthenontext;
 }
 
 .needacc-link{
@@ -150,12 +182,9 @@ export default {
 .login-register-gif{
   margin-top: 25px;
   width: fit-content;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   border: solid;
   border-color: #e6c2bf;
+  grid-area: gif;
 }
 
 
