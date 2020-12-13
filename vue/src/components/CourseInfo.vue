@@ -42,7 +42,7 @@
         <br>
         <div v-bind="this.id" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
         <span>Add Assignment</span>
-        <create-homework/>
+        <create-homework v-bind:id="this.id"/>
         </div>
         <br>
         <br>
