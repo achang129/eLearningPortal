@@ -3,8 +3,8 @@
     <router-link v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' 
       v-bind:to="{ name: 'create-course' }">Add Course</router-link>&nbsp;
     <div v-for="course in this.courses" v-bind:key="course.id" class="course-values">
-       <h3 class="courseheaders">{{ course.name }} --- {{ course.classSize }} </h3>
-       <p>{{course.description}}</p>
+       <h3 class="courseheaders">{{ course.name }} (ID: {{course.id}}) </h3>
+       <p id="course-description-summary">{{course.description}}</p>
         
         
         <router-link class="main-link" :to="{ name: 'course', params: {id: course.id} }">View Details</router-link>
@@ -88,6 +88,7 @@ export default {
     text-align: center;
     position: relative;
     font-size: 20px;
+    font-variant-caps: petite-caps;
     border: solid black;
     display: flex;
     flex-direction: column;
@@ -95,14 +96,21 @@ export default {
     margin-right: 10px;
     margin-left: 10px;
     border-radius: 20px;
-    background-color:#e6c2bf;
+    background-color:#d69089;
+    opacity: 80%;
   }
 
   .course-values p{
     margin-left: 5px;
   }
+  #course-description-summary {
+    font-style: italic;
+    font-size: 18px;
+    font-variant-caps: unicase;
+  }
 
   .course-values:nth-child(even){
-    background-color: lightgreen;
+    background-color: rgb(83, 189, 83);
+    opacity: 80%;
   }
 </style>
