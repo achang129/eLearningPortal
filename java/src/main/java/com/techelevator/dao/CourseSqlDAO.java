@@ -64,13 +64,13 @@ public class CourseSqlDAO implements CourseDAO {
 
 	@Override
 	public boolean addTeacher(int course, int teacher) {
-		String sql = "INSERT into teacher (teacher, course) VALUES (?, ?)";
+		String sql = "INSERT into teacher (course, teacher) VALUES (?, ?)";
 		return jdbcTemplate.update(sql, course, teacher) == 1;
 	}
 
 	@Override
 	public boolean addStudent(int course, int student) {
-		String sql = "INSERT into student (student, course) VALUES (?, ?)";
+		String sql = "INSERT into student (course, student) VALUES (?, ?)";
 		return jdbcTemplate.update(sql, course, student) ==1;
 	}
 

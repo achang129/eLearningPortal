@@ -35,6 +35,7 @@ export default {
             selectedStudents: []
         }
     },
+    props: ["id"],
     methods: {
         displayAllStudents() {
             courseService.listStudents().then(response => {
@@ -44,13 +45,15 @@ export default {
             });
         },
         selectUser(event) {
+            alert(this.selectedStudents);
             if(event.target.checked) {
-                this.selectedStudents.push(parseInt(event.target.id));
+                this.selectedStudents.push(event.target.id);
             }else {
                 this.selectedStudents = this.selectedStudents.filter(student => {
-                return student != parseInt(event.target.id);
+                return student != event.target.id;
                 });
             }
+            alert(this.selectedStudents);
         }    
     },
     created() {
