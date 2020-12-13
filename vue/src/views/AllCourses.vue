@@ -39,13 +39,9 @@ export default {
 <style>
 
 .all-courses {
-  
-  margin-top: 8px;
   height: 92%;
   width: 81.1%;
   padding-left: 0px;
-  border: solid black;
-  border-width:thick;
   grid-area: allcourses;
   font-family: Georgia, 'Times New Roman', Times, serif;
   padding-top: 20px;
