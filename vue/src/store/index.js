@@ -110,8 +110,6 @@ export default new Vuex.Store({
       });
     },
     REMOVE_ANSWER(state, index) {
-      console.log(index.question);
-      console.log(index.answer);
       if (state.assignment.questions[index.question].answers.length > 1) {
         state.assignment.questions[index.question].answers.splice(index.answer, 1);
       }
