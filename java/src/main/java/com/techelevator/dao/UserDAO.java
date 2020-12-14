@@ -21,4 +21,12 @@ public interface UserDAO {
     int findIdByUsername(String username);
 	/**Creates a new user with the given username, password, and role, returning true if successful and false otherwise.*/
     boolean create(String username, String password, String role);
+    //will return all students that are NOT already in a course
+	User[] findAllUnchosenStudents(Long courseId);
+	//will return all students that are NOT already in a course
+	User[] findAllUnchosenTeachers(Long courseId);
+	//will return all enrolled students
+	User[] findAllEnrolledStudents(Long courseId);
+	//will return all enrolled teachers
+	User[] findAllEnrolledTeachers(Long courseId);
 }

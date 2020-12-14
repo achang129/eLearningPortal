@@ -9,12 +9,12 @@
     </div>
     <div id="user-select-section">
       <div id="teacher-select-section">
-        <button id="add-teacher-student-click" @click="toggleTeacher()">Click to add teachers</button>
+        <button id="add-teacher-student-click" @click="toggleTeacher()">Click to add/view/remove teachers</button>
         <select-teacher v-bind:id=this.id v-show="this.showSectionTeacher"
             v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' />
       </div>
       <div id="student-select-section">
-        <button id="add-teacher-student-click"  @click="toggleStudent()">Click to add students</button>
+        <button id="add-teacher-student-click"  @click="toggleStudent()">Click to add/view/remove students</button>
         <student-list v-bind:id=this.id v-show="this.showSectionStudent"
             v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'/>
       </div>

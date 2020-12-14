@@ -1,22 +1,34 @@
 <template>
     <div id="select-teacher-course-grid">
+        <div id="enrolled-teacher-roster">
+            <p @click="this.toggleEnrolled()">Already Enrolled Teachers: </p>
+            <ul v-for="enrolledTeacher in this.enrolledTeachers" v-bind:key="enrolledTeacher.id"
+            v-show="showEnrolledTeachers" id="actual-enrolled-teacher-list" >
+                <li class="enrolled-teacher-list">
+                    {{enrolledTeacher.id}}--
+                    {{enrolledTeacher.username}}
+                    <button type="checkbox" v-bind:id="enrolledTeacher.id" v-bind:value="enrolledTeacher.id" 
+                        v-on:change="removeUser($event)" class="removeIt">REMOVE</button>
+                </li>
+            </ul>
+        </div>
         <table id="select-teacher-for-course">
-            <caption>Select Teacher for course</caption>
+            <caption id="box-choice-heading">Select Teacher for course</caption>
             <thead>
                 <tr class="table-rows-teacher-list">
+                    <th>SELECT</th>
                     <th>TEACHER ID</th>
                     <th>TEACHER NAME</th>
-                    <th>SELECT TEACHER</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="teacher in this.teachers" v-bind:key="teacher.id">
-                    <td>{{teacher.id}}</td>
-                    <td>{{teacher.username}}</td>
                     <td>
                         <input type="checkbox" v-bind:id="teacher.id" v-bind:value="teacher.id" 
                         v-on:change="selectUser($event)" class="sendIt"/>
                     </td>
+                    <td>{{teacher.id}}</td>
+                    <td>{{teacher.username}}</td>
                 </tr>
             </tbody>
         </table>
@@ -34,21 +46,31 @@ export default {
     data() {
         return {
             teachers: [],
-            selectedTeachers: []
+            selectedTeachers: [],
+            enrolledTeachers: [],
+            showEnrolledTeachers: true
         }
     },
     methods: {
+        toggleEnrolled(){
+            this.showEnrolledTeachers = !this.showEnrolledTeachers;
+        },
         displayAllTeachers(){
-            courseService.listTeachers().then(response=>{
-                response.data.forEach(teacher=>{
+            courseService.listUnchosenTeachers(this.id).then(response=>{
+                response.data.forEach(teacher => {
                     this.teachers.push(teacher);
                     });
+            });
+            courseService.listEnrolledTeachers(this.id).then(response=> {
+                response.data.forEach(theTeacher => {
+                    this.enrolledTeachers.push(theTeacher);
+                });
             });
         },
         selectUser(event) {
             if(event.target.checked) {
                 this.selectedTeachers.push(event.target.id);
-            }else {
+            } else {
                 this.selectedTeachers = this.selectedTeachers.filter(teacher => {
                 return teacher != event.target.id;
                 });
@@ -56,9 +78,10 @@ export default {
         },
         addSelected() {
             courseService.addTeacherToCourse(this.id, this.selectedTeachers);
+            this.$forceUpdate();
         }
     },  
-    created(){
+    mounted() {
         this.displayAllTeachers();
     }
 }
@@ -80,6 +103,22 @@ export default {
   color: #000000;
   font-weight: 700;
   font-style: normal;
+}
+
+#box-choice-heading{
+    font-size:28px;
+    font-variant-caps: all-petite-caps;
+    font-weight: bolder;
+}
+
+#actual-enrolled-teacher-list{
+    font-size: 15px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#enrolled-teacher-list{
+    font-size: 13px;
 }
 
 </style>
