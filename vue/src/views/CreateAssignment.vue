@@ -1,12 +1,10 @@
 <template>
   <div>
-    <h2>Assignment Information</h2>
-      <textarea label="Title" cols="30"></textarea>
-      <textarea label="Description" cols="30" rows="10" style="display: flex"></textarea>
+    <h1>Assignment Information</h1>
       <assignment-info /> 
-    <h3>Assignment Questions</h3>
+    <h1>Assignment Questions</h1>
       <assignment-question />
-      <create-question :action="createAssignment" actionName="Create" />
+      <create-question />
   </div>   
 </template>
 

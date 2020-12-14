@@ -53,7 +53,9 @@ export default new Vuex.Store({
     getRole: state => {
       return state.user.authorities[0]["name"]
     },
-    assignment: ({assignment}) => assignment
+    assignment: ({assignment}) => assignment,
+    assignmentArray: ({assignmentArray}) => assignmentArray,
+    setAssignment: ({setAssignment}) => setAssignment
   },
   actions: {
 
@@ -108,24 +110,67 @@ export default new Vuex.Store({
       state.assignment.description = info.description;
     },
     ADD_ANSWER(state, question) {
-      console.log('hi');
       state.assignment.questions[question].answers.push({
         answer: '',
         isCorrect: false
       });
     },
     REMOVE_ANSWER(state, question, answer) {
+      alert(question)
+      alert(answer)
       if (state.assignment.questions[question].answers.length > 1) {
         state.assignment.questions[question].answers.splice(answer, 1);
       }
     },
+    UPDATE_ANSWER_STATE(state, questionIndex, answerIndex) {
+      if (state.assignment.questions[questionIndex].answers[answerIndex].isCorrect == false) {
+        state.assignment.questions[questionIndex].answers[answerIndex].isCorrect = true;
+      } else {
+        state.assignment.questions[questionIndex].answers[answerIndex].isCorrect = false;
+      }
+    },
+    UPDATE_ANSWER_TEXT(state, questionIndex, answerIndex, data) {
+      const answerText = data.answer;
+      const answer = state.assignment.questions[questionIndex].answers[answerIndex];
+      answer.answer = answerText;
+    },
     ADD_QUESTION(state) {
-      state.assignment.questions.push({question: "Question", points: 1, answers:[]})
+      state.assignment.questions.push({question: "", points: 10, answers:[]})
     },
     REMOVE_QUESTION(state, question) {
       if (state.assignment.questions.length > 1) {
         state.assignment.questions.splice(question, 1);
       }
+    },
+    UPDATE_QUESTION_TITLE(state, questionIndex) {
+      const question = state.assignment.questions[questionIndex];
+      question.question = question.title;
+    },
+    UPDATE_QUESTION_POINTS(state, questionIndex) {
+      const question = state.assignment.questions[questionIndex];
+      question.points = this.questions[questionIndex].points;
+    },
+    RESET_ASSIGNMENT(state) {
+      state.assignment = {
+        title: '',
+        description: '',
+        questions: [
+        {
+          question: '',
+          points: 10,
+          answers: [
+          {
+            answer: '',
+            isCorrect: false
+          }
+          ]
+        }
+        ]
+      }
+    },
+    SET_ASSIGNMENTS(state, data) {
+      console.log(data);
+      data.forEach((assignment)=>{state.assignments.push(assignment);});
     }
   }
 })

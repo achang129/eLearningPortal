@@ -1,13 +1,19 @@
 <template>
     <div>
-        <h1>{{ assignment.title }}</h1>
-        <h2>{{ assignment.description }}</h2>
+        <div>
+            <label>Title:</label>
+            <textarea v-model="assignment.title" label="Title" cols="30"></textarea>
+        </div>
+        <div>
+            <label>Description:</label>
+            <textarea v-model="assignment.description" label="Description" cols="30" rows="10" style="display: flex"></textarea>
+        </div>
     </div>
 </template>
 
 <script>
   export default {
-    name: "assignment-information",
+    name: "assignment-info",
     data() {
         return {
             assignment: this.$store.state.assignment
