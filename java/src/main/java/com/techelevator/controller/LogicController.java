@@ -312,6 +312,30 @@ public class LogicController {
 			return new User[0];
 		}
 	}
+	@RequestMapping(value = "/users/{role}/{courseid}", method = RequestMethod.GET)
+	public User[] getUnchosenUsersByRole(@PathVariable("role") String role, @PathVariable("courseid") int course, Principal p){
+		String fullRole = "ROLE_" + role.toUpperCase();
+		switch(fullRole){
+		case STUDENT:
+			return userDAO.findAllUnchosenStudents(new Long(course));
+		case TEACHER:
+			return userDAO.findAllUnchosenTeachers(new Long(course));
+		default:
+			return new User[0];
+		}
+	}
+	@RequestMapping(value = "/{courseid}/enrolled/{role}", method = RequestMethod.GET)
+	public User[] getChosenUsersByRole(@PathVariable("role") String role, @PathVariable("courseid") int course, Principal p){
+		String fullRole = "ROLE_" + role.toUpperCase();
+		switch(fullRole){
+		case STUDENT:
+			return userDAO.findAllEnrolledStudents(new Long(course));
+		case TEACHER:
+			return userDAO.findAllEnrolledTeachers(new Long(course));
+		default:
+			return new User[0];
+		}
+	}
 	
 	private int getID(Principal p){
 		return userDAO.findIdByUsername(p.getName());

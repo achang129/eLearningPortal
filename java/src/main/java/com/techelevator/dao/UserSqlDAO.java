@@ -154,5 +154,64 @@ public class UserSqlDAO implements UserDAO {
         return user;
     }
 
+	@Override
+	public User[] findAllUnchosenStudents(Long courseId) {
+		List<User> results = new ArrayList<User>();
+		String sql =  "SELECT DISTINCT a.user_id, a.username, a.password_hash, a.role FROM users a INNER JOIN student b "
+				+ "ON b.student=a.user_id WHERE (a.user_id NOT IN (SELECT b.student FROM student b WHERE b.course=?)) AND a.role='ROLE_USER' ORDER BY a.user_id ASC";
+		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, courseId);
+		
+		while(rowSet.next()) {
+			results.add(mapRowToUser(rowSet));
+		}
+
+        return results.toArray(new User[0]);
+	}
+
+	@Override
+	public User[] findAllUnchosenTeachers(Long courseId) {
+		List<User> results = new ArrayList<User>();
+		String sql =  "SELECT DISTINCT a.user_id, a.username, a.password_hash, a.role FROM users a INNER JOIN teacher b "
+				+ "ON b.teacher=a.user_id WHERE (a.user_id NOT IN (SELECT b.teacher FROM teacher b WHERE b.course=?)) AND a.role='ROLE_TEACHER' ORDER BY a.user_id ASC";
+		
+		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, courseId);
+		
+		while(rowSet.next()) {
+			results.add(mapRowToUser(rowSet));
+		}
+
+        return results.toArray(new User[0]);
+	}
+
+	@Override
+	public User[] findAllEnrolledStudents(Long courseId) {
+		List<User> results = new ArrayList<User>();
+		String sql = "SELECT DISTINCT a.user_id, a.username, a.password_hash, a.role FROM users a INNER JOIN student b " + 
+				"ON b.student=a.user_id WHERE b.course=? AND a.role='ROLE_USER' ORDER BY a.user_id ASC";
+		
+		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, courseId);
+		
+		while(rowSet.next()) {
+			results.add(mapRowToUser(rowSet));
+		}
+
+        return results.toArray(new User[0]);
+	}
+
+	@Override
+	public User[] findAllEnrolledTeachers(Long courseId) {
+		List<User> results = new ArrayList<User>();
+		String sql = "SELECT DISTINCT a.user_id, a.username, a.password_hash, a.role FROM users a INNER JOIN teacher b " + 
+				"ON b.teacher=a.user_id WHERE b.course=? AND a.role='ROLE_TEACHER' ORDER BY a.user_id ASC;";
+		
+		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, courseId);
+		
+		while(rowSet.next()) {
+			results.add(mapRowToUser(rowSet));
+		}
+
+        return results.toArray(new User[0]);
+	}
+
 	
 }

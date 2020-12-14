@@ -8,8 +8,16 @@
       <div>Cost: {{course.cost}}</div>
     </div>
     <div id="user-select-section">
-      <select-teacher v-bind:id=this.id v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' />
-      <student-list v-bind:id=this.id v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'/>
+      <div id="teacher-select-section">
+        <button id="add-teacher-student-click" @click="toggleTeacher()">Click to add/view/remove teachers</button>
+        <select-teacher v-bind:id=this.id v-show="this.showSectionTeacher"
+            v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' />
+      </div>
+      <div id="student-select-section">
+        <button id="add-teacher-student-click"  @click="toggleStudent()">Click to add/view/remove students</button>
+        <student-list v-bind:id=this.id v-show="this.showSectionStudent"
+            v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'/>
+      </div>
     </div>
     <div class="daily">
       <div id="curricula-container">
@@ -76,7 +84,8 @@ export default {
       newLesson: "",
       newDate: new Date(),
       emptyCurriculum: false,
-      showCourseForm: false
+      showSectionTeacher: false,
+      showSectionStudent: false
     }
   },
   computed: {
@@ -89,6 +98,12 @@ export default {
     }
   },
   methods: {
+    toggleTeacher(){
+      this.showSectionTeacher = !this.showSectionTeacher;
+    }, 
+    toggleStudent(){
+      this.showSectionStudent = !this.showSectionStudent;
+    },
     getCoursework() {
       courseService.getCoursework(this.id).then(response => {
         this.course = response.data;
@@ -175,6 +190,10 @@ export default {
 .courseButton:active {
 	position:relative;
 	top:1px;
+}
+#add-teacher-student-click {
+  color:mediumturquoise;
+  font-size: 25px;
 }
 
 .form-control-date {
