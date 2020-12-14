@@ -11,12 +11,14 @@ export default{
     listTeachers() {
         return http.get('/users/teacher');
     },
-    addTeacherToCourse(course, user){
-        let assignment = {
-            'course': course,
-            'user': user
-        };
-        return http.put('/courses', assignment)
+    addTeacherToCourse(course, teachers){
+        teachers.forEach((teacher)=>{
+            let assignment = {
+                'course': course,
+                'user': teacher
+            };
+            http.put('/courses', assignment);
+        });
     },
     addStudentsToCourse(course, students){
         students.forEach((student)=>{

@@ -14,13 +14,13 @@
                     <td>{{teacher.id}}</td>
                     <td>{{teacher.username}}</td>
                     <td>
-                        <a href='#' 
-                        @click.prevent="addTeacherToCourse(teacher.id)
-                        ">Add teacher to course</a>
+                        <input type="checkbox" v-bind:id="teacher.id" v-bind:value="teacher.id" 
+                        v-on:change="selectUser($event)" class="sendIt"/>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <button type="submit" v-on:submit.prevent v-on:click="addSelected()">Add Teacher</button>
     </div>
 </template>
 
@@ -45,10 +45,19 @@ export default {
                     });
             });
         },
-        addTeacherToCourse(teacher) {
-            courseService.addTeacherToCourse(this.id, teacher);
+        selectUser(event) {
+            if(event.target.checked) {
+                this.selectedTeachers.push(event.target.id);
+            }else {
+                this.selectedTeachers = this.selectedTeachers.filter(teacher => {
+                return teacher != event.target.id;
+                });
+            }
+        },
+        addSelected() {
+            courseService.addTeacherToCourse(this.id, this.selectedTeachers);
         }
-    },
+    },  
     created(){
         this.displayAllTeachers();
     }

@@ -1,6 +1,6 @@
 <template>
   <div id="select-student-course-grid">
-      <table>
+      <table id="select-student-for-course">
       <caption>Select Student for Course</caption>
           <thead>
             <tr>
@@ -21,7 +21,7 @@
             </tr>
           </tbody>
       </table>
-      <button type="submit" v-on:submit.prevent v-on:click="addSelected()">Add Selected</button>
+      <button type="submit" v-on:submit.prevent v-on:click="addSelected()">Add Student</button>
   </div>
 </template>
 
@@ -30,13 +30,14 @@ import courseService from '../services/CourseService';
 
 export default {
     name: 'student-list',
+    props: ["id"],
+    components: {},
     data() {
         return {
             students: [],
             selectedStudents: []
         }
     },
-    props: ["id"],
     methods: {
         displayAllStudents() {
             courseService.listStudents().then(response => {
