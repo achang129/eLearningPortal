@@ -62,15 +62,14 @@ export default {
   margin-bottom: 0px;
 }
 
-.course-values router-link{
+.main-link::before{
   display: block;
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 900%;
   top: 0;
   left: 0;
   text-decoration: none; 
-  z-index: 10; 
 }
 
   /* #all-courses-table-container{
