@@ -21,7 +21,7 @@ import EditCourse from '../views/EditCourse.vue'
 //HOMEWORK
 import Homework from '../views/Homework.vue'
 import AllHomework from '../views/AllHomework.vue'
-import CreateHomework from '../views/CreateAssignment.vue'
+import CreateAssignment from '../views/CreateAssignment.vue'
 import EditHomework from '../views/EditHomework.vue'
 
 
@@ -129,7 +129,7 @@ const router = new Router({
     {
       path: 'courses/:id/homework/create',
       name: 'create-homework',
-      component: CreateHomework,
+      component: CreateAssignment,
       meta: {
         requiresAuth: true
         //TRUE

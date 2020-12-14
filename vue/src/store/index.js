@@ -130,10 +130,6 @@ export default new Vuex.Store({
         state.assignment.questions.splice(question, 1);
       }
     },
-    UPDATE_QUESTION_POINTS(state, questionIndex) {
-      const question = state.assignment.questions[questionIndex];
-      question.points = this.questions[questionIndex].points;
-    },
     BLANK_ASSIGNMENT(state) {
       state.assignment = {
         title: '',
