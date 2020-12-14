@@ -103,12 +103,6 @@ export default new Vuex.Store({
         return message.id !== messageId;
       });
     },
-    UPDATE_ASSIGNMENT_TITLE(state, info) {
-      state.assignment.title = info.title;
-    },
-    UPDATE_ASSIGNMENT_DESC(state, info) {
-      state.assignment.description = info.description;
-    },
     ADD_ANSWER(state, question) {
       state.assignment.questions[question].answers.push({
         answer: '',
