@@ -1,38 +1,21 @@
 <template>
     <div id="select-teacher-course-grid">
-        <div id="enrolled-teacher-roster">
-            <p @click="this.toggleEnrolled()">Already Enrolled Teachers: </p>
-            <ul v-for="enrolledTeacher in this.enrolledTeachers" v-bind:key="enrolledTeacher.id"
-            v-show="showEnrolledTeachers" id="actual-enrolled-teacher-list" >
-                <li class="enrolled-teacher-list">
-                    {{enrolledTeacher.id}}--
-                    {{enrolledTeacher.username}}
-                    <button type="checkbox" v-bind:id="enrolledTeacher.id" v-bind:value="enrolledTeacher.id" 
-                        v-on:change="removeUser($event)" class="removeIt">REMOVE</button>
-                </li>
-            </ul>
-        </div>
         <table id="select-teacher-for-course">
             <caption id="box-choice-heading">Select Teacher for course</caption>
             <thead>
                 <tr class="table-rows-teacher-list">
-                    <th>SELECT</th>
-                    <th>TEACHER ID</th>
-                    <th>TEACHER NAME</th>
+                    <th>Teacher</th>
+                    <th>Assign</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="teacher in this.teachers" v-bind:key="teacher.id">
-                    <td>
-                        <input type="checkbox" v-bind:id="teacher.id" v-bind:value="teacher.id" 
-                        v-on:change="selectUser($event)" class="sendIt"/>
-                    </td>
-                    <td>{{teacher.id}}</td>
-                    <td>{{teacher.username}}</td>
+                    <td>{{teacher.name}}</td>
+                    <td><button :disabled='teacher.id==assigned' v-on:click.prevent='assignTeacher(teacher.id)'>Assign</button></td>
                 </tr>
             </tbody>
         </table>
-        <button type="submit" v-on:submit.prevent v-on:click="addSelected()">Add Teacher</button>
+        <button type="submit" v-on:submit.prevent v-on:click="commit()">Save Changes</button>
     </div>
 </template>
 
@@ -46,38 +29,27 @@ export default {
     data() {
         return {
             teachers: [],
-            selectedTeachers: [],
-            enrolledTeachers: [],
-            showEnrolledTeachers: true
+            assigned: 0
         }
     },
     methods: {
-        toggleEnrolled(){
-            this.showEnrolledTeachers = !this.showEnrolledTeachers;
-        },
         displayAllTeachers(){
-            courseService.listUnchosenTeachers(this.id).then(response=>{
-                response.data.forEach(teacher => {
-                    this.teachers.push(teacher);
-                    });
+            courseService.listTeachers(this.id).then(response=>{
+                this.teachers = response.data
             });
-            courseService.listEnrolledTeachers(this.id).then(response=> {
-                response.data.forEach(theTeacher => {
-                    this.enrolledTeachers.push(theTeacher);
-                });
+            courseService.listAssignedTeachers(this.id).then(response=> {
+                if(response.data.length > 0){
+                    this.assigned = response.data[0].id;
+                }else{
+                    this.assigned = 0;
+                }
             });
         },
-        selectUser(event) {
-            if(event.target.checked) {
-                this.selectedTeachers.push(event.target.id);
-            } else {
-                this.selectedTeachers = this.selectedTeachers.filter(teacher => {
-                return teacher != event.target.id;
-                });
-            }
+        assignTeacher(id) {
+            this.assigned = id;
         },
-        addSelected() {
-            courseService.addTeacherToCourse(this.id, this.selectedTeachers);
+        commit(){
+            courseService.assignToCourse(this.id, [this.assigned]);
             this.$forceUpdate();
         }
     },  

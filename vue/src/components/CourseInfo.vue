@@ -43,7 +43,7 @@
         </table>
         <div id="empty-message">
           <br>~~~<br>
-          <p v-show="this.curricula.length==0">Looks Like There are No Lessons So Far!</p>
+          <p v-show="this.course.curricula.length==0">Looks Like There are No Lessons So Far!</p>
           <br>~~~<br>
         </div>
         <br>
@@ -80,10 +80,16 @@ export default {
   data() {
     return {
       errorMsg: "",
-      course: [],
+      course: {
+        'name': "",
+        'description': "",
+        'difficulty': "",
+        'cost': 0,
+        'dates': [],
+        'curricula': []
+      },
       newLesson: "",
       newDate: new Date(),
-      emptyCurriculum: false,
       showSectionTeacher: false,
       showSectionStudent: false
     }
@@ -106,10 +112,8 @@ export default {
     },
     getCoursework() {
       courseService.getCoursework(this.id).then(response => {
-        this.course = response.data;
-        if (isNaN(this.course[0])){
-          //NaN == Not a Number i.e. an empty array
-          this.emptyCurriculum=true;
+        if(response.status==201){
+          this.course = response.data;
         }
       });
     },

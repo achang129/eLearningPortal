@@ -1,34 +1,28 @@
 <template>
   <div id="select-student-course-grid">
-      <div id="enrolled-student-roster">
-            <p @click="this.toggleEnrolled()">Already Enrolled Students: </p>
-            <ul v-for="enrolledStudent in enrolledStudents" v-bind:key="enrolledStudent.id"
-            v-show="showEnrolledStudents" id="actual-enrolled-student-list">
-                <li class="enrolled-student-list">{{enrolledStudent.id}}--{{enrolledStudent.username}}</li>
-            </ul>
-        </div>
       <table id="select-student-for-course">
       <caption id="box-choice-heading">Select Student for Course</caption>
           <thead>
             <tr>
-                <th>SELECT</th>
-                <th>STUDENT ID</th>
-                <th>STUDENT NAME</th>
+                <th>Student</th>
+                <th>Assign</th>
+                <th>Remove</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="student in students" 
+            <tr v-for="(student,index) in students" 
                 v-bind:key="student.id">
+                    <td>{{student.name}}</td>
                     <td>
-                        <input type="checkbox" v-bind:id="student.id" v-bind:value="student.id" 
-                        v-on:change="selectUser($event)" class="sendIt"/>
+                        <button :disabled='student.enrolled' v-on:click.prevent='addStudent(index)'>Add</button>
                     </td>
-                    <td>{{student.id}}</td>
-                    <td>{{student.username}}</td>
+                    <td>
+                        <button :disabled='!student.enrolled' v-on:click.prevent='removeStudent(index)'>Remove</button>
+                    </td>
             </tr>
           </tbody>
       </table>
-      <button type="submit" v-on:submit.prevent v-on:click="addSelected()">Add Student</button>
+      <button type="submit" v-on:submit.prevent v-on:click="commit()">Save Changes</button>
   </div>
 </template>
 
@@ -42,40 +36,49 @@ export default {
     data() {
         return {
             students: [],
-            selectedStudents: [],
-            enrolledStudents: [],
-            showEnrolledStudents: true
+            added: [],
+            removed: []
         }
     },
     methods: {
-        toggleEnrolled(){
-            this.showEnrolledStudents = !this.showEnrolledStudents;
-        },
         displayAllStudents() {
-            courseService.listUnchosenStudents(this.id).then(response => {
-                response.data.forEach(student => {
-                    this.students.push(student);
-                });
+            let raw = [];
+            courseService.listStudents(this.id).then(response => {
+                 raw = response.data;
             });
-            courseService.listEnrolledStudents(this.id).then(response=> {
-                response.data.forEach(theStudent => {
-                    this.enrolledStudents.push(theStudent);
+            courseService.listAssignedStudents(this.id).then(response =>{
+                this.students = raw.map((student)=>{
+                    let en = false;
+                    response.data.forEach((s)=>{
+                        if(s.id==student.id){en=true;}
+                    });
+                    return {
+                        'name': student.name,
+                        'id': student.id,
+                        'enrolled': en
+                    };
                 });
             });
         },
-        selectUser(event) {
-            if(event.target.checked) {
-                this.selectedStudents.push(event.target.id);
-            } else {
-                this.selectedStudents = this.selectedStudents.filter(student => {
-                return student != event.target.id;
-                });
-            }
+        addStudent(index) {
+            let id = this.students[index].id;
+            if(!this.added.includes(id)){this.added.push(id);}
+            if(this.removed.includes(id)){this.removed.splice(index,1);}
+            this.students[index].enrolled = true;
         },
-        addSelected() {
-            courseService.addStudentsToCourse(this.id, this.selectedStudents);
+        removeStudent(index) {
+            let id = this.students[index].id;
+            if(!this.removed.includes(id)){this.removed.push(id);}
+            if(this.added.includes(id)){this.added.splice(index,1);}
+            this.students[index].enrolled = false;
+        },
+        commit(){
+            courseService.assignToCourse(this.id, this.added);
+            courseService.removeFromCourse(this.id, this.removed);
+            this.added = [];
+            this.removed = [];
             this.$forceUpdate();
-        }    
+        }
     },
     mounted() {
         this.displayAllStudents();

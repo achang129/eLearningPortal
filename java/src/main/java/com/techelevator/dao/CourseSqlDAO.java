@@ -75,6 +75,18 @@ public class CourseSqlDAO implements CourseDAO {
 	}
 
 	@Override
+	public boolean removeTeacher(int course, int teacher) {
+		String sql = "DELETE FROM teacher WHERE course = ? AND teacher = ?";
+		return jdbcTemplate.update(sql, course, teacher) ==1;
+	}
+
+	@Override
+	public boolean removeStudent(int course, int student) {
+		String sql = "DELETE FROM student WHERE course = ? AND student = ?";
+		return jdbcTemplate.update(sql, course, student) ==1;
+	}
+
+	@Override
 	public Course getCourseById(int id) {
 		String sql = "SELECT * FROM course WHERE id = ?";
 		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id);

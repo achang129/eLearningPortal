@@ -21,6 +21,7 @@ import com.techelevator.dto.CourseAssignmentDTO;
 import com.techelevator.dto.CourseDTO;
 import com.techelevator.dto.CurriculumDTO;
 import com.techelevator.dto.GradeDTO;
+import com.techelevator.dto.UserDTO;
 import com.techelevator.dto.CourseDetailsDTO;
 import com.techelevator.dto.CourseGradeDTO;
 import com.techelevator.errors.CurriculumDateException;
@@ -97,6 +98,18 @@ public class LogicController {
 				return courseDAO.addStudent(assignment.getCourse(), assignment.getUser());
 			default:
 				throw new IncorrectRoleException(role, "join course");
+		}
+	}
+	@RequestMapping(value = "/courses/remove", method = RequestMethod.PUT)
+	public boolean removeFromCourse(@RequestBody CourseAssignmentDTO assignment, Principal p) throws IncorrectRoleException{
+		String role = userDAO.getRoleById(new Long(assignment.getUser()));
+		switch(role){
+			case TEACHER:
+				return courseDAO.removeTeacher(assignment.getCourse(), assignment.getUser());
+			case STUDENT:
+				return courseDAO.removeStudent(assignment.getCourse(), assignment.getUser());
+			default:
+				throw new IncorrectRoleException(role, "leave course");
 		}
 	}
 	
@@ -296,12 +309,12 @@ public class LogicController {
 	}
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public User[] getUsers(Principal p){
+	public UserDTO[] getUsers(Principal p){
 		return userDAO.findAll();
 	}
 
 	@RequestMapping(value = "/users/{role}", method = RequestMethod.GET)
-	public User[] getUsersByRole(@PathVariable("role") String role, Principal p){
+	public UserDTO[] getUsersByRole(@PathVariable("role") String role, Principal p){
 		String fullRole = "ROLE_" + role.toUpperCase();
 		switch(fullRole){
 		case STUDENT:
@@ -309,11 +322,11 @@ public class LogicController {
 		case TEACHER:
 			return userDAO.findAllTeachers();
 		default:
-			return new User[0];
+			return new UserDTO[0];
 		}
 	}
 	@RequestMapping(value = "/users/{role}/{courseid}", method = RequestMethod.GET)
-	public User[] getUnchosenUsersByRole(@PathVariable("role") String role, @PathVariable("courseid") int course, Principal p){
+	public UserDTO[] getUnchosenUsersByRole(@PathVariable("role") String role, @PathVariable("courseid") int course, Principal p){
 		String fullRole = "ROLE_" + role.toUpperCase();
 		switch(fullRole){
 		case STUDENT:
@@ -321,11 +334,11 @@ public class LogicController {
 		case TEACHER:
 			return userDAO.findAllUnchosenTeachers(new Long(course));
 		default:
-			return new User[0];
+			return new UserDTO[0];
 		}
 	}
-	@RequestMapping(value = "/{courseid}/enrolled/{role}", method = RequestMethod.GET)
-	public User[] getChosenUsersByRole(@PathVariable("role") String role, @PathVariable("courseid") int course, Principal p){
+	@RequestMapping(value = "/enrollment/{courseid}/{role}", method = RequestMethod.GET)
+	public UserDTO[] getEnrolledUsersByRole(@PathVariable("role") String role, @PathVariable("courseid") int course, Principal p){
 		String fullRole = "ROLE_" + role.toUpperCase();
 		switch(fullRole){
 		case STUDENT:
@@ -333,7 +346,7 @@ public class LogicController {
 		case TEACHER:
 			return userDAO.findAllEnrolledTeachers(new Long(course));
 		default:
-			return new User[0];
+			return new UserDTO[0];
 		}
 	}
 	

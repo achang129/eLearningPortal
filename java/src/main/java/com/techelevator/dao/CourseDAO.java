@@ -17,6 +17,10 @@ public interface CourseDAO {
 	boolean addTeacher(int course, int teacher);
 	/**Adds the student with the given id to the course with the given id, returns true if successful and false otherwise.*/
 	boolean addStudent(int course, int student);
+	/**Removes the student with the given id from the course with the given id, returns true if successful and false otherwise.*/
+	boolean removeTeacher(int course, int teacher);
+	/**Removes the student with the given id from the course with the given id, returns true if successful and false otherwise.*/
+	boolean removeStudent(int course, int student);
 	/**Returns the course with the given ID.*/
 	Course getCourseById(int id);
 	/**Deletes a course, returns true if successful and false otherwise.*/

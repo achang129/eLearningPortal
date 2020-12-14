@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.techelevator.dto.UserDTO;
 import com.techelevator.model.User;
 
 @Service
@@ -39,26 +40,25 @@ public class UserSqlDAO implements UserDAO {
 	}
 
     @Override
-    public User[] findAll() {
-        List<User> users = new ArrayList<>();
+    public UserDTO[] findAll() {
+        List<UserDTO> users = new ArrayList<>();
         String sql = "select * from users";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while(results.next()) {
-            User user = mapRowToUser(results);
+            UserDTO user = mapRowToDTO(results);
             users.add(user);
         }
 
-        return users.toArray(new User[0]);
+        return users.toArray(new UserDTO[0]);
     }
 
     @Override
     public User findByUsername(String username) throws UsernameNotFoundException {
-        for (User user : this.findAll()) {
-            if( user.getUsername().toLowerCase().equals(username.toLowerCase())) {
-                return user;
-            }
-        }
+        String sql = "select * from users WHERE username = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
+        if(results.next())
+        	return mapRowToUser(results);
         throw new UsernameNotFoundException("User " + username + " was not found.");
     }
 
@@ -88,31 +88,31 @@ public class UserSqlDAO implements UserDAO {
     
     
     @Override
-	public User[] findAllTeachers() {//this select statement may need tweaking
-		List<User> results = new ArrayList<User>();
+	public UserDTO[] findAllTeachers() {//this select statement may need tweaking
+		List<UserDTO> results = new ArrayList<UserDTO>();
 		String sql = "SELECT * FROM users WHERE role = 'ROLE_TEACHER'";
 		
 		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
 		
 		while(rowSet.next()) {
-			results.add(mapRowToUser(rowSet));
+			results.add(mapRowToDTO(rowSet));
 		}
 
-        return results.toArray(new User[0]);
+        return results.toArray(new UserDTO[0]);
 	}
 
 	@Override
-	public User[] findAllStudents() {
-		List<User> results = new ArrayList<User>();
+	public UserDTO[] findAllStudents() {
+		List<UserDTO> results = new ArrayList<UserDTO>();
 		String sql = "SELECT * FROM users WHERE role = 'ROLE_USER'";
 		
 		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql);
 		
 		while(rowSet.next()) {
-			results.add(mapRowToUser(rowSet));
+			results.add(mapRowToDTO(rowSet));
 		}
 
-        return results.toArray(new User[0]);
+        return results.toArray(new UserDTO[0]);
 	}
 
 	@Override
@@ -153,64 +153,70 @@ public class UserSqlDAO implements UserDAO {
         user.setActivated(true);
         return user;
     }
+    private UserDTO mapRowToDTO(SqlRowSet rs) {
+        UserDTO user = new UserDTO();
+        user.setId(rs.getInt("user_id"));
+        user.setName(rs.getString("username"));
+        return user;
+    }
 
 	@Override
-	public User[] findAllUnchosenStudents(Long courseId) {
-		List<User> results = new ArrayList<User>();
+	public UserDTO[] findAllUnchosenStudents(Long courseId) {
+		List<UserDTO> results = new ArrayList<UserDTO>();
 		String sql =  "SELECT DISTINCT a.user_id, a.username, a.password_hash, a.role FROM users a INNER JOIN student b "
 				+ "ON b.student=a.user_id WHERE (a.user_id NOT IN (SELECT b.student FROM student b WHERE b.course=?)) AND a.role='ROLE_USER' ORDER BY a.user_id ASC";
 		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, courseId);
 		
 		while(rowSet.next()) {
-			results.add(mapRowToUser(rowSet));
+			results.add(mapRowToDTO(rowSet));
 		}
 
-        return results.toArray(new User[0]);
+        return results.toArray(new UserDTO[0]);
 	}
 
 	@Override
-	public User[] findAllUnchosenTeachers(Long courseId) {
-		List<User> results = new ArrayList<User>();
+	public UserDTO[] findAllUnchosenTeachers(Long courseId) {
+		List<UserDTO> results = new ArrayList<UserDTO>();
 		String sql =  "SELECT DISTINCT a.user_id, a.username, a.password_hash, a.role FROM users a INNER JOIN teacher b "
 				+ "ON b.teacher=a.user_id WHERE (a.user_id NOT IN (SELECT b.teacher FROM teacher b WHERE b.course=?)) AND a.role='ROLE_TEACHER' ORDER BY a.user_id ASC";
 		
 		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, courseId);
 		
 		while(rowSet.next()) {
-			results.add(mapRowToUser(rowSet));
+			results.add(mapRowToDTO(rowSet));
 		}
 
-        return results.toArray(new User[0]);
+        return results.toArray(new UserDTO[0]);
 	}
 
 	@Override
-	public User[] findAllEnrolledStudents(Long courseId) {
-		List<User> results = new ArrayList<User>();
-		String sql = "SELECT DISTINCT a.user_id, a.username, a.password_hash, a.role FROM users a INNER JOIN student b " + 
-				"ON b.student=a.user_id WHERE b.course=? AND a.role='ROLE_USER' ORDER BY a.user_id ASC";
+	public UserDTO[] findAllEnrolledStudents(Long courseId) {
+		List<UserDTO> results = new ArrayList<UserDTO>();
+		String sql = "SELECT DISTINCT a.user_id, a.username FROM users a INNER JOIN student b " + 
+				"ON b.student=a.user_id WHERE b.course=? ORDER BY a.user_id ASC";
 		
 		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, courseId);
 		
 		while(rowSet.next()) {
-			results.add(mapRowToUser(rowSet));
+			results.add(mapRowToDTO(rowSet));
 		}
 
-        return results.toArray(new User[0]);
+        return results.toArray(new UserDTO[0]);
 	}
 
 	@Override
-	public User[] findAllEnrolledTeachers(Long courseId) {
-		List<User> results = new ArrayList<User>();
-		String sql = "SELECT DISTINCT a.user_id, a.username, a.password_hash, a.role FROM users a INNER JOIN teacher b " + 
-				"ON b.teacher=a.user_id WHERE b.course=? AND a.role='ROLE_TEACHER' ORDER BY a.user_id ASC;";
+	public UserDTO[] findAllEnrolledTeachers(Long courseId) {
+		List<UserDTO> results = new ArrayList<UserDTO>();
+		String sql = "SELECT DISTINCT a.user_id, a.username FROM users a INNER JOIN teacher b " + 
+				"ON b.teacher=a.user_id WHERE b.course=? ORDER BY a.user_id ASC;";
 		
 		SqlRowSet rowSet = jdbcTemplate.queryForRowSet(sql, courseId);
 		
 		while(rowSet.next()) {
-			results.add(mapRowToUser(rowSet));
+			results.add(mapRowToDTO(rowSet));
 		}
 
-        return results.toArray(new User[0]);
+        return results.toArray(new UserDTO[0]);
 	}
 
 	

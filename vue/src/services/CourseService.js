@@ -14,34 +14,28 @@ export default{
     listStudents() {
         return http.get('/users/user');
     },
-    listUnchosenStudents(courseId){
-        return http.get(`/users/user/${courseId}`);
+    listAssignedStudents(id){
+        return http.get(`/enrollment/${id}/user`);
     },
-    listUnchosenTeachers(courseId){
-        return http.get(`/users/teacher/${courseId}`);
+    listAssignedTeachers(id){
+        return http.get(`/enrollment/${id}/teacher`);
     },
-    listEnrolledStudents(courseId){
-        return http.get(`${courseId}/enrolled/user`);
-    },
-    listEnrolledTeachers(courseId){
-        return http.get(`${courseId}/enrolled/teacher`);
-    },
-    addTeacherToCourse(course, teachers){
-        teachers.forEach((teacher)=>{
+    assignToCourse(course, users){
+        users.forEach((user)=>{
             let assignment = {
                 'course': course,
-                'user': teacher
+                'user': user
             };
             http.put('/courses', assignment);
         });
     },
-    addStudentsToCourse(course, students){
-        students.forEach((student)=>{
+    removeFromCourse(course, users){
+        users.forEach((user)=>{
             let assignment = {
                 'course': course,
-                'user': student
+                'user': user
             };
-            http.put('/courses', assignment);
+            http.put('/courses/remove', assignment);
         });
     },
     addCourse(course) {
