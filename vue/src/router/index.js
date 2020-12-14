@@ -40,14 +40,12 @@ const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    //temporarily changing all "requiresAuth" to false. commented original value underneath.
     {
       path: '/',
       name: 'home',
       component: Home,
       meta: {
         requiresAuth: true
-        //TRUE
       }
     },
     {
@@ -56,7 +54,6 @@ const router = new Router({
       component: Login,
       meta: {
         requiresAuth: false
-        //FALSE
       }
     },
     {
@@ -65,7 +62,6 @@ const router = new Router({
       component: Logout,
       meta: {
         requiresAuth: false
-        //FALSE
       }
     },
     {
@@ -74,7 +70,6 @@ const router = new Router({
       component: Register,
       meta: {
         requiresAuth: false
-        //FALSE
       }
     },
     //Courses will route to all of the student's or teacher's courses (maybe two separate components
@@ -85,7 +80,6 @@ const router = new Router({
       component: AllCourses,
       meta: {
         requiresAuth: true
-        //TRUE
       }
     },
     //Keep in mind that, if courses/create were below courses/:id, it would parse "create" as the id, and send
@@ -96,7 +90,6 @@ const router = new Router({
       component: CreateCourse,
       meta: {
         requiresAuth: true
-        //TRUE
       }
     },
     {
@@ -105,7 +98,6 @@ const router = new Router({
       component: Course,
       meta: {
         requiresAuth: true
-        //TRUE
       }
     },
     {
@@ -114,7 +106,6 @@ const router = new Router({
       component: EditCourse,
       meta: {
         requiresAuth: true
-        //TRUE
       }
     },
     {
@@ -123,34 +114,30 @@ const router = new Router({
       component: AllHomework,
       meta: {
         requiresAuth: true
-        //TRUE
       }
     },
     {
-      path: 'courses/:id/homework/create',
+      path: '/courses/homework/create',
       name: 'create-homework',
       component: CreateAssignment,
       meta: {
         requiresAuth: true
-        //TRUE
       }
     },
     {
-      path: 'courses/:id/homework/:hwId',
+      path: '/courses/:id/homework/:hwId',
       name: 'homework',
       component: Homework,
       meta: {
         requiresAuth: true
-        //TRUE
       }
     },
     {
-      path: 'courses/:id/homework/:hwId/edit',
+      path: '/courses/:id/homework/:hwId/edit',
       name: 'edit-homework',
       component: EditHomework,
       meta: {
         requiresAuth: true
-        //TRUE
       }
     },
     {
@@ -159,7 +146,6 @@ const router = new Router({
       component: Messages,
       meta: {
         requiresAuth: true
-        //TRUE
       }
     },
     //TODO: specific error components (lack permission, homework or course creation error, ... etc)

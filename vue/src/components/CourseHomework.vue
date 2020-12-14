@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import courseService from "@/services/CourseService.js";
 import homeworkService from "@/services/HomeworkService.js";
 
 export default {
@@ -31,9 +30,6 @@ export default {
     return {
       errorMsg: ""
     }
-  },
-  props: {
-    courseId: Number
   },
   methods: {
     deleteHomework(id) {
@@ -50,16 +46,7 @@ export default {
     }
   },
   created() {
-    courseService
-      .get(this.courseId)
-      .then(response => {
-        this.$store.commit("SET_ACTIVE_COURSE", response.data);
-      })
-      .catch(error => {
-        if (error.response.status == 404) {
-          this.$router.push("/not-found");
-        }
-      });
+    
   }
 };
 </script>
