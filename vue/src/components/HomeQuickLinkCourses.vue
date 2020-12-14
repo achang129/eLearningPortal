@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <router-link v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' 
-      v-bind:to="{ name: 'create-course' }">Add Course</router-link>&nbsp;
-    <div v-for="course in this.courses" v-bind:key="course.id" class="course-values">
-       <h3 class="courseheaders">{{ course.name }} (ID: {{course.id}}) </h3>
-       <p id="course-description-summary">{{course.description}}</p>
+  <div class="qlbox"> Welcome, {link student/teacher name here}
+    <div v-for="course in this.courses" v-bind:key="course.id" class="quick-links">
+       <h3 class="qlheads">{{ course.name }}</h3>
+       
         <router-link class="main-link" :to="{ name: 'course', params: {id: course.id} }">View Details</router-link>
-        <a href="#" v-on:click.prevent="deleteCourse(course.id)">Delete</a>
+        
           
     </div>
     <br>
@@ -20,7 +18,7 @@
 import courseService from "@/services/CourseService.js";
 
 export default {
-  name: "course-list",
+  name: "quick-links",
   data() {
     return {
       errorMsg: "",
@@ -33,18 +31,6 @@ export default {
         response.data.forEach((course)=>{this.courses.push(course);});
       });
     },
-    deleteCourse(id) {
-      courseService.deleteCourse(id)
-        .then(response => {
-          if (response.status === 200) {
-            this.courses = this.courses.filter((course)=>{return course.id !== id;});
-          }
-        }).catch(error => {
-          if (error.response) {
-            this.errorMsg = error.response.statusText;
-          }
-        });
-    }
   },
   
   created() {
@@ -54,8 +40,15 @@ export default {
 </script>
 
 <style>
-.courseheaders {
+.qlbox {
+    width: auto;
+    height: auto;
+    border: solid gold;
+}
+
+.qlheads {
   margin-bottom: 0px;
+  text-align: center;
 }
 
 .main-link::before{
@@ -79,7 +72,8 @@ export default {
     font-size: 20px;
   }
 
-  .course-values{
+  .quick-links{
+    border: solid gold;
     text-align: center;
     position: relative;
     font-size: 20px;
@@ -93,9 +87,11 @@ export default {
     border-radius: 20px;
     background-color:#d69089;
     opacity: 80%;
+    width: 10em;
+    height: 10em;
   }
 
-  .course-values p{
+  .quick-links p{
     margin-left: 5px;
   }
   #course-description-summary {
@@ -104,7 +100,7 @@ export default {
     font-variant-caps: unicase;
   }
 
-  .course-values:nth-child(even){
+  .quick-links:nth-child(even){
     background-color: rgb(83, 189, 83);
     opacity: 80%;
   }

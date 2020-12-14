@@ -1,7 +1,7 @@
 <template>
     <div class="progress">
         <span :style="'width:' + progress() + '%'"></span>
-        <h3>{{ progress() }}% completed</h3>
+        <h3 class="progresstext">{{ progress() }}% completed</h3>
     </div>
 </template>
 
@@ -23,14 +23,19 @@ export default {
 </script>
 
 <style scoped>
+.progresstext{
+    text-align: center;
+}
+
 .progress { 
     
     height: 20px;
-    width: 25%;
-	position: relative;
+    width: auto;
+	
 	background: grey;
 	border-radius: 25px;
 	padding: 10px;
+    margin-right: 15px;
 }
 .progress > span {
   display: block;
