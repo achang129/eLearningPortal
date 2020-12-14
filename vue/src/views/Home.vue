@@ -6,13 +6,10 @@
       </header>
       <progress-bar v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_USER"' class="fb-item progressbar" id="progress-bar"/>
       <user-sidebar class="fb-item sidebar" id="home-user-sidebar" v-if="$store.state.token != ''"/>
-     <div class="quicklinks">
+      <div class="quicklinks">
        <home-quick-link-courses/>
-    </div>
-      <login-register-header v-if="$store.state.token == ''"/>
-      <div id="work-in-progress-todo" >
-        <work-in-progress-notes v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'/>
       </div>
+      <login-register-header v-if="$store.state.token == ''"/>
     </div>
 </template>
 
@@ -21,12 +18,11 @@ import UserSidebar from '../components/UserSidebar.vue';
 import LoginRegisterHeader from '../components/LoginRegisterHeader.vue';
 import ProgressBar from '../components/ProgressBar.vue';
 import LoadingScreen from '../components/LoadingScreen.vue';
-import WorkInProgressNotes from '../components/WorkInProgressNotes.vue';
 import HomeQuickLinkCourses from '../components/HomeQuickLinkCourses.vue';
 
 export default {
   components: { UserSidebar, LoginRegisterHeader, 
-    WorkInProgressNotes, ProgressBar, LoadingScreen, HomeQuickLinkCourses
+     ProgressBar, LoadingScreen, HomeQuickLinkCourses
      },
   
     HomeQuickLinkCoursesame: "home",
