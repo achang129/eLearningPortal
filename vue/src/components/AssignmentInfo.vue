@@ -26,6 +26,9 @@
       updateDescription(value) {
         this.$store.commit("UPDATE_ASSIGNMENT_DESC", value)
       }
+    },
+    created() {
+      this.$store.commit('BLANK_ASSIGNMENT');
     }
   }
 </script>

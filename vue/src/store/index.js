@@ -115,24 +115,12 @@ export default new Vuex.Store({
         isCorrect: false
       });
     },
-    REMOVE_ANSWER(state, question, answer) {
-      alert(question)
-      alert(answer)
-      if (state.assignment.questions[question].answers.length > 1) {
-        state.assignment.questions[question].answers.splice(answer, 1);
+    REMOVE_ANSWER(state, index) {
+      console.log(index.question);
+      console.log(index.answer);
+      if (state.assignment.questions[index.question].answers.length > 1) {
+        state.assignment.questions[index.question].answers.splice(index.answer, 1);
       }
-    },
-    UPDATE_ANSWER_STATE(state, questionIndex, answerIndex) {
-      if (state.assignment.questions[questionIndex].answers[answerIndex].isCorrect == false) {
-        state.assignment.questions[questionIndex].answers[answerIndex].isCorrect = true;
-      } else {
-        state.assignment.questions[questionIndex].answers[answerIndex].isCorrect = false;
-      }
-    },
-    UPDATE_ANSWER_TEXT(state, questionIndex, answerIndex, data) {
-      const answerText = data.answer;
-      const answer = state.assignment.questions[questionIndex].answers[answerIndex];
-      answer.answer = answerText;
     },
     ADD_QUESTION(state) {
       state.assignment.questions.push({question: "", points: 10, answers:[]})
@@ -142,15 +130,11 @@ export default new Vuex.Store({
         state.assignment.questions.splice(question, 1);
       }
     },
-    UPDATE_QUESTION_TITLE(state, questionIndex) {
-      const question = state.assignment.questions[questionIndex];
-      question.question = question.title;
-    },
     UPDATE_QUESTION_POINTS(state, questionIndex) {
       const question = state.assignment.questions[questionIndex];
       question.points = this.questions[questionIndex].points;
     },
-    RESET_ASSIGNMENT(state) {
+    BLANK_ASSIGNMENT(state) {
       state.assignment = {
         title: '',
         description: '',

@@ -43,6 +43,7 @@ export default {
     }
   },
   created() {
+    this.$store.commit('BLANK_ASSIGNMENT');
   }
 };
 </script>
