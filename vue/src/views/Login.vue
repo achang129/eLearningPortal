@@ -181,6 +181,7 @@ export default {
 
 .login-register-gif{
   margin-top: 25px;
+  margin-left: 220px;
   width: fit-content;
   border: solid;
   border-color: #e6c2bf;

@@ -11,7 +11,7 @@
         <input
           type="text"
           id="username"
-          class="form-control"
+          class="form-control-reg"
           placeholder="Username"
           v-model="user.username"
           required
@@ -23,7 +23,7 @@
         <input
           type="password"
           id="password"
-          class="form-control"
+          class="form-control-reg"
           placeholder="Password"
           v-model="user.password"
           required
@@ -52,7 +52,7 @@
       </button>
       <div class="loginlink"><router-link :to="{ name: 'login' }">Already have an account? Login here</router-link></div>
     </form>
-    <div class="login-register-gif">
+    <div class="register-gif">
         <img src="../assets/Login_RegisterGIF.gif" alt="Parthenon Logo Gif">
       </div>
   </div>
@@ -111,9 +111,6 @@ export default {
 </script>
 
 <style>
-/* .radioBtn:hover{
-	
-} */
 
 
 .createAccButton {
@@ -158,12 +155,11 @@ export default {
   margin-bottom: 10px;
 }
 
-.form-control-confirm{
-  margin-top: 10px;
+.form-control-reg {
    background-color: white;
   box-sizing: border-box;
   -webkit-appearance: none;
-  width: 10%;
+  width:auto;
   border: solid #e6c2bf;
   font-family: inherit;
   padding: 0;
@@ -172,6 +168,37 @@ export default {
   font-weight: 500;
   border-radius: 0;
   transition: all .15s ease;
+}
+
+.form-control-reg:hover{
+  background-color: #bde3fc;
+}
+
+.form-control-confirm{
+  margin-top: 10px;
+   background-color: white;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  width: auto;
+  border: solid #e6c2bf;
+  font-family: inherit;
+  padding: 0;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 0;
+  transition: all .15s ease;
+}
+
+.register-gif{
+  display: inline-flex;
+  align-content: center;
+  justify-content: center;
+  margin-top: 25px;
+  width: fit-content;
+  border: solid;
+  border-color: #e6c2bf;
+  grid-area: gif;
 }
 
 .form-control-confirm:hover{
