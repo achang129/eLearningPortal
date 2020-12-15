@@ -219,5 +219,14 @@ public class UserSqlDAO implements UserDAO {
         return results.toArray(new UserDTO[0]);
 	}
 
+	@Override
+	public void deleteCourseTeachersStudents(Long courseId) {
+		String sql = "DELETE FROM student WHERE student.course = ?";
+		jdbcTemplate.update(sql,courseId);
+		sql = "DELETE FROM teacher WHERE teacher.course = ?";
+		jdbcTemplate.update(sql,courseId);
+		
+	}
+
 	
 }

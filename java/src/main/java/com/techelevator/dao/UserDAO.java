@@ -30,4 +30,7 @@ public interface UserDAO {
 	UserDTO[] findAllEnrolledStudents(Long courseId);
 	//will return all enrolled teachers
 	UserDTO[] findAllEnrolledTeachers(Long courseId);
+	//will delete student and teacher rows associated with a course to 
+	//allow delete course to work
+	void deleteCourseTeachersStudents(Long courseId);
 }

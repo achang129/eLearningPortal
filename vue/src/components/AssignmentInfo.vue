@@ -1,12 +1,10 @@
 <template>
     <div>
         <div>
-            <label>Title:</label>
-            <textarea v-model="assignment.title" label="Title" cols="30"></textarea>
+            <textarea v-model="assignment.title" placeholder="Title" label="Title" cols="30" @input="updateTitle"></textarea>
         </div>
         <div>
-            <label>Description:</label>
-            <textarea v-model="assignment.description" label="Description" cols="30" rows="10" style="display: flex"></textarea>
+            <textarea v-model="assignment.description" placeholder="Description" label="Description" cols="30" rows="10" style="display: flex" @input="updateDescription"></textarea>
         </div>
     </div>
 </template>
@@ -20,12 +18,12 @@
         }
     },
     methods: {
-      updateTitle(value) {
-        this.$store.commit("UPDATE_ASSIGNMENT_TITLE", value)
-      },
-      updateDescription(value) {
-        this.$store.commit("UPDATE_ASSIGNMENT_DESC", value)
-      }
+        updateTitle() {
+            this.$store.commit("UPDATE_ASSIGNMENT_TITLE", this.assignment.title)
+        },
+        updateDescription() {
+            this.$store.commit("UPDATE_ASSIGNMENT_DESCRIPTION", this.assignment.description)
+        }
     },
     created() {
       this.$store.commit('BLANK_ASSIGNMENT');

@@ -106,7 +106,7 @@ export default new Vuex.Store({
     UPDATE_ASSIGNMENT_TITLE(state, info) {
       state.assignment.title = info.title;
     },
-    UPDATE_ASSIGNMENT_DESC(state, info) {
+    UPDATE_ASSIGNMENT_DESCRIPTION(state, info) {
       state.assignment.description = info.description;
     },
     ADD_ANSWER(state, question) {
@@ -116,8 +116,6 @@ export default new Vuex.Store({
       });
     },
     REMOVE_ANSWER(state, index) {
-      console.log(index.question);
-      console.log(index.answer);
       if (state.assignment.questions[index.question].answers.length > 1) {
         state.assignment.questions[index.question].answers.splice(index.answer, 1);
       }
