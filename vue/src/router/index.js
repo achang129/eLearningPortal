@@ -17,6 +17,7 @@ import Course from '../views/Course.vue'
 import AllCourses from '../views/AllCourses.vue'
 import CreateCourse from '../views/CreateCourse.vue'
 import EditCourse from '../views/EditCourse.vue'
+import StudentDetails from '../components/StudentDetails.vue'
 
 //HOMEWORK
 import Homework from '../views/Homework.vue'
@@ -136,6 +137,14 @@ const router = new Router({
       path: '/courses/:id/homework/:hwId/edit',
       name: 'edit-homework',
       component: EditHomework,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/studentdashboard/:id',
+      name: 'student-dashboard',
+      component: StudentDetails,
       meta: {
         requiresAuth: true
       }

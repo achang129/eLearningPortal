@@ -7,72 +7,31 @@
       <div>Class Limit: {{course.classSize}}</div>
       <div>Cost: {{course.cost}}</div>
     </div>
-    <div id="user-select-section" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'>
-      <div id="teacher-select-section">
-        <button id="add-teacher-student-click" @click="toggleTeacher()">Click to add/view/remove teachers</button>
-        <select-teacher v-bind:id=this.id v-show="this.showSectionTeacher"/>
-      </div>
-      <div id="student-select-section">
-        <button id="add-teacher-student-click"  @click="toggleStudent()">Click to add/view/remove students</button>
-        <student-list v-bind:id=this.id v-show="this.showSectionStudent"/>
-      </div>
-    </div>
-    <div class="daily">
-      <div id="curricula-container">
-        <table id="curriculum-table" style="width:100%">
-          <caption class="tablecaption">Upcoming coursework<br/><br/>
-          </caption>
+
+    <div>
+      <table class="student-table">
           <thead>
-            <tr class="courseinforows">
-              <th id="date-column">Date</th>
-              <th id="lesson-column">Lesson Plan</th>
-              <th id="homework-column">Homework</th>
-              <th id="empty-column"></th>
-            </tr>
+              <th>Student Name:</th>
+              <th>Student Grade:</th>
+              <th>Student Progress:</th>
           </thead>
-          <tbody>
-            <tr v-for="curriculum in this.curricula" v-bind:key="curriculum.date">
-              <td class="curriculum-datum">{{curriculum.date}}</td>
-              <td class="curriculum-datum">{{curriculum.lesson}}</td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
-        <div id="empty-message" v-show="this.course.curricula.length==0">
-          <br>~~~<br>
-          <p>Looks Like There are No Lessons So Far!</p>
-          <br>~~~<br>
-        </div>
-        <br>
-        <br>
-        <div v-bind="this.id" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
-        <span>Add Assignment</span>
-        <create-homework v-bind:id="this.id"/>
-        </div>
-        <br>
-        <br>
-      </div>
-      <form class="formtext" v-on:submit.prevent="addCurriculum" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
-        <label>Date: </label>
-        <input type="date" v-model="newDate" class="form-control-date"/> |
-        <label>Lesson Plan: </label>
-        <input type="text" v-model="newLesson" class="form-control-lesson"/> |
-        <label></label>
-        <input type="submit" class="courseButton" />
-      </form>
+          <tr v-for="student in students" v-bind:key="student.id">
+              <td> {{ student.username }}</td>
+              <td> {{ student.grade }}</td>
+              <td> {{ }}</td>
+          </tr>
+      </table>
     </div>
   </div>
 </template>
 
 <script>
-import courseService from "../services/CourseService.js";
-import SelectTeacher from "./SelectTeacher.vue";
-import StudentList from './StudentList';
-import CreateHomework from './CreateHomework';
+// import courseService from "../services/CourseService.js";
+
+
 
 export default {
-  components: { SelectTeacher, StudentList , CreateHomework},
+  components: { },
   name: "course",
   props: ["id"],
   data() {
@@ -101,35 +60,10 @@ export default {
     }
   },
   methods: {
-    toggleTeacher(){
-      this.showSectionTeacher = !this.showSectionTeacher;
-    }, 
-    toggleStudent(){
-      this.showSectionStudent = !this.showSectionStudent;
-    },
-    getCoursework() {
-      courseService.getCoursework(this.id).then(response => {
-        if(response.status==200){
-          this.course = response.data;
-        }
-      });
-    },
-    addCurriculum() {
-      console.log('test');
-      courseService.addCurriculum(this.id,this.newLesson,this.newDate).then(response => { 
-        if (response.status==201){
-          this.newLesson= "";
-          this.newDate= new Date();
-          this.getCoursework();
-        }
-      })
-    },
-    goToAddHomework() {
-      this.$router.push({name: 'create-homework', params: {id: this.course.id}});
-    }
-  },
+
   created() {
     this.getCoursework();
+  }
   }
 };
 
