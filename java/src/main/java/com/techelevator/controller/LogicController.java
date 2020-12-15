@@ -142,6 +142,7 @@ public class LogicController {
 	public boolean deleteCourse(@PathVariable("id") int id, Principal p){
 		//validate something??
 		curriculumDAO.deleteCurriculum(id);
+		userDAO.deleteCourseTeachersStudents(new Long(id));
 		return courseDAO.deleteCourse(id);
 	}
 	
