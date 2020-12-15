@@ -5,9 +5,10 @@
     <div v-for="course in this.courses" v-bind:key="course.id" class="course-values">
        <h3 class="courseheaders">{{ course.name }} --- {{ }} </h3>
        <p id="course-description-summary">{{course.description}}</p>
-        <router-link tag="div" class="main-link" :to="{ name: 'course', params: {id: course.id} }"></router-link>
+        <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_USER"' tag="div" class="main-link" :to="{ name: 'course', params: {id: course.id} }"></router-link>
+         <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' class="admin-detail-link" :to="{ name: 'course', params: {id: course.id} }">View Details</router-link>
         <!-- <a href="#" v-on:click.prevent="deleteCourse(course.id)">Delete</a> -->
-        <button v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' v-on:click.prevent="deleteCourse(course.id)">Delete</button>
+        <button class="deletecourse-btn" v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' v-on:click.prevent="deleteCourse(course.id)">Delete</button>
           
     </div>
     <br>
@@ -62,6 +63,36 @@ export default {
 </script>
 
 <style>
+.deletecourse-btn {
+	box-shadow: 3px 4px 0px 0px #8a2a21;
+	background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
+	background-color:#c62d1f;
+	border-radius:18px;
+	border:1px solid #d02718;
+	display:flex;
+  justify-content: center;
+  align-self: center;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:7px 25px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #810e05;
+  width: 8%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  
+}
+.deletecourse-btn:hover {
+	background:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+	background-color:#f24437;
+}
+.deletecourse-btn:active {
+	position:relative;
+	top:1px;
+}
+
 .courseheaders {
   margin-bottom: 0px;
 }

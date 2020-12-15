@@ -44,34 +44,30 @@ export default {
 </script>
 
 <style>
+
 .welcomemessage{
     display: flex;
     width: 100%;
 }
-
+.mainlink:hover{
+    cursor: pointer;
+}
 .qlbox {
     display: flex;
+    background-color: lightslategray;
     flex-flow: row wrap;
     width: 100%;
     height: 100%;
-    border: solid gold;
+    border: solid #e6c2bf;
     justify-content: start;
-    
+    margin-top: 15px;
+    margin-bottom: 0px;
 }
 
 .qlheads {
   margin-bottom: 0px;
   text-align: center;
 }
-
-/* .mainlink::before{
-    content: " ";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-} */
 
   #all-courses-table-caption{
     font-size: 30px;
@@ -98,6 +94,14 @@ export default {
     width: 10em;
     height: 10em;
   }
+  /* .mainlink::before{
+    content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+} */
 
   .quick-links:nth-child(even){
     background-color: rgb(83, 189, 83);
