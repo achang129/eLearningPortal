@@ -260,9 +260,9 @@ public class LogicController {
 	}
 	
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.GET)
-	public Assignment viewHomework(@PathVariable("id") int id, Principal p){
+	public AssignmentDTO viewHomework(@PathVariable("id") int id, Principal p){
 		//validate that the person in question has been assigned this work?
-		return assignmentDAO.getAssignmentById(id);
+		return assignmentDAO.getDTO(id, getID(p));
 	}
 
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.POST)

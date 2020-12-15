@@ -24,6 +24,9 @@ public class Question {
 	public void setAnswers(String[] answers){this.answers = answers;}
 	public void setCorrect(boolean[] correct){this.correct = correct;}
 	
+	public void setAnswer(int i, String answer){answers[i] = answer;}
+	public void setCorrect(int i, boolean correct){this.correct[i] = correct;}
+	
 	public Question(){
 		type = "";
 		statement = "";

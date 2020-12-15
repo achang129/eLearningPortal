@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import java.time.LocalDate;
 
+import com.techelevator.dto.AssignmentDTO;
 import com.techelevator.model.Assignment;
 
 public interface AssignmentDAO {
@@ -20,4 +21,6 @@ public interface AssignmentDAO {
 	boolean submitAnswer(int id, int question, int student, String answer);
 	/**Deletes a homework assignment, returns true if successful or false otherwise.*/
 	boolean deleteAssignment(int id);
+	/**Gets an AssignmentDTO object based on a particular user*/
+	AssignmentDTO getDTO(int id, int user);
 }

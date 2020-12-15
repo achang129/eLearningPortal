@@ -8,7 +8,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import com.techelevator.dto.AssignmentDTO;
 import com.techelevator.model.Assignment;
+import com.techelevator.model.Question;
 
 
 @Component
@@ -70,6 +72,47 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	public boolean deleteAssignment(int id) {
 		String sql = "DELETE * FROM assignment WHERE id = ?";
 		return jdbcTemplate.update(sql, id) == 1;
+	}
+	
+	@Override
+	public AssignmentDTO getDTO(int id, int user){
+		AssignmentDTO dto = new AssignmentDTO();
+		String sql = "SELECT * FROM assignment WHERE id = ?";
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id);
+		dto.setName(rows.getString("name"));
+		dto.setDescription(rows.getString("description"));
+		dto.setDate(rows.getDate("created_date").toLocalDate());
+		dto.setDueDate(rows.getDate("due_date").toLocalDate());
+		dto.setCourse(rows.getInt("course"));
+		Question[] questions = new Question[rows.getInt("questions")];
+		sql = "SELECT number, type, statement FROM question WHERE assignment = ?";
+		rows = jdbcTemplate.queryForRowSet(sql, id);
+		while(rows.next()){
+			Question q = new Question();
+			q.setStatement(rows.getString("statement"));
+			q.setType(rows.getString("type"));
+			questions[rows.getInt("number")] = q;
+		}
+		sql = "SELECT * FROM mcchoice WHERE assignment = ? ORDER BY choice DESC";
+		rows = jdbcTemplate.queryForRowSet(sql, id);
+		while(rows.next()){
+			int q = rows.getInt("question");
+			int a = rows.getInt("choice");
+			if(a>questions[q].getAnswers().length){
+				questions[q].setAnswers(new String[a+1]);
+				questions[q].setCorrect(new boolean[a+1]);}
+			questions[q].setAnswer(a,rows.getString("answer"));
+			questions[q].setCorrect(a,rows.getBoolean("correct"));
+		}
+		dto.setQuestions(questions);
+		String[] answers = new String[questions.length];
+		sql = "SELECT * FROM answer WHERE student = ? AND assignment = ?";
+		rows = jdbcTemplate.queryForRowSet(sql, user, id);
+		while(rows.next()){
+			answers[rows.getInt("question")] = rows.getString("answer");
+		}
+		dto.setAnswers(answers);
+		return dto;
 	}
 	
 	private Assignment mapRowToAssignment(SqlRowSet rs) {
