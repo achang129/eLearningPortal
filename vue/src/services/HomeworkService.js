@@ -15,11 +15,11 @@ export default{
     get(homeworkId) {
         return http.get(`/homework/${homeworkId}`)
     },
-    submitHomework(homework) {
-        return http.post(`/homework/${homework.id}`, homework);
+    submitHomework(id) {
+        return http.post(`/homework/${id}`);
     },
-    updateHomework(homework) {
-        return http.put(`/homework/${homework.id}`, homework);
+    saveHomeworkProgress(id, q, a) {
+        return http.put(`/homework/${id}`, {'question':q, 'answer':a});
     },
     deleteHomework(homeworkId) {
         return http.delete(`/homework/${homeworkId}`);
