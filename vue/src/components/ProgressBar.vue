@@ -1,22 +1,40 @@
 <template>
     <div class="progress">
-        <span :style="'width:' + progress() + '%'"></span>
-        <h3 class="progresstext">{{ progress() }}% completed</h3>
+        <span :style="'width:' + calculateGrade() + '%'"></span>
+        <h3 class="progresstext">{{ calculateGrade() }}%</h3>
     </div>
 </template>
 
 <script>
+import gradeService from '../services/GradeService'
+
 export default {
     name: 'progress-bar',
     data() {
         return {
-            completed: 5,
-            total: 10
+            grades: gradeService.list(),
+            value: 0,
+            earned: 0,
+            total: 0,
+            cummulative: 0
         }
     },
     methods: {
-        progress(){
-            return this.completed / this.total * 100
+        calculateGrade() {
+            var earned = 0;
+            var total = 0;
+            for (var grade in this.grades) {
+                earned += Number(this.grades[grade].earned);
+                total += Number(this.grades[grade].total);
+            }
+            this.earned = earned;
+            this.total = total;
+            this.cummulative = 100 * (earned / total);
+            this.cummulative = this.cummulative.toFixed(2);
+            if (this.cummulative.isNAN) {
+                return 0;
+            }
+            return this.cummulative;
         }
     }
 }

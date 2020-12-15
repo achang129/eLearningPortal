@@ -15,7 +15,7 @@ export default {
   name: 'create-assignment',
   components: {
     AssignmentInfo,
-    AssignmentQuestion 
+    AssignmentQuestion
   }
 }
 </script>
