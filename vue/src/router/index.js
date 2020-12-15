@@ -17,7 +17,8 @@ import Course from '../views/Course.vue'
 import AllCourses from '../views/AllCourses.vue'
 import CreateCourse from '../views/CreateCourse.vue'
 import EditCourse from '../views/EditCourse.vue'
-import StudentDetails from '../components/StudentDetails.vue'
+import TeacherStudentDetails from '../components/TeacherStudentDetails.vue'
+
 
 //HOMEWORK
 import Homework from '../views/Homework.vue'
@@ -142,13 +143,21 @@ const router = new Router({
       }
     },
     {
-      path: '/studentdashboard/:id',
-      name: 'student-dashboard',
-      component: StudentDetails,
+      path: '/studentdashboard/teacher/:id',
+      name: 'teacher-dashboard',
+      component: TeacherStudentDetails,
       meta: {
         requiresAuth: true
       }
     },
+    // {
+    //   path: '/studentdashboard/admin',
+    //   name: 'admin-dashboard',
+    //   component: AdminStudentDetails,
+    //   meta: {
+    //     requiresAuth: true
+    //   }
+    // },
     {
       path: '/messages',
       name: 'messages',

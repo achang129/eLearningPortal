@@ -18,7 +18,7 @@
           <tr v-for="student in students" v-bind:key="student.id">
               <td> {{ student.username }}</td>
               <td> {{ student.grade }}</td>
-              <td> {{ }}</td>
+              <!-- <td> {{ }}</td> needs to be fixed or removed -->
           </tr>
       </table>
     </div>
@@ -32,11 +32,10 @@
 
 export default {
   components: { },
-  name: "course",
+  name: "teacher-student-details",
   props: ["id"],
   data() {
     return {
-      errorMsg: "",
       course: {
         'name': "",
         'description': "",
@@ -44,21 +43,9 @@ export default {
         'dates': [],
         'curricula': []
       },
-      newLesson: "",
-      newDate: new Date(),
-      showSectionTeacher: false,
-      showSectionStudent: false
     }
   },
-  computed: {
-    curricula: function(){
-      let c = [];
-      for(let i=0;i<this.course.dates.length;i++){
-        c[i] = {date: this.course.dates[i],lesson: this.course.curricula[i].lesson};
-      }
-      return c;
-    }
-  },
+  computed: {},
   methods: {
 
   created() {
