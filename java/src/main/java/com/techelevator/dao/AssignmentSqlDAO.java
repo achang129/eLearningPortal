@@ -49,10 +49,62 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 
 	@Override
 	public boolean submitAssignment(int id, int student) {
-		String sql = "SELECT * FROM answers WHERE assignment = ? AND student = ?";	
-		sql = "INSERT INTO grade (student, assignment, turned_in, correct) VALUES (?, ?, now(), ?)";
-		return jdbcTemplate.update(sql, student, id) == 1;
+		int correct = 0;
+		String sql = "SELECT number, weight, type FROM answers WHERE assignment = ? ORDER BY number DESC";
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id, student);
+		if(!rows.next()){return false;}
+		String[] types = new String[rows.getInt("number") + 1];
+		int[] weights = new int[types.length];
+		do{
+			types[rows.getInt("number")] = rows.getString("type");
+			weights[rows.getInt("number")] = rows.getInt("weight");
+		} while(rows.next());
+		sql = "SELECT question, answer FROM answers WHERE assignment = ? AND student = ?";
+		rows = jdbcTemplate.queryForRowSet(sql, id, student);
+		String[] ans = new String[types.length];
+		while(rows.next()){
+			ans[rows.getInt("question")] = rows.getString("answer");
+		}
+		for(int i=0; i<ans.length; i++){
+			switch(types[i]){
+			case "text":
+				sql = "SELECT answer FROM mcchoice WHERE assignment = ? AND question = ?";
+				rows = jdbcTemplate.queryForRowSet(sql, id, i);
+				while(rows.next()){
+					if(rows.getString(0).toLowerCase().equals(ans[i].toLowerCase())){
+						correct += weights[i];
+						break;
+					}
+				}
+				break;
+			case "mc":
+				sql = "SELECT choice FROM mcchoice WHERE assignment = ? AND question = ? AND correct = true";
+				rows = jdbcTemplate.queryForRowSet(sql, id, i);
+				if(rows.next()){
+					if(Integer.toString(rows.getInt(0)).equals(ans[i]))
+						correct += weights[i];
+				}
+				break;
+			case "mmc":
+				sql = "SELECT choice FROM mcchoice WHERE assignment = ? AND question = ? AND correct = true ORDER BY choice";
+				rows = jdbcTemplate.queryForRowSet(sql, id, i);
+				String exp = "";
+				if(rows.next())
+					exp = Integer.toString(rows.getInt(0));
+				while(rows.next()){
+					exp += "," + Integer.toString(rows.getInt(0));
+				}
+				if(exp.equals(ans[i]))
+					correct += weights[i];
+				break;
+			default:
+				return false;
+			}
+		}
+		sql = "INSERT INTO grade (student, assignment, turned_in, correct, grade) VALUES (?, ?, now(), ?, -1)";
+		return jdbcTemplate.update(sql, student, id, correct) == 1;
 	}
+	
 
 	@Override
 	public int getTeacher(int id) {
