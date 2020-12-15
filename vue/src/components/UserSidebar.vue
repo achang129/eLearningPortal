@@ -12,8 +12,14 @@
             <router-link class="head-icon" v-bind:to="{ name: 'all-courses' }"><i class="fas fa-chalkboard fa-3x" data-fa-mask="fas fa-square" style="background:rgb(155, 180, 202)"></i></router-link>
             <router-link class="head-link" v-bind:to="{ name: 'all-courses' }">Courses</router-link>
             
-            <router-link class="head-icon" v-bind:to="{ name: 'all-homework' }"><i class="fas fa-book-open fa-3x" data-fa-mask="fas fa-square" style="background:rgb(155, 180, 202)"></i></router-link>
-            <router-link class="head-link" v-bind:to="{ name: 'all-homework' }">Homework</router-link>
+            <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_USER"' class="head-icon" v-bind:to="{ name: 'all-homework' }"><i class="fas fa-book-open fa-3x" data-fa-mask="fas fa-square" style="background:rgb(155, 180, 202)"></i></router-link>
+            <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_USER"' class="head-link" v-bind:to="{ name: 'all-homework' }">Homework</router-link>
+
+            <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' class="head-icon" v-bind:to="{ name: 'main-dashboard' }"><i class="fas fa-book-open fa-3x" data-fa-mask="fas fa-square" style="background:rgb(155, 180, 202)"></i></router-link>
+            <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' class="head-link" v-bind:to="{ name: 'main-dashboard' }">Student Dashboard</router-link>
+
+            <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"' class="head-icon" v-bind:to="{ name: 'main-dashboard' }"><i class="fas fa-book-open fa-3x" data-fa-mask="fas fa-square" style="background:rgb(155, 180, 202)"></i></router-link>
+            <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"' class="head-link" v-bind:to="{ name: 'main-dashboard' }">Student Dashboard</router-link>
             
             <router-link class="head-icon" v-bind:to="{ name: 'logout' }"><i class="fas fa-sign-out-alt fa-3x" data-fa-mask="fas fa-square" style="background:rgb(155, 180, 202)"></i></router-link>
             <router-link class="head-link" v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
