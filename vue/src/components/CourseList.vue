@@ -1,7 +1,7 @@
 <template>
   <div>
-    <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' 
-      v-bind:to="{ name: 'create-course' }">Add Course</router-link>&nbsp;
+    <button @click="$router.push({name: 'create-course'})" class="addcoursebutton" v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' 
+      >Add Course</button>&nbsp;
     <div v-for="course in this.courses" v-bind:key="course.id" class="course-values">
        <h3 class="courseheaders">{{ course.name }} --- {{ }} </h3>
        <p id="course-description-summary">{{course.description}}</p>
@@ -63,6 +63,30 @@ export default {
 </script>
 
 <style>
+.addcoursebutton {
+	box-shadow: 3px 4px 0px 0px #8a2a21;
+	background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
+	background-color:#c62d1f;
+	border-radius:18px;
+	border:1px solid #d02718;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:7px 25px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #810e05;
+}
+.addcoursebutton:hover {
+	background:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+	background-color:#f24437;
+}
+.addcoursebutton:active {
+	position:relative;
+	top:1px;
+}
+
 .deletecourse-btn {
 	box-shadow: 3px 4px 0px 0px #8a2a21;
 	background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
