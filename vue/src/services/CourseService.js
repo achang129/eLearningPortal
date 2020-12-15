@@ -56,5 +56,8 @@ export default{
     },
     deleteCourse(courseId) {
         return http.delete(`/courses/${courseId}`);
+    },
+    getAllGradesForCourse(id) {
+        return http.get(`/courses/grade/${id}`)
     }
 }
