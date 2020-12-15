@@ -1,6 +1,5 @@
 <template>
     <div id="login" class="text-center">
-      <!-- <login-register-header /> -->
       <h1 class="signintext">PARTHENON</h1>
       <h2 class="descriptiontext">Parthenon is an education organizational tool, designed to be your education center.
         

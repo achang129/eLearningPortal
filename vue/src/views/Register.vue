@@ -1,6 +1,5 @@
 <template>
   <div id="register" class="text-center">
-    <!-- <login-register-header /> -->
     <form class="form-register" @submit.prevent="register">
       <h1 class="registertext">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
