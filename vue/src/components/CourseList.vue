@@ -1,12 +1,13 @@
 <template>
   <div>
-    <router-link v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' 
+    <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' 
       v-bind:to="{ name: 'create-course' }">Add Course</router-link>&nbsp;
     <div v-for="course in this.courses" v-bind:key="course.id" class="course-values">
-       <h3 class="courseheaders">{{ course.name }} (ID: {{course.id}}) </h3>
+       <h3 class="courseheaders">{{ course.name }} --- {{ }} </h3>
        <p id="course-description-summary">{{course.description}}</p>
-        <router-link class="main-link" :to="{ name: 'course', params: {id: course.id} }">View Details</router-link>
-        <a href="#" v-on:click.prevent="deleteCourse(course.id)">Delete</a>
+        <router-link tag="div" class="main-link" :to="{ name: 'course', params: {id: course.id} }"></router-link>
+        <!-- <a href="#" v-on:click.prevent="deleteCourse(course.id)">Delete</a> -->
+        <button v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' v-on:click.prevent="deleteCourse(course.id)">Delete</button>
           
     </div>
     <br>
@@ -44,7 +45,14 @@ export default {
             this.errorMsg = error.response.statusText;
           }
         });
-    }
+    },
+    // USE BELOW TO ASSIGN TEACHER NAME TO COURSE CARD/QUICKLINK CARDS
+    // getTeacher(id) {
+    //   courseService.listAssignedTeachers(id)
+    //     .then(response => {
+    //       return response.data;
+    //     });
+    // }
   },
   
   created() {
@@ -58,20 +66,19 @@ export default {
   margin-bottom: 0px;
 }
 
-.main-link::before{
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 900%;
-  top: 0;
-  left: 0;
-  text-decoration: none; 
+.main-link:hover {
+  cursor: pointer;
 }
 
-  /* #all-courses-table-container{
-    
-    
-  } */
+.main-link::before{
+    content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
   #all-courses-table-caption{
     font-size: 30px;
   }

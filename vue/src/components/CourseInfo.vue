@@ -7,16 +7,14 @@
       <div>Class Limit: {{course.classSize}}</div>
       <div>Cost: {{course.cost}}</div>
     </div>
-    <div id="user-select-section" v-if='this.$store.state.user.authorities[0]["name"]!="ROLE_USER"'>
+    <div id="user-select-section" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'>
       <div id="teacher-select-section">
         <button id="add-teacher-student-click" @click="toggleTeacher()">Click to add/view/remove teachers</button>
-        <select-teacher v-bind:id=this.id v-show="this.showSectionTeacher"
-            v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' />
+        <select-teacher v-bind:id=this.id v-show="this.showSectionTeacher"/>
       </div>
       <div id="student-select-section">
         <button id="add-teacher-student-click"  @click="toggleStudent()">Click to add/view/remove students</button>
-        <student-list v-bind:id=this.id v-show="this.showSectionStudent"
-            v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'/>
+        <student-list v-bind:id=this.id v-show="this.showSectionStudent"/>
       </div>
     </div>
     <div class="daily">

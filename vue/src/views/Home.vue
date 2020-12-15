@@ -6,7 +6,7 @@
       </header>
       <progress-bar v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_USER"' class="fb-item progressbar" id="progress-bar"/>
       <user-sidebar class="fb-item sidebar" id="home-user-sidebar" v-if="$store.state.token != ''"/>
-      <div class="quicklinks">
+      <div class="quicklinks-home">
        <home-quick-link-courses/>
       </div>
       <login-register-header v-if="$store.state.token == ''"/>
@@ -40,35 +40,33 @@ export default {
 </script>
 
 <style>
-/* #home-view-grid-container {
+#home-view-grid-container {
   display: grid;
-  grid-template-columns: .75fr 4fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas: 
-  ". header ."
-  "sidebar todo progressbar";
-} */
-.home{
+  ". header header header ."
+  "sidebar quicklinks quicklinks quicklinks progressbar";
+}
+/* .home{
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-wrap: wrap;
   justify-content: space-between;
   
-}
-.quicklinks{
+} */
+.quicklinks-home{
   display: flex;
-  justify-self: center;
-  align-self: center;
-  text-align: center;
-  align-self: center;
-  position: relative;
+  flex-flow: row wrap;
+  flex-grow: 1;
+  margin: auto;
+  justify-content: space-around;
   font-size: 20px;
   font-variant-caps: petite-caps;
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
   border-radius: 20px;
-  order: 3;
-    
+  grid-area: quicklinks;
 }
 
 /* .fb-item {
@@ -77,22 +75,22 @@ export default {
 
 #home-user-sidebar {
   grid-area: sidebar;
-  order: 2;
+  display: flex;
   align-self:flex-start;
   justify-content: flex-start;
   
 }
 #work-in-progress-todo {
   grid-area: todo;
-  order: 3;
+  
 }
 
 .progressbar{
   margin-top: 10px;
   justify-content: space-between;
-  display: inline-block;
-  order: 2;
-  align-self: flex-end;
+  display: flex;
+  grid-area: progressbar;
+  width: fit-content;
 }
 
 .homeHeader {
@@ -100,7 +98,7 @@ export default {
   display: flex;
   align-self: center;
   justify-content: space-around;
-  order: 1;
+  
  
 }
 
@@ -108,7 +106,8 @@ export default {
   border: solid #e6c2bf;
   border-radius: 24px;
   height: 16rem;
-  width: 90%;
+  width: 100%;
+
 }
 
 </style>

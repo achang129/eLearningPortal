@@ -1,11 +1,9 @@
 <template>
-  <div class="qlbox"> Welcome, {link student/teacher name here}
+  <div class="qlbox"> 
+    <div class="welcomemessage">Welcome, {{ $store.state.user.username }}</div>
     <div v-for="course in this.courses" v-bind:key="course.id" class="quick-links">
-       <h3 class="qlheads">{{ course.name }}</h3>
-       
-        <router-link class="main-link" :to="{ name: 'course', params: {id: course.id} }">View Details</router-link>
-        
-          
+       <h3 class="qlheads">{{ course.name }} --- {{  }}</h3>
+        <router-link tag="div" class="mainlink" :to="{ name: 'course', params: {id: course.id} }">View Details</router-link>
     </div>
     <br>
     <br>
@@ -25,6 +23,12 @@ export default {
       courses: []
     }
   },
+//   computed: {
+//       getTeacher() {
+          
+//       }
+//   },
+
   methods: {
     makeCourseList() {
       courseService.list().then(response => {
@@ -40,10 +44,19 @@ export default {
 </script>
 
 <style>
+.welcomemessage{
+    display: flex;
+    width: 100%;
+}
+
 .qlbox {
-    width: auto;
-    height: auto;
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    height: 100%;
     border: solid gold;
+    justify-content: start;
+    
 }
 
 .qlheads {
@@ -51,20 +64,15 @@ export default {
   text-align: center;
 }
 
-.main-link::before{
-  display: block;
+/* .mainlink::before{
+    content: " ";
   position: absolute;
-  width: 100%;
-  height: 900%;
   top: 0;
   left: 0;
-  text-decoration: none; 
-}
+  width: 100%;
+  height: 100%;
+} */
 
-  /* #all-courses-table-container{
-    
-    
-  } */
   #all-courses-table-caption{
     font-size: 30px;
   }
@@ -75,29 +83,20 @@ export default {
   .quick-links{
     border: solid gold;
     text-align: center;
-    position: relative;
     font-size: 20px;
     font-variant-caps: petite-caps;
     border: solid black;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     margin-top: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-right: auto;
+    margin-left: auto;
     border-radius: 20px;
     background-color:#d69089;
     opacity: 80%;
     width: 10em;
     height: 10em;
-  }
-
-  .quick-links p{
-    margin-left: 5px;
-  }
-  #course-description-summary {
-    font-style: italic;
-    font-size: 18px;
-    font-variant-caps: unicase;
   }
 
   .quick-links:nth-child(even){
