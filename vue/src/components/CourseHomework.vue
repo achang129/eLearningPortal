@@ -1,7 +1,7 @@
 <template>
   <div class="course-homework">
     <h1>{{ this.$store.state.activeCourse.name }}</h1>
-    <router-link
+    <router-link v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'
       :to="{ name: 'create-homework', params: {courseid: $store.state.activeCourse.id} }"
       class="AddHomework"
     >Add New Assignment</router-link>
@@ -11,8 +11,8 @@
     >
       <h3 class="homework-title">{{ homework.title }}</h3>
       <p class="homework-body">{{ homework.info }}</p>
-      <router-link
-        :to="{name: 'EditHomework', params: {courseid: $store.state.activeCourse.id, homeworkId: homework.id} }"
+      <router-link v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'
+        :to="{name: 'EditHomework', params: {courseid: $store.state.activeCourse.id, homeworkid: homework.id} }"
         tag="button"
         class="btnEdit"
       >Edit</router-link>
@@ -26,6 +26,7 @@ import homeworkService from "@/services/HomeworkService.js";
 
 export default {
   name: "course-homework",
+  props: ["courseid"],
   data() {
     return {
       errorMsg: ""

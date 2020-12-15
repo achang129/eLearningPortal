@@ -120,7 +120,7 @@ const router = new Router({
       }
     },
     {
-      path: '/courses/homework/create',
+      path: '/courses/:id/homework/create',
       name: 'create-homework',
       component: CreateAssignment,
       meta: {
@@ -128,7 +128,7 @@ const router = new Router({
       }
     },
     {
-      path: '/courses/:id/homework/:hwId',
+      path: '/courses/:id/homework/',
       name: 'homework',
       component: Homework,
       meta: {
