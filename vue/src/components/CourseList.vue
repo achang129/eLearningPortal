@@ -3,15 +3,11 @@
     <button @click="$router.push({name: 'create-course'})" class="addcoursebutton" v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' 
       >Add Course</button>&nbsp;
     <div v-for="course in this.courses" v-bind:key="course.id" class="course-values">
-       <h3 class="courseheaders">{{ course.name }}</h3>
+       <h3 class="courseheaders">{{ course.name }} <span id="course-id-value">(Course id: {{course.id}})</span></h3>
        <p id="course-description-summary">{{course.description}}</p>
-        <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_USER"' tag="div" class="main-link" :to="{ name: 'course', params: {id: course.id} }"></router-link>
-         <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' class="admin-detail-link" :to="{ name: 'course', params: {id: course.id} }">View Details</router-link>
-        <button class="deletecourse-btn" v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' v-on:click.prevent="deleteCourse(course.id)">Delete</button>
-          
+         <router-link class="main-link" :to="{ name: 'course', params: {id: course.id} }">Course Details</router-link>
+        <button class="deletecourse-btn" v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' v-on:click.prevent="deleteCourse(course.id)">Delete</button> 
     </div>
-    <br>
-    <br>
     <br>
     <br>
   </div>
@@ -155,7 +151,11 @@ export default {
     background-color:#d69089;
     opacity: 80%;
   }
-
+  #course-id-value{
+    font-size: 13px;
+    font-variant: small-caps;
+    font-weight: 100;
+  }
   .course-values p{
     margin-left: 5px;
   }
