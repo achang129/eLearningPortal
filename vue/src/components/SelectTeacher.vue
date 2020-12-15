@@ -4,8 +4,8 @@
             <caption id="box-choice-heading">Select Teacher for course</caption>
             <thead>
                 <tr class="table-rows-teacher-list">
-                    <th>Teacher</th>
-                    <th>Assign</th>
+                    <th id="teacher-select-column-head">Teacher</th>
+                    <th id="assign-column-head">Assign</th>
                 </tr>
             </thead>
             <tbody>

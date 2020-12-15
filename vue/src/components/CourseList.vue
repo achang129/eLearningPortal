@@ -7,7 +7,6 @@
        <p id="course-description-summary">{{course.description}}</p>
         <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_USER"' tag="div" class="main-link" :to="{ name: 'course', params: {id: course.id} }"></router-link>
          <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' class="admin-detail-link" :to="{ name: 'course', params: {id: course.id} }">View Details</router-link>
-        <!-- <a href="#" v-on:click.prevent="deleteCourse(course.id)">Delete</a> -->
         <button class="deletecourse-btn" v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' v-on:click.prevent="deleteCourse(course.id)">Delete</button>
           
     </div>
