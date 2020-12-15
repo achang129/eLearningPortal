@@ -1,6 +1,6 @@
 BEGIN TRANSACTION;
 
-DELETE FROM mcchoice;
+DELETE FROM  mcchoice;
 DELETE FROM  grade;
 DELETE FROM  message;
 DELETE FROM  question;
