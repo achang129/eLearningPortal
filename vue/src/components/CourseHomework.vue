@@ -2,7 +2,7 @@
   <div class="course-homework">
     <h1>{{ this.$store.state.activeCourse.name }}</h1>
     <router-link
-      :to="{ name: 'create-homework', params: {courseId: $store.state.activeCourse.id} }"
+      :to="{ name: 'create-homework', params: {courseid: $store.state.activeCourse.id} }"
       class="AddHomework"
     >Add New Assignment</router-link>
     <div
@@ -12,7 +12,7 @@
       <h3 class="homework-title">{{ homework.title }}</h3>
       <p class="homework-body">{{ homework.info }}</p>
       <router-link
-        :to="{name: 'EditHomework', params: {courseId: $store.state.activeCourse.id, homeworkId: homework.id} }"
+        :to="{name: 'EditHomework', params: {courseid: $store.state.activeCourse.id, homeworkId: homework.id} }"
         tag="button"
         class="btnEdit"
       >Edit</router-link>

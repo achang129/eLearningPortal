@@ -7,7 +7,7 @@
         <label for="due-date">Due Date</label>
         <input type="date" v-model="homework.dueDate"/>
         &nbsp; &nbsp; &nbsp; &nbsp;
-        <button class="actions" type="submit" v-bind:course="this.$props.id" @click.prevent="saveHomework()">Save</button>
+        <button class="actions" type="submit" v-bind:course="this.$props.courseid" @click.prevent="saveHomework()">Save</button>
       </div>
     </form>
   </div>
@@ -18,13 +18,13 @@ import homeworkService from "../services/HomeworkService";
 
 export default {
   name: "create-homework",
-  props: ["id"],
+  props: ["courseid"],
   data() {
     return {
       homework: {
         name: "" || "Enter name of assignment",
         dueDate: "",
-        course: this.$props.id
+        course: this.$props.courseid
       },
       errorMsg: ""
     };

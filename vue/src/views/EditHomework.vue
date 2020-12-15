@@ -15,6 +15,7 @@ import LoadingScreen from '../components/LoadingScreen.vue';
 
 export default {
   name: "edit-homework",
+  props: ["courseid"],
   components: {
     UpdateHomework,
     LoadingScreen
