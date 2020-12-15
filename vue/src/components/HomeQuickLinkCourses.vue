@@ -48,6 +48,9 @@ export default {
 .welcomemessage{
     display: flex;
     width: 100%;
+    font-weight: bolder;
+    font-size: 50px;
+    
 }
 .mainlink:hover{
     cursor: pointer;
