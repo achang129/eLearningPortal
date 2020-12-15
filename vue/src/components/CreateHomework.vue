@@ -31,7 +31,6 @@ export default {
   },
   methods: {
     saveHomework() {
-      alert(this.homework.course);
       homeworkService.addHomework(this.homework)
         .then(response => {
           if (response.status === 201) {
@@ -39,6 +38,7 @@ export default {
           }
         }).catch(error => {
           this.errorMsg = error.response.statusText;
+          alert(this.errorMsg);
         });
     }
   },
