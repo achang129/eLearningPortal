@@ -51,7 +51,6 @@
 </template> 
 
 <script>
-// import LoginRegisterHeader from '../components/LoginRegisterHeader.vue';
 import authService from "../services/AuthService";
 
 export default {

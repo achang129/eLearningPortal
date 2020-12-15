@@ -9,19 +9,17 @@
       <div class="quicklinks-home">
        <home-quick-link-courses/>
       </div>
-      <login-register-header v-if="$store.state.token == ''"/>
     </div>
 </template>
 
 <script>
 import UserSidebar from '../components/UserSidebar.vue';
-import LoginRegisterHeader from '../components/LoginRegisterHeader.vue';
 import ProgressBar from '../components/ProgressBar.vue';
 import LoadingScreen from '../components/LoadingScreen.vue';
 import HomeQuickLinkCourses from '../components/HomeQuickLinkCourses.vue';
 
 export default {
-  components: { UserSidebar, LoginRegisterHeader, 
+  components: { UserSidebar, 
      ProgressBar, LoadingScreen, HomeQuickLinkCourses
      },
   

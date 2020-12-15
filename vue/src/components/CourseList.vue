@@ -3,7 +3,7 @@
     <button @click="$router.push({name: 'create-course'})" class="addcoursebutton" v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' 
       >Add Course</button>&nbsp;
     <div v-for="course in this.courses" v-bind:key="course.id" class="course-values">
-       <h3 class="courseheaders">{{ course.name }} --- {{ }} </h3>
+       <h3 class="courseheaders">{{ course.name }}</h3>
        <p id="course-description-summary">{{course.description}}</p>
         <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_USER"' tag="div" class="main-link" :to="{ name: 'course', params: {id: course.id} }"></router-link>
          <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' class="admin-detail-link" :to="{ name: 'course', params: {id: course.id} }">View Details</router-link>
