@@ -49,7 +49,8 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 
 	@Override
 	public boolean submitAssignment(int id, int student) {
-		String sql = "INSERT INTO grade (student, assignment, turned_in) VALUES (?, ?, now())";
+		String sql = "SELECT * FROM answers WHERE assignment = ? AND student = ?";	
+		sql = "INSERT INTO grade (student, assignment, turned_in, correct) VALUES (?, ?, now(), ?)";
 		return jdbcTemplate.update(sql, student, id) == 1;
 	}
 

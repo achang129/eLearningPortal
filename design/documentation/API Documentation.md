@@ -11,19 +11,21 @@ any path variables) are needed.
 
 | Path | `GET` | `POST` | `PUT` | `DELETE` |
 | -------- | ---- | ---- | ---- | ------ |
-| `/course` | Y | Y | Y | N |
-| `/course/{id}` | Y | Y | Y | Y |
+| `/courses` | Y | Y | Y | N |
+| `/courses/{id}` | Y | Y | Y | Y |
+| `/courses/grade/{id}` | Y | N | N | N |
 | `/grades/` | Y | N | N | N |
 | `/grades/{id}` | Y | N | Y | N |
 | `/homework` | Y | Y | N | N |
 | `/homework/{id}` | Y | Y | Y | Y |
 | `/messages` | Y | N | N | Y |
 | `/messages/read` | Y | N | Y | N |
+| `/student/` | Y | N | N | N |
 | `/users` | Y | N | N | N |
 | `/users/{role}` | Y | N | N | N |
 
 
-### /course
+### /courses
 
 `GET` gives a list of all courses the user is teaching/enrolled in.
 
@@ -41,7 +43,17 @@ any path variables) are needed.
  * has `user` field containing the id of the user being assigned as a student/teacher
  * has `course` field containing the id of the course being assigned to
 
-### /course/\{id\}
+### /courses/grade/{id}
+
+`GET` returns a list of grades for all users in a particular course.
+
+* uses a 'CourseGradeDTO' object
+ * has `course` field containing the name of the course
+ * has `student` field containing the name of the student whose grade it is
+ * has `grade` field containing the grade
+
+
+### /courses/\{id\}
 
 `GET` gives detailed information/curriculum for a particular course on a particular date.
 
@@ -150,6 +162,14 @@ any path variables) are needed.
 `PUT` sets the message status to read.
 
 * both require the message id as the request body
+
+### /student
+
+`GET` returns a list of GPAs for all students.
+
+* uses a GTADTO object
+ * has `student` field containing the name of the student in question
+ * has `gpa` field containing their gpa
 
 ### /users
 

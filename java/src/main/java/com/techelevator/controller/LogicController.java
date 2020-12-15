@@ -20,6 +20,7 @@ import com.techelevator.dto.AssignmentDTO;
 import com.techelevator.dto.CourseAssignmentDTO;
 import com.techelevator.dto.CourseDTO;
 import com.techelevator.dto.CurriculumDTO;
+import com.techelevator.dto.GPADTO;
 import com.techelevator.dto.GradeDTO;
 import com.techelevator.dto.UserDTO;
 import com.techelevator.dto.CourseDetailsDTO;
@@ -144,6 +145,29 @@ public class LogicController {
 		curriculumDAO.deleteCurriculum(id);
 		userDAO.deleteCourseTeachersStudents(new Long(id));
 		return courseDAO.deleteCourse(id);
+	}
+	
+	@RequestMapping(value = "/courses/grade/{id}", method = RequestMethod.GET)
+	public CourseGradeDTO[] getGrades(@PathVariable("id") int id, Principal p){
+		UserDTO[] students = userDAO.findAllEnrolledStudents(new Long(id));
+		CourseGradeDTO[] dtos = new CourseGradeDTO[students.length];
+		String course = courseDAO.getCourseById(id).getName();
+		for(int i=0; i<students.length; i++){
+			dtos[i] = new CourseGradeDTO();
+			dtos[i].setStudent(students[i].getName());
+			dtos[i].setName(course);
+			double avg = 0;
+			double total = 0;
+			Grade[] grades = gradeDAO.getGradesByStudentAndCourse(students[i].getId(), id);
+			for(Grade grade:grades){
+				if(grade.getGrade() >= 0){
+					avg += grade.getGrade();
+					total++;
+				}
+			}
+			dtos[i].setGrade(avg/total);
+		}
+		return dtos;
 	}
 	
 	@RequestMapping(value = "/grades", method = RequestMethod.GET)
@@ -307,6 +331,33 @@ public class LogicController {
 	@RequestMapping(value = "/messages/read", method = RequestMethod.PUT)
 	public boolean readMessage(@RequestBody int id, Principal p){
 		return messageDAO.markRead(id);
+	}
+	
+	@RequestMapping(value = "/student", method = RequestMethod.GET)
+	public GPADTO[] getGPAs(Principal p){
+		UserDTO[] students = userDAO.findAllStudents();
+		GPADTO[] gpas = new GPADTO[students.length];
+		Course[] courses = new Course[0];
+		for(int i=0; i<gpas.length; i++){
+			gpas[i] = new GPADTO();
+			gpas[i].setStudent(students[i].getName());
+			int gpa = 0;
+			courses = courseDAO.getCoursesByStudent(students[i].getId());
+			for(int j=0; j<courses.length; j++){
+				Grade[] grades = gradeDAO.getGradesByStudentAndCourse(getID(p), courses[i].getId());
+				int avg = 0;
+				int total = 0;
+				for(Grade grade:grades){
+					if(grade.getGrade() >= 0){
+						avg += grade.getGrade();
+						total++;
+					}
+				}
+				gpa += (((double)avg)/((double)total));
+			}
+			gpas[i].setGpa(gpa/courses.length);
+		}
+		return gpas;
 	}
 	
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
