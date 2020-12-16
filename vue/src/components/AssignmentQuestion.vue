@@ -71,32 +71,28 @@ import homeworkService from "../services/HomeworkService";
         },
         createAssignment() {
             homeworkService.addHomework(this.$store.state.assignment)
-                .then(response => {
+            .then(response => {
                 if (response.status === 201) {
                     homeworkService.list().then(response => {
                     this.$store.commit("SET_ASSIGNMENTS", response.data);
                     });
                     this.assignment = {
                         name: '',
-                            questions: [
-                                {
+                            questions: [{
                                 question: '',
                                 points: 10,
-                                answers: [
-                                    {
+                                answers: [{
                                     answer: '',
                                     isCorrect: false
-                                    }
-                                ]
-                                }
-                            ]
+                                }]
+                            }]
                     }
                     this.$router.push('/homework');
                 }
-                }).catch(error => {
-                this.errorMsg = error.response.statusText;
-                });
-            }
+            }).catch(error => {
+            this.errorMsg = error.response.statusText;
+            });
+        }
     }
   }    
 </script>

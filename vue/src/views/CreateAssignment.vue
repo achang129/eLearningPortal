@@ -1,21 +1,17 @@
 <template v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
   <div>
     <h1>Assignment Information</h1>
-      <assignment-info /> 
-    <h1>Assignment Questions</h1>
-      <assignment-question />
+      <edit-assignment /> 
   </div>   
 </template>
 
 <script>
-import AssignmentInfo from '../components/AssignmentInfo';  
-import AssignmentQuestion from '../components/AssignmentQuestion.vue';
+import EditAssignment from '../components/EditAssignment';
 
 export default {
   name: 'create-assignment',
   components: {
-    AssignmentInfo,
-    AssignmentQuestion
+    EditAssignment
   }
 }
 </script>

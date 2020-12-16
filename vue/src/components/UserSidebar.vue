@@ -38,7 +38,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .flex-container{
     
     display:flex;
@@ -57,7 +57,7 @@ export default {
     
     display: flex;
     flex-direction: column;
-    width: fit-content;
+    width: 60%;
     align-content: center;
     padding-right: 35px;
     justify-content: space-evenly;
