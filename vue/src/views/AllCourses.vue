@@ -45,6 +45,7 @@ export default {
   grid-area: allcourses;
   font-family: Georgia, 'Times New Roman', Times, serif;
   padding-top: 20px;
+  justify-self: center;
   
 }
 #all-courses-page-sidebar {
@@ -53,10 +54,10 @@ export default {
 
 #all-courses-view-page {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr .5fr;
+  grid-template-columns: .6fr 1fr 1fr 1fr .5fr;
   grid-template-areas: 
   ". header header header ."
-  "sidebar allcourses allcourses allcourses allcourses"
+  "sidebar allcourses allcourses allcourses ."
 }
 .currHeader {
   display: flex;
