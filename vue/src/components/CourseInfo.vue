@@ -49,12 +49,10 @@
           <br>~~~<br>
         </div>
         <br>
-        <!--
         <router-link v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'
           :to="{ name: 'create-assignment', params: {courseid: this.$props.courseid} }"
           class="AddHomework"
         >Add New Assignment</router-link>
-        -->
       </div>
       <form class="formtext" v-on:submit.prevent="addCurriculum" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
         <label>Date: </label>
