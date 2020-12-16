@@ -24,6 +24,7 @@ import courseService from '../services/CourseService'
 
 export default {
     name: 'select-teacher',
+    //id here is course id
     props: ["id"],
     components: {},
     data() {
