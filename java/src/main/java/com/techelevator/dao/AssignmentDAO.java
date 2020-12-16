@@ -3,13 +3,15 @@ package com.techelevator.dao;
 import java.time.LocalDate;
 
 import com.techelevator.dto.AssignmentDTO;
+import com.techelevator.model.Answer;
 import com.techelevator.model.Assignment;
+import com.techelevator.model.Question;
 
 public interface AssignmentDAO {
 	/**Returns list of assignments for courses the user with the given id is taking.*/
 	Assignment[] getStudentAssignments(int student);
 	/**Creates a new homework assignment for the given course id on the given date, returns assignment.id*/
-	Assignment newAssignment(int course, LocalDate date, String name);
+	Assignment newAssignment(int course, LocalDate date, String name, Question[] questions);
 	/**Returns the assignment with the new SQL-generated id.*/
 	Assignment getAssignmentById(int id);
 	/**Submits the homework assignment with the given id on behalf of the student with the given id at the current time, returns true if successful and false otherwise.*/

@@ -34,8 +34,9 @@ export default new Vuex.Store({
       title: ''
     },
     assignment: {
-      title: '',
-      description: '',
+      name: '',
+      course: '',
+      dueDate: '',
       questions: [
         {
           question: '',
@@ -104,9 +105,9 @@ export default new Vuex.Store({
     UPDATE_ASSIGNMENT_TITLE(state, info) {
       state.assignment.title = info.title;
     },
-    UPDATE_ASSIGNMENT_DESCRIPTION(state, info) {
-      state.assignment.description = info.description;
-    },
+    //UPDATE_ASSIGNMENT_DESCRIPTION(state, info) {
+    //  state.assignment.description = info.description;
+    //},
     ADD_ANSWER(state, question) {
       state.assignment.questions[question].answers.push({
         answer: '',
@@ -128,8 +129,11 @@ export default new Vuex.Store({
     },
     BLANK_ASSIGNMENT(state) {
       state.assignment = {
-        title: '',
-        description: '',
+        name: '',
+        course: '',
+        dueDate: '',
+        //we are still tinkering with this, this is really close to successfully sending to spring boot
+        //based on error message i dont think it is nested with the right syntax maybe? idk
         questions: [
         {
           question: '',

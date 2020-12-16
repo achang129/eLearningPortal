@@ -10,17 +10,20 @@ public class Assignment {
 	private LocalDate dueDate;
 	private LocalDate createdDate;
 	private List<Question> questions;
+	private int course;
 	
 	public int getId(){return id;}
 	public String getName(){return name;}
 	public LocalDate getDueDate(){return dueDate;}
 	public LocalDate getCreatedDate(){return createdDate;}
 	public List<Question> getQuestions(){return questions;}
+	public int getCourse() {return course;}
 	
 	public void setId(int id){this.id = id;}
 	public void setName(String name){this.name = name;}
 	public void setDueDate(LocalDate dueDate){this.dueDate = dueDate;}
 	public void setCreatedDate(LocalDate createdDate){this.createdDate = createdDate;}
+	public void setCourse(int course) {this.course=course;}
 	
 	//modify questions list
 	public boolean removeQuestion(Question question){
@@ -44,5 +47,6 @@ public class Assignment {
 		createdDate=LocalDate.now();
 		dueDate=null;
 		clearQuestions();
+		course=0;
 	}
 }

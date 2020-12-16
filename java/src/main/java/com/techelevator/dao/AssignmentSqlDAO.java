@@ -9,6 +9,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import com.techelevator.dto.AssignmentDTO;
+import com.techelevator.model.Answer;
 import com.techelevator.model.Assignment;
 import com.techelevator.model.Question;
 
@@ -36,7 +37,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	}
 
 	@Override
-	public Assignment newAssignment(int course, LocalDate date, String name) {
+	public Assignment newAssignment(int course, LocalDate date, String name, Question[] questions) {
 		String sql = "INSERT into assignment (course, due_date, created_date, name) VALUES (?, ?, ?, ?)";
 		jdbcTemplate.update(sql, course, date, LocalDate.now(), name);
 		sql = "SELECT * FROM assignment WHERE course=? AND due_date=? AND name=?";
@@ -175,6 +176,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 		a.setDueDate(rs.getDate("due_date").toLocalDate());
 		a.setCreatedDate(rs.getDate("created_date").toLocalDate());
 		a.setName(rs.getString("name"));
+		a.setCourse(rs.getInt("course"));
 		return a;
 	}
 
