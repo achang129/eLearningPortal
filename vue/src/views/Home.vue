@@ -65,6 +65,7 @@ export default {
   height: 100%;
   border-radius: 20px;
   grid-area: quicklinks;
+  
 }
 
 /* .fb-item {
@@ -101,7 +102,7 @@ export default {
 }
 
 .homeHeader img {
-  border: solid #e6c2bf;
+  border: solid black;
   border-radius: 24px;
   height: 16rem;
   width: 100%;

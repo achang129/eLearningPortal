@@ -8,7 +8,7 @@
         <!-- FOR THE TWO ROUTER LINKS: necessary to differentiate the functionality -- leave both in! -->
          <router-link v-if='$store.state.user.authorities[0]["name"]!="ROLE_ADMIN"' tag="div" class="main-link" 
          :to="{ name: 'course', params: {id: course.id} }"></router-link> 
-         <router-link :to="{ name: 'course', params: {id: course.id} }">Course Details</router-link>
+         <router-link class="details-link" :to="{ name: 'course', params: {id: course.id} }">Course Details</router-link>
         <button class="deletecourse-btn" v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' v-on:click.prevent="deleteCourse(course.id)">Delete</button> 
     </div>
     <br>
@@ -60,6 +60,10 @@ export default {
 </script>
 
 <style scoped>
+.details-link{
+  color:rgb(184, 201, 214);
+}
+
 .addcoursebutton {
 	box-shadow: 3px 4px 0px 0px #8a2a21;
 	background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
@@ -139,6 +143,7 @@ export default {
   }
 
   .course-values{
+    color:rgb(175, 198, 216);
     text-align: center;
     position: relative;
     font-size: 20px;
@@ -150,7 +155,7 @@ export default {
     margin-right: 10px;
     margin-left: 10px;
     border-radius: 20px;
-    background-color:#d69089;
+    background-color:#3a3535;
     opacity: 80%;
   }
   #course-id-value{
@@ -168,7 +173,8 @@ export default {
   }
 
   .course-values:nth-child(even){
-    background-color: rgb(83, 189, 83);
+    color: black;
+    background-color: rgb(67, 136, 141);
     opacity: 80%;
   }
 </style>
