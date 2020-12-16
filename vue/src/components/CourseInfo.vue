@@ -1,7 +1,7 @@
 <template>
   <div class="course">
     <div id="course-details-heading">
-      <div>Course Id: {{this.id}}</div>
+      <div>Course Id: {{this.courseid}}</div>
       <div>Class: {{course.name}}</div>
       <div>Description: {{course.description}}</div>
       <div>Class Limit: {{course.classSize}}</div>
@@ -10,11 +10,11 @@
     <div id="user-select-section" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'>
       <div id="teacher-select-section">
         <button id="add-teacher-student-click" @click="toggleTeacher()">Click to add/view/remove teachers</button>
-        <select-teacher v-bind:id=this.id v-show="this.showSectionTeacher"/>
+        <select-teacher v-bind:id=this.courseid v-show="this.showSectionTeacher"/>
       </div>
       <div id="student-select-section">
         <button id="add-teacher-student-click"  @click="toggleStudent()">Click to add/view/remove students</button>
-        <student-list v-bind:id=this.id v-show="this.showSectionStudent"/>
+        <student-list v-bind:id=this.courseid v-show="this.showSectionStudent"/>
       </div>
     </div>
     <div class="daily">
@@ -45,13 +45,6 @@
           <br>~~~<br>
         </div>
         <br>
-        <br>
-        <div v-bind="this.id" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
-        <span>Add Assignment</span>
-        <create-homework v-bind:id="this.id"/>
-        </div>
-        <br>
-        <br>
       </div>
       <form class="formtext" v-on:submit.prevent="addCurriculum" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
         <label>Date: </label>
@@ -69,12 +62,11 @@
 import courseService from "../services/CourseService.js";
 import SelectTeacher from "./SelectTeacher.vue";
 import StudentList from './StudentList';
-import CreateHomework from './CreateHomework';
 
 export default {
-  components: { SelectTeacher, StudentList , CreateHomework},
+  components: { SelectTeacher, StudentList},
   name: "course",
-  props: ["id"],
+  props: ["courseid"],
   data() {
     return {
       errorMsg: "",
@@ -108,7 +100,7 @@ export default {
       this.showSectionStudent = !this.showSectionStudent;
     },
     getCoursework() {
-      courseService.getCoursework(this.id).then(response => {
+      courseService.getCoursework(this.courseid).then(response => {
         if(response.status==200){
           this.course = response.data;
         }
@@ -116,7 +108,7 @@ export default {
     },
     addCurriculum() {
       console.log('test');
-      courseService.addCurriculum(this.id,this.newLesson,this.newDate).then(response => { 
+      courseService.addCurriculum(this.courseid,this.newLesson,this.newDate).then(response => { 
         if (response.status==201){
           this.newLesson= "";
           this.newDate= new Date();
@@ -124,9 +116,6 @@ export default {
         }
       })
     },
-    goToAddHomework() {
-      this.$router.push({name: 'create-homework', params: {id: this.course.id}});
-    }
   },
   created() {
     this.getCoursework();
