@@ -57,4 +57,10 @@ public class CurriculumSqlDAO implements CurriculumDAO {
 			course.setCurriculum(rows.getDate("date").toLocalDate(), curriculum);
 		}
 	}
+	
+	@Override
+	public boolean addHomework(int course, LocalDate date, int assignment){
+		String sql = "UPDATE curriculum SET homework=? WHERE course=? AND date=?";
+		return jdbcTemplate.update(sql,assignment,course,date)==1;
+	}
 }

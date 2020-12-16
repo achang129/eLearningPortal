@@ -68,7 +68,6 @@ export default {
 
 .currHeader img {
   border: solid black;
-  border-color: #e6c2bf;
   border-radius: 24px;
   height: 17rem;
   width: 100%;

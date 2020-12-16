@@ -37,12 +37,24 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	}
 
 	@Override
-	public boolean newAssignment(String name, String description, LocalDate date, int course, Question[] questions) {
+	public int newAssignment(String name, String description, LocalDate date, LocalDate dueDate, int course, Question[] questions) {
 		String sql = "INSERT into assignment ( name, description, created_date, due_date, course, questions) VALUES (?, ?, ?, ?, ?,?)";
-		jdbcTemplate.update(sql, name, description, LocalDate.now(), date, course, questions.length);
-		sql = "SELECT * FROM assignment WHERE course=? AND due_date=? AND name=?";
-		return (jdbcTemplate.queryForRowSet(sql, course, date, name)!=null);
-
+		if(jdbcTemplate.update(sql, name, description, date, dueDate, course, questions.length) != 1)
+			return 0;
+		sql = "SELECT id FROM assignment WHERE name = ? AND course = ?";
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, name, course);
+		if(!rows.next())
+			return 0;
+		int id = rows.getInt("id");
+		for(int i=0; i<questions.length; i++){
+			sql = "INSERT INTO questions (assignment, number, weight, type, statement) VALUES (?,?,?,?,?)";
+			jdbcTemplate.update(sql,id,i,questions[i].getWeight(),questions[i].getType(),questions[i].getStatement());
+			for(int j=0; j<questions[i].getAnswers().length; j++){
+				sql = "INSERT INTO mcchoice (assignment, question, choice, answer, correct) VALUES (?,?,?,?,?)";
+				jdbcTemplate.update(sql,id,i,j,questions[i].getAnswers()[j],questions[i].getCorrect()[j]);
+			}
+		}
+		return id;
 	}
 
 	@Override

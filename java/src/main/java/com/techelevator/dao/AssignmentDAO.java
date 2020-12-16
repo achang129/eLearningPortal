@@ -11,7 +11,7 @@ public interface AssignmentDAO {
 	/**Returns list of assignments for courses the user with the given id is taking.*/
 	Assignment[] getStudentAssignments(int student);
 	/**Creates a new homework assignment for the given course id on the given date, returns assignment.id*/
-	boolean newAssignment(String name, String description, LocalDate date, int course, Question[] questions);
+	int newAssignment(String name, String description, LocalDate date, LocalDate dueDate, int course, Question[] questions);
 	/**Returns the assignment with the new SQL-generated id.*/
 	Assignment getAssignmentById(int id);
 	/**Submits the homework assignment with the given id on behalf of the student with the given id at the current time, returns true if successful and false otherwise.*/

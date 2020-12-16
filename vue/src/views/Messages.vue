@@ -43,10 +43,9 @@ export default {
 
 .mess-header img{
   border: solid black;
-  border-color: #e6c2bf;
   border-radius: 24px;
   height: 17rem;
-  width: 70%;
+  width: 100%;
 }
 
 #messages-notifications-container {
@@ -58,9 +57,9 @@ export default {
 
 #messages-view-page {
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas:
-  "header header"
-  "sidebar messages";
+  ". header header header ."
+  "sidebar messages messages messages .";
 }
 </style>

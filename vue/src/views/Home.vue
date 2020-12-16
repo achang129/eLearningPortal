@@ -104,7 +104,7 @@ export default {
 .homeHeader img {
   border: solid black;
   border-radius: 24px;
-  height: 16rem;
+  height: 17rem;
   width: 100%;
 
 }
