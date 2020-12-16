@@ -86,13 +86,13 @@ import homeworkService from "../services/HomeworkService";
             });
         },
         removeQuestion(index){
-            this.assignment.questions = this.assignment.questions.splice(index,1);
+            this.assignment.questions.splice(index,1);
         },
         addAnswer(index){
             this.assignment.questions[index].answers.push('');
         },
         removeAnswer(qindex, aindex){
-            this.assignment.questions[qindex].answers = this.assignment.questions[qindex].answers.splice(aindex,1);
+            this.assignment.questions[qindex].answers.splice(aindex,1);
         },
         toggleCorrect(qindex, aindex){
             this.assignment.questions[qindex].correct[aindex] = !this.assignment.questions[qindex].correct[aindex];
