@@ -4,11 +4,13 @@
             <h2 slot="header">Question {{questionIndex + 1}}:</h2>
             <form>
                 <div>
+                    <label>Question:</label>
                     <textarea placeholder="Question" label="Question" v-model="item.question"></textarea>
                     <label>Points:</label>
                     <input type="number" label="Points" v-model.number="item.points">
                 </div>
                 <div v-for="(answer, answerIndex) in item.answers" :key="answerIndex">
+                    <label>Answer {{ answerIndex + 1 }}:</label>
                     <textarea placeholder="Answer" label="Answer" v-model="answer.answer"></textarea>
                     <label>Correct?</label>
                     <input type="checkbox" v-model="answer.isCorrect">

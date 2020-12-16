@@ -7,7 +7,7 @@
         <label for="due-date">Due Date</label>
         <input type="date" v-model="homework.dueDate"/>
         &nbsp; &nbsp; &nbsp; &nbsp;
-        <button class="actions" type="submit" v-bind:course="this.$props.courseid" @click.prevent="saveHomework()">Save</button>
+        <button class="actions" type="submit" @click.prevent="saveHomework()">Save</button>
       </div>
     </form>
   </div>
@@ -34,7 +34,7 @@ export default {
       homeworkService.addHomework(this.homework)
         .then(response => {
           if (response.status === 201) {
-            this.$router.push({name: 'all-homework'});
+            this.$router.push({name: 'create-assignment', params:{id:this.$props.courseid, hwid:response.data.assignment.id} });
           }
         }).catch(error => {
           this.errorMsg = error.response.statusText;

@@ -1,6 +1,7 @@
 package com.techelevator.controller;
 
 import java.security.Principal;
+import java.time.LocalDate;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
@@ -284,9 +285,9 @@ public class LogicController {
 
     @ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(value = "/homework", method = RequestMethod.POST)
-	public boolean createHomework(@RequestBody AssignmentDTO homework, Principal p) throws IncorrectRoleException{
+	public Assignment createHomework(@RequestBody AssignmentDTO homework, Principal p) throws IncorrectRoleException{
 		//validateRole(p, "create homework", TEACHER);
-		return assignmentDAO.newAssignment(homework.getCourse(), homework.getDueDate(), homework.getName());
+    	return assignmentDAO.newAssignment(homework.getCourse(), homework.getDueDate(), homework.getName());
 	}
 	
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.GET)
