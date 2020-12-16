@@ -23,8 +23,6 @@ export default new Vuex.Store({
     courses: [],
     messages: [],
     currentLesson: "",
-    //I think we should figure this out before using v-model. It's not reading the question
-    //array as intended
     sampleAssignment: {
       name: 'random random',
       course: 12,
@@ -44,6 +42,13 @@ export default new Vuex.Store({
       name: '',
       course: '',
       dueDate: '',
+      questions: [],
+      answers: []
+    }
+    /**assignment: {
+      name: '',
+      course: '',
+      dueDate: '',
       questions: [
         {
           question: '',
@@ -56,7 +61,7 @@ export default new Vuex.Store({
           ]
         }
       ]
-    }
+    }**/
   },
   getters: {
     assignment: ({assignment}) => assignment,
@@ -109,12 +114,9 @@ export default new Vuex.Store({
         return message.id !== messageId;
       });
     },
-    UPDATE_ASSIGNMENT_TITLE(state, info) {
-      state.assignment.title = info.title;
+    UPDATE_ASSIGNMENT_NAME(state, info) {
+      state.assignment.name = info.name;
     },
-    //UPDATE_ASSIGNMENT_DESCRIPTION(state, info) {
-    //  state.assignment.description = info.description;
-    //},
     ADD_ANSWER(state, question) {
       state.assignment.questions[question].answers.push({
         answer: '',
