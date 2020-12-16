@@ -32,14 +32,14 @@ export default {
   methods: {
     saveHomework() {
       homeworkService.addHomework(this.homework)
-        .then(response => {
-          if (response.status === 201) {
-            this.$router.push({name: 'create-assignment', params:{id:this.$props.courseid, hwid:response.data.assignment.id} });
-          }
-        }).catch(error => {
-          this.errorMsg = error.response.statusText;
-          alert(this.errorMsg);
-        });
+      .then(response => {
+        if (response.status === 201) {
+          this.$router.push({name: 'create-assignment', params:{id:this.$props.courseid, hwid:response.data.assignment.id} });
+        }
+      }).catch(error => {
+        this.errorMsg = error.response.statusText;
+        alert(this.errorMsg);
+      });
     }
   },
   created() {

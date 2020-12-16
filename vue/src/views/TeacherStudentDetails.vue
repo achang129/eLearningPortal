@@ -14,12 +14,10 @@
           <thead>
               <th>Student Name:</th>
               <th>Student Grade:</th>
-              <!-- <th>Student Progress:</th> -->
           </thead>
           <tr v-for="student in students" v-bind:key="student.id">
               <td> {{ student.student }}</td>
               <td> {{ student.grade }}</td>
-              <!-- <td> {{ }}</td> needs to be fixed or removed -->
           </tr>
       </table>
     </div>
@@ -30,13 +28,9 @@
 
 <script>
 import CourseService from '../services/CourseService';
-import UserSidebar from '../components/UserSidebar';
-
-
-
 
 export default {
-  components: {UserSidebar },
+  components: {},
   name: "teacher-student-details",
   props: ["id"],
   data() {

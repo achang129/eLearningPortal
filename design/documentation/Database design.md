@@ -42,6 +42,7 @@ Contains information about courses.
 | `id` | int | primary key |
 | `name` | varchar(64) | name of the course |
 | `description` | varchar(256) | description of the course |
+| `class_size` | int | number of students allowed in the course |
 | `difficulty` | varchar(32) | difficulty level of the course |
 | `cost` | int | cost of the course in cents |
 
@@ -68,8 +69,12 @@ Contains information about a particular homework assignment.
 | Field | Type | Description |
 | --------- | -------- | ----------- |
 | `id` | int | primary key |
+| `name` | varchar(64) | the name of the assignment |
+| `description` | varchar(128) | the description of the assignment |
+| `created_date` | date | the date on which the assignment was assigned |
 | `due_date` | date | the assignment's due date |
 | `questions` | int | the number of questions on the assignment |
+| `course` | int | the course associated with the assignment* |
 
 `due_date` can be null, indicating an assignment with no fixed due date.
 
@@ -81,10 +86,12 @@ Contains information about a particular question on an assignment.
 | --------- | -------- | ----------- |
 | `assignment` | int | the assignment on which this question appears (foreign key `id` in `assignment` table) |
 | `number` | int | the number of this question on the assignment |
+| `weight` | int | the number of points this question is worth |
 | `type` | varchar(4) | the type of question |
 | `statement` | varchar(256) | the question statement |
 
 `assignment` and `number` together are a primary key.
+`weight` defaults to 1.
 `type` is restricted to 'text', 'mc' (multiple-choice), 'mmc' (multiple-choice with multiple selections).
 
 ### mcchoice
@@ -125,7 +132,7 @@ Contains information about the grade a student has received on an assignment.
 | `turned_in` | timestamp | the date/time the assignment was submitted |
 | `correct` | int | the number of questions answered correctly |
 | `grade` | int | the final grade on the assignment |
-| `comment` | varchar(64) | teacher comments on the assignment |
+| `comment` | varchar(256) | teacher comments on the assignment |
 
 `student` and `assignment` together are a primary key.
 `grade` and `correct` can be null, for assignments that have been submitted but not graded.

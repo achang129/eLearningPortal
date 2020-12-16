@@ -17,7 +17,7 @@ import Course from '../views/Course.vue'
 import AllCourses from '../views/AllCourses.vue'
 import CreateCourse from '../views/CreateCourse.vue'
 import EditCourse from '../views/EditCourse.vue'
-import TeacherStudentDetails from '../components/TeacherStudentDetails.vue'
+import TeacherStudentDetails from '../views/TeacherStudentDetails.vue'
 import StudentDashboard from '../views/StudentDashboard.vue'
 import Lesson from '../views/Lesson.vue'
 
