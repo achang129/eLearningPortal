@@ -156,7 +156,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style>
 .formtext{
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
@@ -175,17 +175,17 @@ export default {
 }
 
 #course-details-heading{
-  background-color:#7754af;
+  background-color:#3a3535;
   opacity: 70%;
   border-radius: 2%;
   border-style:ridge;
-  border-color: darkmagenta;
+  border-color: black;
   width: 84%;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   font-size: 20px;
   letter-spacing: 0px;
   word-spacing: 0px;
-  color: #000000;
+  color: rgb(175, 198, 216);
   font-weight: 700;
   font-style: normal;
   font-variant: small-caps;
