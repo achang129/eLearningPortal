@@ -37,9 +37,12 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	}
 
 	@Override
-	public boolean newAssignment(int course, LocalDate date, String name, Question[] questions) {
-		String sql = "INSERT into assignment (course, due_date, created_date, name) VALUES (?, ?, ?, ?)";
-		return jdbcTemplate.update(sql, course, date, LocalDate.now(), name) == 1;
+	public boolean newAssignment(String name, String description, LocalDate date, int course, Question[] questions) {
+		String sql = "INSERT into assignment ( name, description, created_date, due_date, course, questions) VALUES (?, ?, ?, ?, ?,?)";
+		jdbcTemplate.update(sql, name, description, LocalDate.now(), date, course, questions.length);
+		sql = "SELECT * FROM assignment WHERE course=? AND due_date=? AND name=?";
+		return (jdbcTemplate.queryForRowSet(sql, course, date, name)!=null);
+
 	}
 
 	@Override
@@ -134,6 +137,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 		String sql = "SELECT * FROM assignment WHERE id = ?";
 		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id);
 		dto.setName(rows.getString("name"));
+		dto.setDescription(rows.getString("description"));
 		dto.setDate(rows.getDate("created_date").toLocalDate());
 		dto.setDueDate(rows.getDate("due_date").toLocalDate());
 		dto.setCourse(rows.getInt("course"));
@@ -170,10 +174,11 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	
 	private Assignment mapRowToAssignment(SqlRowSet rs) {
 		Assignment a = new Assignment();
+		a.setName(rs.getString("name"));
+		a.setDescription(rs.getString("description"));
 		a.setId(rs.getInt("id"));
 		a.setDueDate(rs.getDate("due_date").toLocalDate());
 		a.setCreatedDate(rs.getDate("created_date").toLocalDate());
-		a.setName(rs.getString("name"));
 		a.setCourse(rs.getInt("course"));
 		return a;
 	}

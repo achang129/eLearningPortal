@@ -74,12 +74,11 @@ public class CourseSqlDAO implements CourseDAO {
 				teacherCount++;
 			}
 			//HERE IS WHERE TO SET/EDIT/TOGGLE GLOBAL TEACHER LIMIT
-			while (teacherCount<4) {
+			if (teacherCount<4) {
 				sql = "INSERT into teacher (course, teacher) VALUES (?, ?)";
 				jdbcTemplate.update(sql, course, teacher);
-				teacherCount++;
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}
@@ -92,11 +91,9 @@ public class CourseSqlDAO implements CourseDAO {
 			sql = "SELECT COUNT( student) FROM student WHERE course = ? AND student <> ?";
 			int negativeStudentCount = jdbcTemplate.queryForObject(sql, int.class, course, student);
 			negativeStudentCount -= (jdbcTemplate.queryForObject("SELECT class_size FROM course WHERE id = ?", int.class, course)-1);
-			while (negativeStudentCount<0) {
+			if (negativeStudentCount<0) {
 				sql = "INSERT into student (course, student) VALUES (?, ?)";
 				jdbcTemplate.update(sql, course, student);
-			}
-			if (negativeStudentCount<=0) {
 				return true;
 			}
 		}
