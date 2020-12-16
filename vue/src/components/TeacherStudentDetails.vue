@@ -1,7 +1,7 @@
 <template>
   <div class="course">
     <div id="course-details-heading">
-      <div>Course Id: {{this.id}}</div>
+      <div>Course Id: {{this.$route.params.id}}</div>
       <div>Class: {{course.name}}</div>
       <div>Description: {{course.description}}</div>
       <div>Class Limit: {{course.classSize}}</div>
@@ -50,14 +50,22 @@ export default {
   computed: {},
   methods: {
     getStudentGrades(id) {
-      CourseService.getAllGradesForCourse(id)
+      console.log(this.$route.params.id)
+      CourseService.getCoursework(id)
       .then(response => {
-        this.students = response.data;
+        console.log(this.$route.params.id)
+        this.course = response.data;
       });
+      CourseService.getAllGradesForCourse(id)
+        .then(response => {
+          this.students = response.data;
+        })
+      
     }
   },
   created() {
-    this.getStudentGrades();
+    console.log(this.$route.params.id)
+    this.getStudentGrades(this.$route.params.id);
   }
 };
 
