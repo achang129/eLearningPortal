@@ -165,6 +165,8 @@ public class LogicController {
 					total++;
 				}
 			}
+			if(total == 0)
+				total = 1;
 			dtos[i].setGrade(avg/total);
 		}
 		return dtos;
@@ -192,6 +194,8 @@ public class LogicController {
 						total++;
 					}
 				}
+				if(total == 0)
+					total = 1;
 				dto.setGrade(((double)avg)/((double)total));
 				dtos[i] = dto;
 			}
@@ -223,6 +227,8 @@ public class LogicController {
 							totals[i][j]++;
 						}
 					}
+					if(totals[i][j] == 0)
+						totals[i][j] = 1;
 					dto.setGrade((double)avgs[i][j]/(double)totals[i][j]);
 					dtos[i*courses.length+j] = dto;
 				}
@@ -353,9 +359,11 @@ public class LogicController {
 						total++;
 					}
 				}
+				if(total == 0)
+					total = 1;
 				gpa += (((double)avg)/((double)total));
 			}
-			gpas[i].setGpa(gpa/courses.length);
+			gpas[i].setGpa(4 * gpa/courses.length);
 		}
 		return gpas;
 	}

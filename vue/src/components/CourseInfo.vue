@@ -1,21 +1,21 @@
 <template>
   <div class="course">
     <div id="course-details-heading">
-      <div>Course Id: {{this.id}}</div>
-      <div>Class: {{course.name}}</div>
-      <div>Description: {{course.description}}</div>
-      <div>Class Limit: {{course.classSize}}</div>
-      <div>Cost: {{course.cost}}</div>
+        <div>Course Id: {{this.courseid}}</div>
+        <div>Class: {{course.name}}</div>
+        <div>Description: {{course.description}}</div>
+        <div>Class Limit: {{course.classSize}}</div>
+        <div>Cost: {{course.cost}}</div>
     </div>
     <div id="user-select-section" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'>
-      <div id="teacher-select-section">
-        <button id="add-teacher-student-click" @click="toggleTeacher()">Click to add/view/remove teachers</button>
-        <select-teacher v-bind:id=this.id v-show="this.showSectionTeacher"/>
-      </div>
-      <div id="student-select-section">
-        <button id="add-teacher-student-click"  @click="toggleStudent()">Click to add/view/remove students</button>
-        <student-list v-bind:id=this.id v-show="this.showSectionStudent"/>
-      </div>
+        <div id="teacher-select-section">
+            <button id="add-teacher-student-click" @click="toggleTeacher()">Click to add/view/remove teachers</button>
+            <select-teacher v-bind:id=this.courseid v-show="this.showSectionTeacher"/>
+        </div>
+        <div id="student-select-section">
+            <button id="add-teacher-student-click"  @click="toggleStudent()">Click to add/view/remove students</button>
+            <student-list v-bind:id=this.courseid v-show="this.showSectionStudent"/>
+        </div>
     </div>
     <div class="daily">
       <div id="curricula-container">
@@ -23,20 +23,20 @@
           <caption class="tablecaption">Upcoming coursework<br/><br/>
           </caption>
           <thead>
-            <tr class="courseinforows">
-              <th id="date-column">Date</th>
-              <th id="lesson-column">Lesson Plan</th>
-              <th id="homework-column">Homework</th>
-              <th id="empty-column"></th>
-            </tr>
+              <tr class="courseinforows">
+                  <th id="date-column">Date</th>
+                  <th id="lesson-column">Lesson Plan</th>
+                  <th id="homework-column">Homework</th>
+                  <th id="empty-column"></th>
+              </tr>
           </thead>
           <tbody>
-            <tr v-for="curriculum in this.curricula" v-bind:key="curriculum.date">
-              <td class="curriculum-datum">{{curriculum.date}}</td>
-              <td class="curriculum-datum">{{curriculum.lesson}}</td>
-              <td></td>
-              <td></td>
-            </tr>
+              <tr v-for="curriculum in this.curricula" v-bind:key="curriculum.date">
+                  <td class="curriculum-datum">{{curriculum.date}}</td>
+                  <td class="curriculum-datum">{{curriculum.lesson}}</td>
+                  <td></td>
+                  <td></td>
+              </tr>
           </tbody>
         </table>
         <div id="empty-message" v-show="this.course.curricula.length==0">
@@ -44,18 +44,6 @@
           <p>Looks Like There are No Lessons So Far!</p>
           <br>~~~<br>
         </div>
-        <br>
-        <br>
-        <div v-bind="this.id" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
-          <div class="add-homework">
-            <router-link
-              :to="{ name: 'create-homework' }"
-              class="AddHomework"
-            >Add Assignment</router-link>
-          </div>
-        <create-homework v-bind:id="this.id"/>
-        </div>
-        <br>
         <br>
       </div>
       <form class="formtext" v-on:submit.prevent="addCurriculum" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
@@ -78,7 +66,7 @@ import StudentList from './StudentList';
 export default {
   components: { SelectTeacher, StudentList},
   name: "course",
-  props: ["id"],
+  props: ["courseid"],
   data() {
     return {
       errorMsg: "",
@@ -112,7 +100,7 @@ export default {
       this.showSectionStudent = !this.showSectionStudent;
     },
     getCoursework() {
-      courseService.getCoursework(this.id).then(response => {
+      courseService.getCoursework(this.courseid).then(response => {
         if(response.status==200){
           this.course = response.data;
         }
@@ -120,7 +108,7 @@ export default {
     },
     addCurriculum() {
       console.log('test');
-      courseService.addCurriculum(this.id,this.newLesson,this.newDate).then(response => { 
+      courseService.addCurriculum(this.courseid,this.newLesson,this.newDate).then(response => { 
         if (response.status==201){
           this.newLesson= "";
           this.newDate= new Date();
@@ -128,9 +116,6 @@ export default {
         }
       })
     },
-    goToAddHomework() {
-      this.$router.push({name: 'create-homework', params: {id: this.course.id}});
-    }
   },
   created() {
     this.getCoursework();

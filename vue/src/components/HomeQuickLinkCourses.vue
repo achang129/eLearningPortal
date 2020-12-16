@@ -62,7 +62,7 @@ export default {
     width: 100%;
     height: 100%;
     border: solid #e6c2bf;
-    justify-content: start;
+    justify-content: flex-start;
     margin-top: 15px;
     margin-bottom: 0px;
 }

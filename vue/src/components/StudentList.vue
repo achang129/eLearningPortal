@@ -31,6 +31,7 @@ import courseService from '../services/CourseService';
 
 export default {
     name: 'student-list',
+    //id here is course id
     props: ["id"],
     components: {},
     data() {
