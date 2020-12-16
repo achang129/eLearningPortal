@@ -122,6 +122,10 @@ export default {
   margin-bottom: 0px;
 }
 
+.main-link{
+  color:rgb(184, 201, 214);
+}
+
 .main-link:hover {
   cursor: pointer;
 }
