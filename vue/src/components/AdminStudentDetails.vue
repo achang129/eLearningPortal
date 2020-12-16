@@ -44,8 +44,7 @@ export default {
 
 </script>
 
-<style>
-
+<style scoped>
 .courseinforows{
   text-decoration: underline;
   font-family: "Trebuchet MS", Helvetica, sans-serif;

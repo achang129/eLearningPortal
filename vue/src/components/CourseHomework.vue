@@ -40,14 +40,13 @@ export default {
         });
     }
   },
-  
   created() {
     this.makeAssignmentList();
   }
 }
 </script>
 
-<style>
+<style scoped>
 .deleteassignment-btn {
 	box-shadow: 3px 4px 0px 0px #8a2a21;
 	background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);

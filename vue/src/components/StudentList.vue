@@ -87,7 +87,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #select-student-course-grid{
   background-color:#cc7979;
   opacity: 70%;

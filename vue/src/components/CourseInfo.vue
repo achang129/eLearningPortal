@@ -139,7 +139,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .formtext{
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 }

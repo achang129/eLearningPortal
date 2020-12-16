@@ -23,12 +23,6 @@ export default {
       courses: []
     }
   },
-//   computed: {
-//       getTeacher() {
-          
-//       }
-//   },
-
   methods: {
     makeCourseList() {
       courseService.list().then(response => {
@@ -36,15 +30,13 @@ export default {
       });
     },
   },
-  
   created() {
     this.makeCourseList();
   }
 }
 </script>
 
-<style>
-
+<style scoped>
 .welcomemessage{
     display: flex;
     width: 100%;

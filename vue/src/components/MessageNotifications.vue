@@ -45,7 +45,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .message-notifications {
   padding: 20px 20px;
   margin: 0 auto;
