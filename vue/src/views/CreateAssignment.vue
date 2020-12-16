@@ -1,4 +1,4 @@
-<template>
+<template v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
   <div>
     <h1>Assignment Information</h1>
       <assignment-info /> 

@@ -15,7 +15,7 @@ import homeworkService from "../services/HomeworkService";
 
 export default {
   name: "update-homework",
-  props: ["courseId", "homeworkId"],
+  props: ["courseid", "homeworkid"],
   data() {
     return {
       title: "",
@@ -25,14 +25,14 @@ export default {
   methods: {
     updateHomework() {
       const homework = {
-        id: this.homeworkId,
-        courseId: this.courseId,
+        id: this.homeworkid,
+        courseid: this.courseid,
         title: this.title
       };
       homeworkService.updateHomework(homework)
         .then(response => {
           if (response.status === 200) {
-            this.$router.push(`/${homework.courseId}`);
+            this.$router.push(`/${homework.courseid}`);
           }
         }).catch(error => {
           if (error.response) {
@@ -43,7 +43,7 @@ export default {
   },
   created() {
     homeworkService
-      .get(this.homeworkId)
+      .get(this.homeworkid)
       .then(response => {
         this.$store.commit("SET_ACTIVE_HOMEWORK", response.data);
         this.title = response.data.title;
