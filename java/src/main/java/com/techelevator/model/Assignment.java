@@ -7,6 +7,7 @@ import java.time.LocalDate;
 public class Assignment {
 	private int id;
 	private String name;
+	private String description;
 	private LocalDate dueDate;
 	private LocalDate createdDate;
 	private List<Question> questions;
@@ -14,6 +15,7 @@ public class Assignment {
 	
 	public int getId(){return id;}
 	public String getName(){return name;}
+	public String getDescription(){return description;}
 	public LocalDate getDueDate(){return dueDate;}
 	public LocalDate getCreatedDate(){return createdDate;}
 	public List<Question> getQuestions(){return questions;}
@@ -21,6 +23,7 @@ public class Assignment {
 	
 	public void setId(int id){this.id = id;}
 	public void setName(String name){this.name = name;}
+	public void setDescription(String description){this.description = description;}
 	public void setDueDate(LocalDate dueDate){this.dueDate = dueDate;}
 	public void setCreatedDate(LocalDate createdDate){this.createdDate = createdDate;}
 	public void setCourse(int course) {this.course=course;}
@@ -44,6 +47,7 @@ public class Assignment {
 	public Assignment(){
 		id=0;
 		name = "";
+		description = "";
 		createdDate=LocalDate.now();
 		dueDate=null;
 		clearQuestions();

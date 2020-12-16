@@ -287,6 +287,7 @@ public class LogicController {
 	@RequestMapping(value = "/homework", method = RequestMethod.POST)
 	public Assignment createHomework(@RequestBody AssignmentDTO homework, Principal p) throws IncorrectRoleException{
 		//validateRole(p, "create homework", TEACHER);
+    	assignmentDAO.newAssignment(homework.getName(), homework.getDescription(), homework.getDueDate(), homework.getCourse(), homework.getQuestions());
     	return null;//assignmentDAO.newAssignment(homework.getCourse(), homework.getDueDate(), homework.getName(), homework.getQuestions());
 	}
 	
