@@ -5,10 +5,7 @@
        <h3 class="qlheads">{{ course.name }} --- {{  }}</h3>
         <router-link tag="div" class="mainlink" :to="{ name: 'course', params: {id: course.id} }">View Details</router-link>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
+    
   </div>
 </template>
 
@@ -40,6 +37,7 @@ export default {
 .welcomemessage{
     display: flex;
     width: 100%;
+    height: 1%;
     font-weight: bolder;
     font-size: 50px;
     
@@ -49,11 +47,10 @@ export default {
 }
 .qlbox {
     display: flex;
-    background-color: lightslategray;
+    
     flex-flow: row wrap;
     width: 100%;
-    height: 100%;
-    border: solid #e6c2bf;
+    height: 45vh;
     justify-content: flex-start;
     margin-top: 15px;
     margin-bottom: 0px;
@@ -72,6 +69,7 @@ export default {
   }
 
   .quick-links{
+    color:rgb(175, 198, 216);
     border: solid gold;
     text-align: center;
     font-size: 20px;
@@ -84,7 +82,7 @@ export default {
     margin-right: auto;
     margin-left: auto;
     border-radius: 20px;
-    background-color:#d69089;
+    background-color:#3a3535;
     opacity: 80%;
     width: 10em;
     height: 10em;
@@ -99,7 +97,8 @@ export default {
 } */
 
   .quick-links:nth-child(even){
-    background-color: rgb(83, 189, 83);
+    background-color: rgb(67, 136, 141);
     opacity: 80%;
+    color: black;
   }
 </style>
