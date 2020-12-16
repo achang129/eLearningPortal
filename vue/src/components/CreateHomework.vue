@@ -7,7 +7,7 @@
         <label for="due-date">Due Date</label>
         <input type="date" v-model="homework.dueDate"/>
         &nbsp; &nbsp; &nbsp; &nbsp;
-        <button class="actions" type="submit" v-bind:course="this.$props.courseid" @click.prevent="saveHomework()">Save</button>
+        <button class="actions" type="submit" @click.prevent="saveHomework()">Save</button>
       </div>
     </form>
   </div>
