@@ -47,7 +47,12 @@
         <br>
         <br>
         <div v-bind="this.id" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
-        <span>Add Assignment</span>
+          <div class="add-homework">
+            <router-link
+              :to="{ name: 'create-homework' }"
+              class="AddHomework"
+            >Add Assignment</router-link>
+          </div>
         <create-homework v-bind:id="this.id"/>
         </div>
         <br>
@@ -69,10 +74,9 @@
 import courseService from "../services/CourseService.js";
 import SelectTeacher from "./SelectTeacher.vue";
 import StudentList from './StudentList';
-import CreateHomework from './CreateHomework';
 
 export default {
-  components: { SelectTeacher, StudentList , CreateHomework},
+  components: { SelectTeacher, StudentList},
   name: "course",
   props: ["id"],
   data() {
