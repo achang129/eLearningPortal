@@ -129,11 +129,7 @@ const router = new Router({
       }
     },
     {
-      //This is where the homework assignment is really created, 
-      //but comes AFTER the initial homework object is created in the courses page.
-      //Course (teacher's view) => create homework (title, due date, course id) =>
-      //HTTP response with containing homework id which SQL creates, immediately redirect to HERE to actually make assignment
-      path: '/courses/:id/homework/:hwid/edit',
+      path: '/courses/:id/homework/create',
       name: 'create-assignment',
       component: CreateAssignment,
       meta: {
