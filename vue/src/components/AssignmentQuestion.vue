@@ -70,7 +70,7 @@ import homeworkService from "../services/HomeworkService";
             this.$router.push('/homework')
         },
         createAssignment() {
-            homeworkService.addHomework(this.assignment)
+            homeworkService.addHomework(this.$store.state.sampleAssignment)
                 .then(response => {
                 if (response.status === 201) {
                     homeworkService.list().then(response => {

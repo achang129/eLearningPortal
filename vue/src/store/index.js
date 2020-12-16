@@ -23,6 +23,13 @@ export default new Vuex.Store({
     courses: [],
     messages: [],
     currentLesson: "",
+    //I think we should figure this out before using v-model. It's not reading the question
+    //array as intended
+    sampleAssignment: {
+      name: 'random random',
+      course: 12,
+      dueDate: '',
+    },
     activeCourse: {
       id: 0,
       name: '',
@@ -132,8 +139,6 @@ export default new Vuex.Store({
         name: '',
         course: '',
         dueDate: '',
-        //we are still tinkering with this, this is really close to successfully sending to spring boot
-        //based on error message i dont think it is nested with the right syntax maybe? idk
         questions: [
         {
           question: '',
