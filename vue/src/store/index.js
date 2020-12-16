@@ -22,6 +22,7 @@ export default new Vuex.Store({
     user: currentUser || {},
     courses: [],
     messages: [],
+    assignments: [],
     currentLesson: "",
     sampleAssignment: {
       name: 'random random',
@@ -65,7 +66,7 @@ export default new Vuex.Store({
   },
   getters: {
     assignment: ({assignment}) => assignment,
-    assignmentArray: ({assignmentArray}) => assignmentArray,
+    assignments: ({assignments}) => assignments,
     setAssignment: ({setAssignment}) => setAssignment
   },
   actions: {

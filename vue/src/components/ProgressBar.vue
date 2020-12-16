@@ -31,7 +31,7 @@ export default {
             this.total = total;
             this.cummulative = 100 * (earned / total);
             this.cummulative = this.cummulative.toFixed(2);
-            if (this.cummulative.isNAN) {
+            if ((this.cummulative).isNAN) {
                 return 0;
             }
             return this.cummulative;
