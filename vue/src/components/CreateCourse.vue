@@ -61,6 +61,11 @@ export default {
         }).catch(error => {
           this.errorMsg = error.response.statusText;
         });
+    },
+  },
+  mounted(){
+    if (this.$store.state.user.authorities[0]["name"]!="ROLE_ADMIN"){
+      this.$router.push('/courses');
     }
   }
 };

@@ -1,4 +1,4 @@
-<template>
+<template v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'>
   <loading-screen v-if="isLoading"></loading-screen>
     <div class="create-course" v-else>
       <button class="backtocoursesbtn" @click="$router.push({name: 'all-courses'})">Back to Courses</button>&nbsp;
