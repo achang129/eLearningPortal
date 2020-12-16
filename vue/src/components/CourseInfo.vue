@@ -45,6 +45,10 @@
           <br>~~~<br>
         </div>
         <br>
+        <router-link
+          :to="{ name: 'create-assignment', params: {courseId: $store.state.activeCourse.id} }"
+          class="AddHomework"
+        >Add New Assignment</router-link>
       </div>
       <form class="formtext" v-on:submit.prevent="addCurriculum" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
         <label>Date: </label>
