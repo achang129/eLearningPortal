@@ -15,7 +15,7 @@ import courseService from "../services/CourseService";
 
 export default {
   name: "update-course",
-  props: ["courseId"],
+  props: ["courseid"],
   data() {
     return {
       name: "",
@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     updateCourse() {
-      const course = { id: this.courseId, name: this.name };
+      const course = { id: this.courseid, name: this.name };
       courseService.updateCourse(course)
         .then(response => {
           if (response.status === 200) {
@@ -39,7 +39,7 @@ export default {
   },
   created() {
     courseService
-      .get(this.courseId)
+      .get(this.courseid)
       .then(response => {
         this.$store.commit("SET_ACTIVE_COURSE", response.data);
         this.name = response.data.name;

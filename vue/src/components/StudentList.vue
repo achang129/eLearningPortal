@@ -11,13 +11,13 @@
           </thead>
           <tbody>
             <tr v-for="(student,index) in students" 
-                v-bind:key="student.id">
-                    <td>{{student.name}}</td>
+                :key="student.id">
+                    <td>{{student.name}} <span id="student-id-value">(id:{{student.id}})</span></td>
                     <td>
-                        <button :disabled='student.enrolled' v-on:click.prevent='addStudent(index)'>Add</button>
+                        <button :disabled='student.enrolled' @click.prevent='addStudent(index)'>Add</button>
                     </td>
                     <td>
-                        <button :disabled='!student.enrolled' v-on:click.prevent='removeStudent(index)'>Remove</button>
+                        <button :disabled='!student.enrolled' @click.prevent='removeStudent(index)'>Remove</button>
                     </td>
             </tr>
           </tbody>
@@ -115,6 +115,11 @@ export default {
 }
 #enrolled-student-list{
     font-size: 13px;
+}
+#student-id-value{
+font-size: 12px;
+font-variant: small-caps;
+font-weight: 500;
 }
 
 

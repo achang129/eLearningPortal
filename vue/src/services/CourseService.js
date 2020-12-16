@@ -44,8 +44,8 @@ export default{
     updateCourse(course) {
         return http.put(`/courses/${course.id}`, course);
     },
-    getCoursework(courseId) {
-        return http.get(`/courses/${courseId}`);
+    getCoursework(courseid) {
+        return http.get(`/courses/${courseid}`);
     },
     addCurriculum(course, lesson, date) {
         let curriculum = {lesson: lesson, date: date};
@@ -54,8 +54,8 @@ export default{
     updateCurriculum(course, curriculum, date) {
         return http.put(`/courses/${course.id}`, course, curriculum, date);
     },
-    deleteCourse(courseId) {
-        return http.delete(`/courses/${courseId}`);
+    deleteCourse(courseid) {
+        return http.delete(`/courses/${courseid}`);
     },
     getAllGradesForCourse(id) {
         return http.get(`/courses/grade/${id}`);

@@ -53,12 +53,11 @@ export default {
 
 #all-courses-view-page {
   display: grid;
-  grid-template-columns: .75fr 4fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr .5fr;
   grid-template-areas: 
-  "header header"
-  "sidebar allcourses"
+  ". header header header ."
+  "sidebar allcourses allcourses allcourses allcourses"
 }
-
 .currHeader {
   display: flex;
   justify-content: space-around;
@@ -69,8 +68,8 @@ export default {
   border: solid black;
   border-color: #e6c2bf;
   border-radius: 24px;
-  height: 17rem;
-  width: 70%;
+  height: 16rem;
+  width: 100%;
 }
 
 .curricula {

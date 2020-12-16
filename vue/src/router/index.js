@@ -19,6 +19,7 @@ import CreateCourse from '../views/CreateCourse.vue'
 import EditCourse from '../views/EditCourse.vue'
 import TeacherStudentDetails from '../components/TeacherStudentDetails.vue'
 import StudentDashboard from '../views/StudentDashboard.vue'
+import Lesson from '../views/Lesson.vue'
 
 
 //HOMEWORK
@@ -91,6 +92,14 @@ const router = new Router({
       path: '/courses/create',
       name: 'create-course',
       component: CreateCourse,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/courses/:id/lesson',
+      name: 'lesson',
+      component: Lesson,
       meta: {
         requiresAuth: true
       }

@@ -22,6 +22,7 @@ export default new Vuex.Store({
     user: currentUser || {},
     courses: [],
     messages: [],
+    currentLesson: "",
     activeCourse: {
       id: 0,
       name: '',
@@ -29,7 +30,7 @@ export default new Vuex.Store({
     },
     activeHomework: {
       id: null,
-      courseId: null,
+      courseid: null,
       title: ''
     },
     assignment: {
@@ -81,9 +82,9 @@ export default new Vuex.Store({
       console.log(data);
       data.forEach((course)=>{state.courses.push(course);});
     },
-    DELETE_COURSE(state, courseId) {
+    DELETE_COURSE(state, courseid) {
       state.courses = state.courses.filter((course) => {
-        return course.id !== courseId;
+        return course.id !== courseid;
       });
     },
     SET_ACTIVE_COURSE(state, data) {
@@ -149,6 +150,9 @@ export default new Vuex.Store({
     SET_ASSIGNMENTS(state, data) {
       console.log(data);
       data.forEach((assignment)=>{state.assignments.push(assignment);});
+    },
+    SET_CURRENT_LESSON(state, lessonText){
+      state.currentLesson = lessonText;
     }
   }
 })

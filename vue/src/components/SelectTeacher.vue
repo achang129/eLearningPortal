@@ -3,19 +3,26 @@
         <table id="select-teacher-for-course">
             <caption id="box-choice-heading">Select Teacher for course</caption>
             <thead>
-                <tr class="table-rows-teacher-list">
-                    <th id="teacher-select-column-head">Teacher</th>
-                    <th id="assign-column-head">Assign</th>
+                <tr>
+                    <th>Teacher</th>
+                    <th>Assign</th>
+                    <th>Remove</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="teacher in this.teachers" v-bind:key="teacher.id">
-                    <td>{{teacher.name}}</td>
-                    <td><button :disabled='teacher.id==assigned' v-on:click.prevent='assignTeacher(teacher.id)'>Assign</button></td>
+                <tr v-for="(teacher,index) in teachers" 
+                :key="teacher.id">
+                    <td>{{teacher.name}} <span id="teacher-id-value">(id:{{teacher.id}})</span></td>
+                    <td>
+                        <button :disabled='teacher.enrolled' @click.prevent='addTeacher(index)'>Add</button>
+                    </td>
+                    <td>
+                        <button :disabled='!teacher.enrolled' @click.prevent='removeTeacher(index)'>Remove</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
-        <button type="submit" v-on:submit.prevent v-on:click="commit()">Save Changes</button>
+        <button type="submit" v-on:submit.prevent @click="commit()">Save Changes</button>
     </div>
 </template>
 
@@ -30,27 +37,47 @@ export default {
     data() {
         return {
             teachers: [],
-            assigned: 0
+            added: [],
+            removed: []
         }
     },
     methods: {
         displayAllTeachers(){
+            let raw = [];
             courseService.listTeachers(this.id).then(response=>{
-                this.teachers = response.data
+                raw = response.data;
             });
             courseService.listAssignedTeachers(this.id).then(response=> {
-                if(response.data.length > 0){
-                    this.assigned = response.data[0].id;
-                }else{
-                    this.assigned = 0;
-                }
+                this.teachers = raw.map(teacher=>{
+                    let en = false;
+                    response.data.forEach(t=>{
+                        if(t.id==teacher.id){en=true;}
+                    });
+                    return {
+                        'name': teacher.name,
+                        'id': teacher.id,
+                        'enrolled': en
+                    };
+                });
             });
         },
-        assignTeacher(id) {
-            this.assigned = id;
+        addTeacher(index) {
+            let id = this.teachers[index].id;
+            if(!this.added.includes(id)){this.added.push(id);}
+            if(this.removed.includes(id)){this.removed.splice(index,1);}
+            this.teachers[index].enrolled = true;
+        },
+        removeTeacher(index) {
+            let id = this.teachers[index].id;
+            if(!this.removed.includes(id)){this.removed.push(id);}
+            if(this.added.includes(id)){this.added.splice(index,1);}
+            this.teachers[index].enrolled = false;
         },
         commit(){
-            courseService.assignToCourse(this.id, [this.assigned]);
+            courseService.assignToCourse(this.id, this.added);
+            courseService.removeFromCourse(this.id, this.removed);
+            this.added = [];
+            this.removed = [];
             this.$forceUpdate();
         }
     },  
@@ -92,6 +119,11 @@ export default {
 
 #enrolled-teacher-list{
     font-size: 13px;
+}
+#teacher-id-value{
+font-size: 12px;
+font-variant: small-caps;
+font-weight: 500;
 }
 
 </style>

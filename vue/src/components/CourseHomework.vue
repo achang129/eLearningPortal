@@ -1,6 +1,6 @@
 <template>
   <div class="course-homework">
-    <h1>{{ this.$store.state.activeCourse.name }}</h1>
+    <h1>{{ this.props.courseid }}</h1>
     <div
       v-for="homework in this.$store.state.activeCourse.homework"
       v-bind:key="homework.id"
@@ -12,7 +12,7 @@
         tag="button"
         class="btnEdit"
       >Edit</router-link>
-      <button class="btnDelete" v-on:click="deleteHomework(homework.id)">Delete</button>
+      <button class="btnDelete" @click="deleteHomework(homework.id)">Delete</button>
     </div>
     <div v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
           <span id="add-assignment-header">Add Assignment</span>

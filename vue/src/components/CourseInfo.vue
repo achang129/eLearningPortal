@@ -25,7 +25,7 @@
           <thead>
               <tr class="courseinforows">
                   <th id="date-column">Date</th>
-                  <th id="lesson-column">Lesson Plan</th>
+                  <th id="lesson-column">Lesson</th>
                   <th id="homework-column">Homework</th>
                   <th id="empty-column"></th>
               </tr>
@@ -33,7 +33,11 @@
           <tbody>
               <tr v-for="curriculum in this.curricula" v-bind:key="curriculum.date">
                   <td class="curriculum-datum">{{curriculum.date}}</td>
-                  <td class="curriculum-datum">{{curriculum.lesson}}</td>
+                  <td class="curriculum-datum">
+                    <button id="lesson-hyper-link" @click.prevent="goToLesson(curriculum)" >
+                    {{curriculum.lesson.substring(0,50)}}. . .
+                    </button>
+                  </td>
                   <td></td>
                   <td></td>
               </tr>
@@ -46,7 +50,7 @@
         </div>
         <br>
         <router-link
-          :to="{ name: 'create-assignment', params: {courseId: $store.state.activeCourse.id} }"
+          :to="{ name: 'create-assignment', params: {courseid: $store.state.activeCourse.id} }"
           class="AddHomework"
         >Add New Assignment</router-link>
       </div>
@@ -97,6 +101,13 @@ export default {
     }
   },
   methods: {
+    goToLesson(curriculum){
+      this.setCurrentLesson(curriculum.lesson);
+      this.$router.push({name: 'lesson', params: {id: this.$props.courseid}});
+    },
+    setCurrentLesson(lesson){
+      this.$store.commit('SET_CURRENT_LESSON', lesson);
+    },
     toggleTeacher(){
       this.showSectionTeacher = !this.showSectionTeacher;
     }, 
