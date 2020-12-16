@@ -34,7 +34,7 @@ export default {
       homeworkService.addHomework(this.homework)
         .then(response => {
           if (response.status === 201) {
-            this.$router.push({name: 'all-homework'});
+            this.$router.push({name: 'create-assignment', params:{id:this.$props.courseid, hwid:response.data.assignment.id} });
           }
         }).catch(error => {
           this.errorMsg = error.response.statusText;
