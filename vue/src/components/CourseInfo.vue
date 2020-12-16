@@ -45,13 +45,6 @@
           <br>~~~<br>
         </div>
         <br>
-        <br>
-        <div v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
-        <span>Add Assignment</span>
-        <create-homework v-bind:courseid="this.courseid"/>
-        </div>
-        <br>
-        <br>
       </div>
       <form class="formtext" v-on:submit.prevent="addCurriculum" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
         <label>Date: </label>
@@ -69,10 +62,9 @@
 import courseService from "../services/CourseService.js";
 import SelectTeacher from "./SelectTeacher.vue";
 import StudentList from './StudentList';
-import CreateHomework from './CreateHomework';
 
 export default {
-  components: { SelectTeacher, StudentList , CreateHomework},
+  components: { SelectTeacher, StudentList},
   name: "course",
   props: ["courseid"],
   data() {

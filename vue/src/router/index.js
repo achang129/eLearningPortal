@@ -125,7 +125,7 @@ const router = new Router({
       //Course (teacher's view) => create homework (title, due date, course id) =>
       //HTTP response with containing homework id which SQL creates, immediately redirect to HERE to actually make assignment
       path: '/courses/:id/homework/:hwid',
-      name: 'create-homework',
+      name: 'create-assignment',
       component: CreateAssignment,
       meta: {
         requiresAuth: true
