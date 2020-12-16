@@ -39,13 +39,13 @@ export default {
 <style>
 
 .all-courses {
-  height: 92%;
+  /* height: 92%;
   width: 81.1%;
-  padding-left: 0px;
+  padding-left: 0px; */
   grid-area: allcourses;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  padding-top: 20px;
-  justify-self: center;
+  
+  display: inline-block;
   
 }
 #all-courses-page-sidebar {
@@ -54,14 +54,15 @@ export default {
 
 #all-courses-view-page {
   display: grid;
-  grid-template-columns: .6fr 1fr 1fr 1fr .5fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas: 
   ". header header header ."
   "sidebar allcourses allcourses allcourses ."
 }
 .currHeader {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  width: 100%;
   grid-area: header;
 }
 
@@ -69,7 +70,7 @@ export default {
   border: solid black;
   border-color: #e6c2bf;
   border-radius: 24px;
-  height: 16rem;
+  height: 17rem;
   width: 100%;
 }
 
