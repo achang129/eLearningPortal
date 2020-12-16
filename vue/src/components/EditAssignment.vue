@@ -1,5 +1,7 @@
 <template>
     <div>
+        <label for="due-date">Due Date: </label>
+        <input type="date" v-model="assignment.dueDate"/>
         <div>
             <textarea v-model="assignment.title" placeholder="Title" label="Title" cols="30"></textarea>
         </div>
@@ -10,15 +12,15 @@
             <h2 slot="header">Question {{questionIndex + 1}}:</h2>
             <form>
                 <div>
-                    <label>Question:</label>
+                    <label>Question: </label>
                     <textarea placeholder="Question" label="Question" v-model="item.question"></textarea>
-                    <label>Points:</label>
+                    <label> Points: </label>
                     <input type="number" label="Points" v-model.number="item.weight">
                 </div>
                 <div v-for="(ans, answerIndex) in item.answers" :key="answerIndex">
-                    <label>Answer {{ answerIndex + 1 }}:</label>
+                    <label>Answer {{ answerIndex + 1 }}: </label>
                     <textarea placeholder="Answer" label="Answer" v-model="item.answers[answerIndex]"></textarea>
-                    <label>Correct?</label>
+                    <label> Correct?</label>
                     <input type="checkbox" v-on:change="toggleCorrect(questionIndex, answerIndex)">
                     <button @click.prevent="removeAnswer(questionIndex, answerIndex)">Remove Answer</button>
                 </div>
@@ -30,7 +32,7 @@
         </div>
         <div class="assignment-footer">
             <div>
-                <button v-show="assignment.questions.length < 10" @click="addQuestion"> Add Question </button>
+                <button v-show="assignment.questions.length < 10" @click="addQuestion">Add Question</button>
             </div>
             <div>
                 <p>Total Points: {{totalPoints}}</p>
