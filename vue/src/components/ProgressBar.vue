@@ -1,7 +1,7 @@
 <template>
     <div class="progress">
         <span :style="'width:' + calculateGrade() + '%'"></span>
-        <h3 class="progresstext">{{ calculateGrade() }}%</h3>
+        <h3 class="progresstext">Total Progress {{ calculateGrade() }}%</h3>
     </div>
 </template>
 
@@ -12,31 +12,34 @@ export default {
     name: 'progress-bar',
     data() {
         return {
-            grades: gradeService.list(),
-            value: 0,
-            earned: 0,
-            total: 0,
+            grades: [],
             cummulative: 0
         }
     },
     methods: {
+        getGrades() {
+            gradeService.list()
+            .then(response => {
+                this.grades = response.data;
+            });
+        },
         calculateGrade() {
-            var earned = 0;
-            var total = 0;
+            let combined = 0
+            let numOfGrades = 0
             for (var grade in this.grades) {
-                earned += Number(this.grades[grade].earned);
-                total += Number(this.grades[grade].total);
+                combined += Number(this.grades[grade].grade);
+                numOfGrades += 1;
             }
-            this.earned = earned;
-            this.total = total;
-            this.cummulative = 100 * (earned / total);
-            this.cummulative = this.cummulative.toFixed(2);
+            this.cummulative = 100 * (combined / numOfGrades);
             if ((this.cummulative).isNAN) {
                 this.cummulative = 0;
                 return 0;
             }
             return this.cummulative;
         }
+    },
+    created() {
+        this.getGrades();
     }
 }
 </script>
