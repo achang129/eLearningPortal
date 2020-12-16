@@ -1,13 +1,13 @@
 <template>
   <div class="course">
     <div id="course-details-heading">
-        <div>Course Id: {{this.courseid}}</div>
+        <div>Course Id: {{courseid}}</div>
         <div>Class: {{course.name}}</div>
         <div>Description: {{course.description}}</div>
         <div>Class Limit: {{course.classSize}}</div>
         <div>Cost: {{course.cost}}</div>
     </div>
-    <div id="user-select-section" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'>
+    <div id="user-select-section" v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'>
         <div id="teacher-select-section">
             <button id="add-teacher-student-click" @click="toggleTeacher()">Click to add/view/remove teachers</button>
             <select-teacher v-bind:id=this.courseid v-show="this.showSectionTeacher"/>
@@ -38,8 +38,20 @@
                     {{curriculum.lesson.substring(0,50)}}. . .
                     </button>
                   </td>
-                  <td></td>
-                  <td></td>
+                  <td class="curriculum-datum">
+                    <div v-if='$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
+                      <button v-if='!curriculum.homework' v-on:click.prevent="addHomework">
+                        Add New Assignment</button>
+                      <button v-else v-on:click.prevent="editHomework">
+                        Edit assignment</button>
+                    </div>
+                    <button v-else id="homework-hyper-link" :disabled='!curriculum.homework' @click.prevent="goToAssignment(curriculum.homework)">
+                      View Homework</button>
+                  </td>
+                  <td>
+                      <button :disabled='!curriculum.homework' v-if='$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"' v-on:click.prevent="removeHomework(curriculum.homework)">
+                        Remove Homework</button>
+                  </td>
               </tr>
           </tbody>
         </table>
@@ -49,12 +61,8 @@
           <br>~~~<br>
         </div>
         <br>
-        <router-link v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'
-          :to="{ name: 'create-assignment', params: {courseid: this.$props.courseid} }"
-          class="AddHomework"
-        >Add New Assignment</router-link>
       </div>
-      <form class="formtext" v-on:submit.prevent="addCurriculum" v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
+      <form class="formtext" v-on:submit.prevent="addCurriculum" v-if='$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
         <label>Date: </label>
         <input type="date" v-model="newDate" class="form-control-date"/> |
         <label>Lesson Plan: </label>
@@ -105,6 +113,12 @@ export default {
       this.setCurrentLesson(curriculum.lesson);
       this.$router.push({name: 'lesson', params: {id: this.$props.courseid}});
     },
+    goToAssignment(assignment){
+      alert(assignment);
+    },
+    removeHomework(assignment){
+      alert(assignment)
+    },
     setCurrentLesson(lesson){
       this.$store.commit('SET_CURRENT_LESSON', lesson);
     },
@@ -122,7 +136,6 @@ export default {
       });
     },
     addCurriculum() {
-      console.log('test');
       courseService.addCurriculum(this.courseid,this.newLesson,this.newDate).then(response => { 
         if (response.status==201){
           this.newLesson= "";
@@ -131,6 +144,10 @@ export default {
         }
       })
     },
+    addHomework() {
+      this.$store.commit("SET_ACTIVE_COURSE",this.courseid);
+      this.$router.push({ name: 'create-assignment', params: {courseid: this.$props.courseid} })
+    }
   },
   created() {
     this.getCoursework();

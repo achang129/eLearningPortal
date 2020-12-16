@@ -32,6 +32,7 @@ export default {
             }
             this.cummulative = 100 * (combined / numOfGrades);
             if ((this.cummulative).isNAN) {
+                this.cummulative = 0;
                 return 0;
             }
             return this.cummulative;

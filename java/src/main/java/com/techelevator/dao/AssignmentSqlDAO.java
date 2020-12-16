@@ -37,11 +37,9 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	}
 
 	@Override
-	public Assignment newAssignment(int course, LocalDate date, String name, Question[] questions) {
+	public boolean newAssignment(int course, LocalDate date, String name, Question[] questions) {
 		String sql = "INSERT into assignment (course, due_date, created_date, name) VALUES (?, ?, ?, ?)";
-		jdbcTemplate.update(sql, course, date, LocalDate.now(), name);
-		sql = "SELECT * FROM assignment WHERE course=? AND due_date=? AND name=?";
-		return mapRowToAssignment(jdbcTemplate.queryForRowSet(sql, course, date, name));
+		return jdbcTemplate.update(sql, course, date, LocalDate.now(), name) == 1;
 	}
 
 	@Override
