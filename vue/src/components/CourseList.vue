@@ -5,7 +5,10 @@
     <div v-for="course in this.courses" v-bind:key="course.id" class="course-values">
        <h3 class="courseheaders">{{ course.name }} <span id="course-id-value">(Course id: {{course.id}})</span></h3>
        <p id="course-description-summary">{{course.description}}</p>
-         <router-link class="main-link" :to="{ name: 'course', params: {id: course.id} }">Course Details</router-link>
+        <!-- FOR THE TWO ROUTER LINKS: necessary to differentiate the functionality -- leave both in! -->
+         <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_USER"' tag="div" class="main-link" 
+         :to="{ name: 'course', params: {id: course.id} }"></router-link> 
+         <router-link :to="{ name: 'course', params: {id: course.id} }">Course Details</router-link>
         <button class="deletecourse-btn" v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' v-on:click.prevent="deleteCourse(course.id)">Delete</button> 
     </div>
     <br>
