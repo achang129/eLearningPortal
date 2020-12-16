@@ -93,8 +93,8 @@ CREATE TABLE assignment (
 	name varchar(64),
 	description varchar(128),
 	created_date date,
-	due_date  date,
-	questions int,
+	due_date date,
+	questions int DEFAULT 0 NOT NULL,
 	course int NOT NULL,
 	CONSTRAINT PK_assignment PRIMARY KEY (id)
 );
