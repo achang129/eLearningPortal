@@ -1,5 +1,6 @@
 <template>
-  <div class="course">
+  <div class="course-container">
+    <div class="course-details-heading">
     <div id="course-details-heading">
       <div>Course Id: {{this.$route.params.id}}</div>
       <div>Class: {{course.name}}</div>
@@ -13,7 +14,7 @@
           <thead>
               <th>Student Name:</th>
               <th>Student Grade:</th>
-              <th>Student Progress:</th>
+              <!-- <th>Student Progress:</th> -->
           </thead>
           <tr v-for="student in students" v-bind:key="student.id">
               <td> {{ student.student }}</td>
@@ -22,17 +23,20 @@
           </tr>
       </table>
     </div>
+    </div>
+    <user-sidebar class="deets-sidebar" />
   </div>
 </template>
 
 <script>
 import CourseService from '../services/CourseService';
+import UserSidebar from '../components/UserSidebar';
 
 
 
 
 export default {
-  components: { },
+  components: {UserSidebar },
   name: "teacher-student-details",
   props: ["id"],
   data() {
@@ -72,5 +76,22 @@ export default {
 </script>
 
 <style>
+.course-container{
+  display: grid;
+  grid-template-columns: .5fr 1fr 1fr 1fr;
+  grid-template-areas: 
+  ". detailsheading detailsheading detailsheading"
+  "sidebar . . .";
 
+}
+
+.course-details-heading{
+  grid-area: detailsheading;
+  width: 100%;
+}
+
+.deets-sidebar{
+  grid-area: sidebar;
+  width: 100%;
+}
 </style>
