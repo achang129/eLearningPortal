@@ -24,6 +24,7 @@ export default new Vuex.Store({
     messages: [],
     assignments: [],
     currentLesson: "",
+    assignmentDate: '',
     sampleAssignment: {
       name: 'random random',
       course: 12,
@@ -101,6 +102,9 @@ export default new Vuex.Store({
     SET_ACTIVE_COURSE(state, data) {
       state.activeCourse = data;
     },
+    SET_ASSIGNMENT_DATE(state, data){
+      state.assignmentDate=data;
+    },
     DELETE_HOMEWORK(state, id) {
       state.activeCourse.homework.splice(
         state.activeCourse.homework.findIndex(homework => homework.id === id),
@@ -114,47 +118,6 @@ export default new Vuex.Store({
       state.messages = state.messages.filter((message) => {
         return message.id !== messageId;
       });
-    },
-    UPDATE_ASSIGNMENT_NAME(state, info) {
-      state.assignment.name = info.name;
-    },
-    ADD_ANSWER(state, question) {
-      state.assignment.questions[question].answers.push({
-        answer: '',
-        isCorrect: false
-      });
-    },
-    REMOVE_ANSWER(state, index) {
-      if (state.assignment.questions[index.question].answers.length > 1) {
-        state.assignment.questions[index.question].answers.splice(index.answer, 1);
-      }
-    },
-    ADD_QUESTION(state) {
-      state.assignment.questions.push({question: "", points: 10, answers:[]})
-    },
-    REMOVE_QUESTION(state, question) {
-      if (state.assignment.questions.length > 1) {
-        state.assignment.questions.splice(question, 1);
-      }
-    },
-    BLANK_ASSIGNMENT(state) {
-      state.assignment = {
-        name: '',
-        course: '',
-        dueDate: '',
-        questions: [
-        {
-          question: '',
-          points: 10,
-          answers: [
-          {
-            answer: '',
-            isCorrect: false
-          }
-          ]
-        }
-        ]
-      }
     },
     SET_ASSIGNMENTS(state, data) {
       console.log(data);
