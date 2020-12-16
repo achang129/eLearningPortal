@@ -51,9 +51,6 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getRole: state => {
-      return state.user.authorities[0]["name"]
-    },
     assignment: ({assignment}) => assignment,
     assignmentArray: ({assignmentArray}) => assignmentArray,
     setAssignment: ({setAssignment}) => setAssignment

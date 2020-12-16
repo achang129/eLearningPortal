@@ -135,7 +135,6 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 		String sql = "SELECT * FROM assignment WHERE id = ?";
 		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id);
 		dto.setName(rows.getString("name"));
-		dto.setDescription(rows.getString("description"));
 		dto.setDate(rows.getDate("created_date").toLocalDate());
 		dto.setDueDate(rows.getDate("due_date").toLocalDate());
 		dto.setCourse(rows.getInt("course"));
@@ -176,7 +175,6 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 		a.setDueDate(rs.getDate("due_date").toLocalDate());
 		a.setCreatedDate(rs.getDate("created_date").toLocalDate());
 		a.setName(rs.getString("name"));
-		a.setDescription(rs.getString("description"));
 		return a;
 	}
 
