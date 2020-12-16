@@ -5,8 +5,8 @@
           <span>Go Back to Course Page</span>
         </router-link>
       <h1></h1>
-      <div>
-        {{this.lesson}}
+      <div id="lesson">
+        <p><span v-html="this.lesson"></span></p>
       </div>
   </div>
 </template>
