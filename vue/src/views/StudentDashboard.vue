@@ -6,6 +6,7 @@
        <p id="course-description-summary">{{course.description}}</p>
          <router-link class="main-link" :to="{ name: 'dashboard-by-class', params: {id: course.id} }">Course Details</router-link>
     </div>
+    <user-sidebar/>
   </div>
   <admin-student-details v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' />
  </div>
@@ -13,10 +14,11 @@
 
 <script>
 import AdminStudentDetails from '../components/AdminStudentDetails.vue'
+import UserSidebar from '../components/UserSidebar.vue'
 import courseService from '../services/CourseService.js'
 
 export default {
-  components: { AdminStudentDetails },
+  components: { AdminStudentDetails, UserSidebar },
    data() {
     return {
       errorMsg: "",

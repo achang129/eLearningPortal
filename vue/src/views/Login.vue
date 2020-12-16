@@ -96,6 +96,7 @@ export default {
   ". parthenontext login"
   ". description ."
   ". gif .";
+  background-image:url("../assets/background.png");
 }
 
 .descriptiontext{

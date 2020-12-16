@@ -49,7 +49,7 @@
           <br>~~~<br>
         </div>
         <br>
-        <router-link
+        <router-link v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'
           :to="{ name: 'create-assignment', params: {courseid: $store.state.activeCourse.id} }"
           class="AddHomework"
         >Add New Assignment</router-link>
