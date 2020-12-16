@@ -77,8 +77,7 @@ import homeworkService from "../services/HomeworkService";
                     this.$store.commit("SET_ASSIGNMENTS", response.data);
                     });
                     this.assignment = {
-                        title: '',
-                            description: '',
+                        name: '',
                             questions: [
                                 {
                                 question: '',
