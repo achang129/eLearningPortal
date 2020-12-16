@@ -287,7 +287,6 @@ public class LogicController {
 	@RequestMapping(value = "/homework", method = RequestMethod.POST)
 	public boolean createHomework(@RequestBody AssignmentDTO homework, Principal p) throws IncorrectRoleException{
 		//validateRole(p, "create homework", TEACHER);
-    	
     	int id = assignmentDAO.newAssignment(homework.getName(), homework.getDescription(), homework.getCreatedDate(), homework.getDueDate(), homework.getCourse(), homework.getQuestions());
     	return curriculumDAO.addHomework(homework.getCourse(), homework.getCreatedDate(), id);
     }
@@ -352,6 +351,10 @@ public class LogicController {
 			gpas[i].setStudent(students[i].getName());
 			int gpa = 0;
 			courses = courseDAO.getCoursesByStudent(students[i].getId());
+			if(courses.length==0){
+				gpas[i].setGpa(0);
+				break;
+			}
 			for(int j=0; j<courses.length; j++){
 				Grade[] grades = gradeDAO.getGradesByStudentAndCourse(getID(p), courses[j].getId());
 				int avg = 0;
