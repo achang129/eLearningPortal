@@ -19,4 +19,6 @@ public interface CurriculumDAO {
 	boolean deleteCurriculum(int course);
 	/**Deletes a particular curriculum associated with a course.*/
 	boolean deleteCurriculum(int course, LocalDate date);
+	/**Adds a homework assignment to a particular curriculm.*/
+	boolean addHomework(int course, LocalDate date, int homework);
 }
