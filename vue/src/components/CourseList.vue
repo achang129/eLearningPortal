@@ -59,7 +59,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .details-link{
   color:rgb(184, 201, 214);
 }
