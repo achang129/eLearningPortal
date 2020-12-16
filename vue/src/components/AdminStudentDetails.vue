@@ -7,7 +7,7 @@
               <th>Student Grade:</th>
           </thead>
           <tr v-for="student in students" v-bind:key="student.id">
-              <td> {{ student.username }}</td>
+              <td> {{ student.student }}</td>
               <td> {{ student.grade }}</td>
           </tr>
       </table>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-// import gradeService from "../services/GradeService.js";
+import courseService from "../services/CourseService.js"
 
 
 
@@ -30,13 +30,15 @@ export default {
   },
   computed: {},
   methods: {
-//   getAllStudents(){
-//       courseService.listStudents();
-//   },
-
-//   created() {
-//     this.getAllStudents();
-//   }
+    getAllStudents(){
+        courseService.getAllGPAs()
+        .then(response => {
+          this.students = response.data;
+        });
+    }
+  },  
+  created() {
+    this.getAllStudents();
   }
 };
 

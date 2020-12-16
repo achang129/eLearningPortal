@@ -58,6 +58,9 @@ export default{
         return http.delete(`/courses/${courseId}`);
     },
     getAllGradesForCourse(id) {
-        return http.get(`/courses/grade/${id}`)
+        return http.get(`/courses/grade/${id}`);
+    },
+    getAllGPAs(){
+        return http.get(`/student`);
     }
 }
