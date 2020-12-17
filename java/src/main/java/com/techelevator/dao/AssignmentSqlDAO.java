@@ -97,7 +97,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 				sql = "SELECT answer FROM mcchoice WHERE assignment = ? AND question = ?";
 				rows = jdbcTemplate.queryForRowSet(sql, id, i+1);
 				while(rows.next()){
-					if(rows.getString(0).toLowerCase().equals(ans[i].toLowerCase())){
+					if(rows.getString("answer").toLowerCase().equals(ans[i].toLowerCase())){
 						correct += weights[i];
 						break;
 					}
@@ -107,7 +107,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 				sql = "SELECT choice FROM mcchoice WHERE assignment = ? AND question = ? AND correct = true";
 				rows = jdbcTemplate.queryForRowSet(sql, id, i+1);
 				if(rows.next()){
-					if(Integer.toString(rows.getInt(0)).equals(ans[i]))
+					if(Integer.toString(rows.getInt("choice")).equals(ans[i]))
 						correct += weights[i];
 				}
 				break;
@@ -133,9 +133,13 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	
 
 	@Override
-	public int getTeacher(int id) {
-		String sql = "SELECT t.teacher FROM teacher t INNER JOIN assignment a ON a.course = t.course WHERE a.id = ?";
-		return jdbcTemplate.queryForObject(sql, Integer.class, id);
+	public Integer[] getTeacher(int id) {
+		String sql = "SELECT t.teacher as te FROM teacher t INNER JOIN assignment a ON a.course = t.course WHERE a.id = ?";
+		List<Integer> ts = new ArrayList<Integer>();
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id);
+		while(rows.next())
+			ts.add(rows.getInt("te"));
+		return ts.toArray(new Integer[0]);
 	}
 
 	@Override
@@ -184,7 +188,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 		while(rows.next()){
 			int q = rows.getInt("question")-1;
 			int a = rows.getInt("choice")-1;
-			if(a>questions[q].getAnswers().length){
+			if(a>=questions[q].getAnswers().length){
 				questions[q].setAnswers(new String[a+1]);
 				questions[q].setCorrect(new boolean[a+1]);}
 			questions[q].setAnswer(a,rows.getString("answer"));
@@ -196,6 +200,10 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 		rows = jdbcTemplate.queryForRowSet(sql, user, id);
 		while(rows.next()){
 			answers[rows.getInt("question")-1] = rows.getString("answer");
+		}
+		for(int i=0;i<answers.length;i++){
+			if(answers[i]==null)
+				answers[i]="";
 		}
 		dto.setAnswers(answers);
 		return dto;

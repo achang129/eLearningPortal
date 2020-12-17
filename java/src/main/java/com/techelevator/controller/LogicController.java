@@ -299,7 +299,7 @@ public class LogicController {
 	@RequestMapping(value = "/homework/{id}/status", method = RequestMethod.GET)
 	public String viewHomeworkStatus(@PathVariable("id") int id, Principal p){
 		//validate that the person in question has been assigned this work?
-		return assignmentDAO.isSubmitted(id, getID(p))?"submitted":"not submitted";
+		return assignmentDAO.isSubmitted(id, getID(p))?"submitted":"unsubmitted";
 	}
 
 
@@ -309,7 +309,8 @@ public class LogicController {
 		int uid = getID(p);
 		if(assignmentDAO.submitAssignment(id, uid)){
 			//possible for the message not to be sent! currently prioritizing homework status.
-			messageDAO.send(assignmentDAO.getTeacher(id), String.format(HOMEWORK_SUBMIT_MESSAGE, p.getName()));
+			for(Integer t : assignmentDAO.getTeacher(id))
+				messageDAO.send(t, String.format(HOMEWORK_SUBMIT_MESSAGE, p.getName()));
 			return true;
 		}else{return false;}
 	}
@@ -363,8 +364,8 @@ public class LogicController {
 			}
 			for(int j=0; j<courses.length; j++){
 				Grade[] grades = gradeDAO.getGradesByStudentAndCourse(getID(p), courses[j].getId());
-				int avg = 0;
-				int total = 0;
+				double avg = 0;
+				double total = 0;
 				for(Grade grade:grades){
 					if(grade.getGrade() >= 0){
 						avg += grade.getGrade();
@@ -373,7 +374,7 @@ public class LogicController {
 				}
 				if(total == 0)
 					total = 1;
-				gpa += (((double)avg)/((double)total));
+				gpa += avg/total;
 			}
 			gpas[i].setGpa(4 * gpa/courses.length);
 		}
