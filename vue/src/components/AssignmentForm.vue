@@ -11,7 +11,7 @@
               <textarea :disabled='submitted' v-model="answers[index]"></textarea>
             </div>
             <div v-else class="mc-answer">
-              <div v-for="(answer, aindex) in question.answers" v-bind:key='aindex' class='mc-answer' v-bind:class="{'selected': isSelected(index,aindex)}" v-on:click.prevent='selectAnswer(index, aindex)'>
+              <div v-for="(answer, aindex) in question.answers" v-bind:key='aindex' v-bind:class="{ 'selected':selected[index][aindex] }" v-on:click.prevent='selectAnswer(index, aindex)'>
                 <p>{{answer}}</p>
               </div>
             </div>
@@ -34,28 +34,20 @@
           description: '',
           dueDate: '',
           questions: [],
+          selected: [[]],
           answers: [],
           submitted: false
         }
     },
     props: ["id"],
-    computed: {
-      isSelected(q, a){
-        return (this.questions.type=='mc'?this.questions[q]:this.questions[q][a])==a;
-      }
-    },
     methods: {
       clear(){
-        this.answers = this.questions.map((q)=>{return q.type=='mmc'?q.answers.map(()=>{return 0;}):''});
+        this.selected = this.questions.map((q)=>{return q.answers.map(()=>{return false;});});
+        this.answers = this.answers.map(()=>{return '';});
       },
       save(){
         for(let i=0;i<this.answers.length;i++){
-          if(this.questions[i].type=='mcc'){
-            let ans = this.answers[i].reduce((acc,val)=>{return acc+(val>0? '':','+val);});
-            homeworkService.saveHomeworkProgress(this.id,i+1,ans);
-          }else{
-            homeworkService.saveHomeworkProgress(this.id,i+1,this.answers[i]);
-          }
+          homeworkService.saveHomeworkProgress(this.id,i+1,this.answers[i]);
         }
       },
       submit(){
@@ -65,12 +57,17 @@
       selectAnswer(q, a){
         if(this.questions[q].type == 'mc'){
           this.answers[q]=a;
+          this.selected[q]=this.selected[q].map(()=>{return false;});
+          this.selected[q][a]=true;
         }else{
-          this.answers[q][a] = a-this.answers[q][a];
+          if(this.selected[q].includes(a)){
+            this.selected[q]=this.selected[q].filter((c)=>{return c!=a;});
+          }else{this.selected[q].push(a);}
+          this.answers[q] = this.selected[q].reduce((acc,val,i)=>{return val?acc+','+i:acc;},'');
         }
       }
     },
-    created() {
+    mounted() {
       homeworkService.get(this.id).then(response=>{
         this.name = response.data.name;
         this.description = response.data.description;
@@ -80,16 +77,16 @@
             'type': question.type,
             'statement': question.statement,
             'answers': question.answers,
-            'points': question.points
+            'weight': question.weight
           };
           if(question.type == 'text'){q.answers = [];}
           return q;
         });
-        this.answers = this.questions.map((q)=>{return q.type=='mmc'?q.answers.map(()=>{return -1;}):''});
+        this.clear();
         this.answers = response.data.answers;
         for(let i=0;i<this.answers.length;i++){
-          if(this.questions[i].type=='mmc'){
-            this.answers[i]=this.answers[i].split(',');
+          if(this.questions[i].type!='text' && this.answers[i] != ''){
+            this.answers[i].split(',').forEach((j)=>{this.selected[i][j]=true;});
           }
         }
       });
@@ -102,3 +99,9 @@
     }
   }
 </script>
+
+<style>
+.selected{
+  color:white;
+}
+</style>
