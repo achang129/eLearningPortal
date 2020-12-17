@@ -96,7 +96,7 @@ export default {
   ". parthenontext login"
   ". description ."
   ". gif .";
-  background-image:url("../assets/background.png");
+ 
 }
 
 .descriptiontext{
@@ -166,9 +166,9 @@ export default {
 }
 
 .signintext{
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   color: black;
-  text-shadow: -1px -1px 0 #e6c2bf, 1px -1px 0 #e6c2bf, -1px 1px 0 #e6c2bf, 1px 1px 0 #e6c2bf;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
   font-size: 70px;
   grid-area: parthenontext;
 }
@@ -183,7 +183,7 @@ export default {
   margin-left: 220px;
   width: fit-content;
   border: solid;
-  border-color: #e6c2bf;
+  border-color: solid black;
   grid-area: gif;
 }
 

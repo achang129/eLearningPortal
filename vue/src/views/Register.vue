@@ -109,10 +109,7 @@ export default {
 </script>
 
 <style>
-#register{
-  background-image:url("../assets/background.png");
-  
-}
+
 
 .createAccButton {
 	box-shadow:inset 0px 1px 0px 0px #000000;

@@ -64,6 +64,7 @@ export default {
   display: inline-block;
   grid-area: teachercourses;
   font-family: Georgia, 'Times New Roman', Times, serif;
+  margin-top: 20px;
 }
 
 .dashboardheader{
