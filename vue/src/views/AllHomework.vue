@@ -37,31 +37,31 @@ export default {
 
 <style>
 .hw-header{
-  display: flex;
-  justify-content: space-around;
+   display: flex;
+  justify-content: center;
+  width: 100%;
   grid-area: header;
 }
 
 .hw-header img{
-  border: solid black;
-  border-color: #e6c2bf;
+ border: solid black;
   border-radius: 24px;
   height: 17rem;
-  width: 70%;
+  width: 100%;
 }
 
 .all-homework {
-  grid-area: allhomework;
+  grid-area: allhw;
 }
 #all-homework-page-sidebar {
   grid-area: sidebar;
 }
 
 .homework-list {
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  grid-template-areas: 
-  "header header"
-  "sidebar allhomework"
+display: grid;
+grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+grid-template-areas: 
+". header header header ."
+"sidebar allhw allhw allhw ."
 }
 </style>
