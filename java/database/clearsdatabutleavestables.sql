@@ -1,6 +1,3 @@
---DO NOT RUN YET ALMOST DONE
-
-
 BEGIN TRANSACTION;
 
 DELETE FROM  mcchoice;
@@ -58,17 +55,6 @@ INSERT INTO student (student, course) VALUES
 ((SELECT user_id FROM users WHERE username='useruser1') , (SELECT id FROM course WHERE name = 'Math 241')) , ((SELECT user_id FROM users WHERE username='useruser6' ), (SELECT id FROM course WHERE name = 'Math 241')),
 ((SELECT user_id FROM users WHERE username='useruser3') , (SELECT id FROM course WHERE name = 'Math 241')) , ((SELECT user_id FROM users WHERE username='useruser8' ), (SELECT id FROM course WHERE name = 'Math 241')), 
 ((SELECT user_id FROM users WHERE username='useruser4') , (SELECT id FROM course WHERE name = 'Math 241')) , ((SELECT user_id FROM users WHERE username='useruser17'), (SELECT id FROM course WHERE name = 'Math 241')); 
-
-
-INSERT INTO course (name,description,class_size,cost) VALUES ('Memory.. course?','In this ..class.. thing.. we will recover the long-forgotten art of pneumonics!', 10, 150);
---teachers: useruser12 
---students: UU2,UU3,UU5,UU16
-INSERT INTO teacher (teacher, course) VALUES 
-((SELECT user_id FROM users WHERE username='useruser12'), (SELECT id FROM course WHERE name = 'Memory.. course?')); 
-INSERT INTO student (student, course) VALUES 
-((SELECT user_id FROM users WHERE username='useruser2') , (SELECT id FROM course WHERE name = 'Memory.. course?' )), ((SELECT user_id FROM users WHERE username='useruser5' ),(SELECT id FROM course WHERE name = 'Memory.. course?')),
-((SELECT user_id FROM users WHERE username='useruser3') , (SELECT id FROM course WHERE name = 'Memory.. course?' )), ((SELECT user_id FROM users WHERE username='useruser16'),(SELECT id FROM course WHERE name = 'Memory.. course?')); 
-
 
 INSERT INTO course (name,description,class_size,cost) VALUES ('Relational Databases','Scientists have recently conducted research indicating that relational databases may lead to prolonged bouts of brain fog. What does this tell us about the heretofore unquestioned hegemony of data-driven table design?', 5, 1000);
 --teachers: useruser14 
@@ -533,7 +519,7 @@ INSERT INTO curriculum (course, date, lesson) VALUES ((SELECT id FROM course WHE
 'Today I will just include a video to watch and discuss: is he talking about asynchronous programming? Why is this video even here?
 
 <div class="video">
-        <iframe width="560" height="315" src="//www.youtube.com/watch?v=FWqOts9oq80" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="//www.youtube.com/embed/FWqOts9oq80" frameborder="0" allowfullscreen></iframe>
 </div>
 <div>I will soon add a homework for this lesson!</div>');
 INSERT INTO curriculum (course, date, lesson) VALUES
@@ -591,19 +577,19 @@ INSERT INTO curriculum (course, date, lesson) VALUES
 'THE CASE FOR RDBMS IN THE AGE OF NOSQL SOLUTIONS -- 4
 ReferencesChowdhury, S. (2019, July 18). KnowledgeGraph: The Perfect Complement to Machine Learning. Retrieved from Towards Data Science: https://towardsdatascience.com/knowledge-graph-bb78055a7884Davidson, L., & Moss, J. (2016). Pro SQL Server Relational Database Design and Implementation(5th ed.). New York: Apress. doi:10.1007/978-1-4842-1973-7DoD Data & Analysis Center for Software (DACS). (1999, January 31). Object-Oriented Database Management: An Updated DACS State-of-the-Art Report.Retrieved from https://www.csiac.org/: https://www.csiac.org/wp-content/uploads/2016/02/Object-Oriented-Database-Mgmt-Systems-Revisited-SOAR.pdfMongoDB. (2020). MongoDB Document Databases. Retrieved from MongoDB: https://www.mongodb.com/document-databasesRana, A., Srinivasan, A., Waral, J., Singh, M., Handraha, S., & Noselli, C. (2017, October 6). A new era: Artificial intelligence is now the biggest tech disrupter. Retrieved from Bloomberg Professional Services: https://www.bloomberg.com/professional/blog/new-era-artificial-intelligence-now-biggest-tech-disrupter/Vázquez, F. (2019, January 22). Graph Databases. What’s the Big Deal?Retrieved from Towards Data Science: https://towardsdatascience.com/graph-databases-whats-the-big-deal-ec310b1bc0ed');
 BEGIN TRANSACTION;
-INSERT INTO course (name,description,class_size,cost) VALUES ('Math 241','Explore the mysterious world of addition and subtraction', 15, 400);
 INSERT INTO assignment (name, description, created_date, due_date, questions, course) VALUES
 ( 'Fundamentals 1' , ' This assignment will help practise addition, subtraction, multiplication, and division!' ,
 '12-16-2020', '12-24-2020', 5, (SELECT id FROM course WHERE name='Math 241'));
 --teachers: useruser10, useruser11 
 --students: UU1,UU3,UU4,UU6,UU8,UU17
---ASSIGNMENT - Fundamentals 1 -- QUESTIONS (All multiple choice)
+--ASSIGNMENT - Fundamentals 1 -- QUESTIONS (All text)
 INSERT INTO question (assignment, number, type, statement) VALUES 
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, 'text', '5 + 3 = ?'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, 'text', '17 - 2 = ?'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, 'text', '5 * 5 = ?'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, 'text', '5 + ? = 3'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, 'text', '16 - 5 + ? = 14');
+--Fundamentals 1 , question 1
 INSERT INTO answer (student, assignment, question, answer) VALUES 
 ((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, '8'),
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, '6'),
@@ -611,47 +597,212 @@ INSERT INTO answer (student, assignment, question, answer) VALUES
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, 'eight'),
 ((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, '8'),
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, '90');
+--Fundamentals 1 , question 2
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, '8'),
-((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, '6'),
-((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, '2'),
-((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, 'eight'),
-((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, '8'),
-((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, '90');
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, '15'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, '14'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, '15'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, ' 16'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, ' 15'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, ' 14');
+--Fundamentals 1 , question 3
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '8'),
-((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '6'),
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '25'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '23'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '2'),
-((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, 'eight'),
-((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '8'),
-((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '90');
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, ' 25'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '5*5'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '26');
+--Fundamentals 1 , question 4
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '8'),
-((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '6'),
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '3'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '-2'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '2'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, 'eight'),
-((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '8'),
-((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '90');
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '0'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '-02');
+--Fundamentals 1 , question 5
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '8'),
-((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '6'),
-((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '2'),
-((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, 'eight'),
-((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '8'),
-((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '90');
-
-
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '3'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, ' 3 '),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '3'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '3t'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, ' 3'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '4');
+--teachers: useruser10, useruser11 
+--students: UU1,UU3,UU4,UU6,UU8,UU17
+--ASSIGNMENT - Fundamentals 2 -- QUESTIONS (All multiple choice -- actual questions are identical to Fundamentals 1)
 INSERT INTO assignment (name, description, created_date, due_date, questions, course) VALUES
-( 'Fundamentals 1' , ' This assignment will help practise addition, subtraction, multiplication, and division!' ,
-'12-16-2020', '12-24-2020', 5, (SELECT id FROM course WHERE name='Math 241'));
+( 'Fundamentals 2' , ' In this assignment we will continue to practise addition, subtraction, multiplication, and division!' ,
+'12-17-2020', '12-25-2020', 5, (SELECT id FROM course WHERE name='Math 241'));
 INSERT INTO question (assignment, number, type, statement) VALUES 
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'mc', '15 - 15 = ? * ( 16 + 42 )'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'mc', '9 = ?² '),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'mc', '16 + 16 =  ?'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'mc', '1 + 1 + 1(14 + 5) = ?'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'mc', '22 = 6 + ?²');
+--Fundamentals 2 , question 1, answer - A
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'A'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'A'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'B'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'C'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'A'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'A');
+--Fundamentals 2 , question 2, answer - C
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'D'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'C'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'A'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'D'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'B'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'D');
+--Fundamentals 2 , question 3 , answer B
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'B'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'A'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'D'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'C'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'B'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'B');
+--Fundamentals 2 , question 4, answer C
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'C'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'D'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'C'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'E'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'asdfwef'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'C');
+--Fundamentals 2 , question 5, answer D
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'A'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'D'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'D'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'A'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'bee'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'D');
 
-ROLLBACK TRANSACTION;
+INSERT into mcchoice (assignment, question, choice, answer, correct) VALUES
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),1,1,'A',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),1,2,'B',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),1,3,'C',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),1,4,'D',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),2,1,'A',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),2,2,'B',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),2,3,'C',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),2,4,'D',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),3,1,'A',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),3,2,'B',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),3,3,'C',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),3,4,'D',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),4,1,'A',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),4,2,'B',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),4,3,'C',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),4,4,'D',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),5,1,'A',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),5,2,'B',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),5,3,'C',FALSE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 2'),5,4,'D',TRUE);
+
+
+INSERT INTO assignment (name, description, created_date, due_date, questions, course) VALUES
+( 'Fundamentals 3' , ' Yet another assignment!' ,
+'12-18-2020', '12-31-2020', 5, (SELECT id FROM course WHERE name='Math 241'));
+--teachers: useruser10, useruser11 
+--students: UU1,UU3,UU4,UU6,UU8,UU17
+--ASSIGNMENT - Fundamentals 3 -- QUESTIONS (All text)
+INSERT INTO question (assignment, number, type, statement) VALUES 
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'text', 'Spell "vuejs"'),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'text', 'Again! (spell "vuejs")'),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'text', 'Does SQL have anything to do with lentil soup?'),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'text', 'Can you run that word be me again, "vuejs"? Thanks.'),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'text', 'Is it easy to create online tests?');
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'vue.js'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, '"vue.js"'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'VUEJS'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'vue');
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'vue.js'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, '"vue.js"'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'VUEJS'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'vue');
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'no'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'Im not sure'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'no'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'YES!!'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'I remember hearing that, yea'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'no');
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'vue.js'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, '"vue.js"'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'VUEJS'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'vue');
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'no'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'yes'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'yes'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'YES!!'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'nope'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'no');
+
+
+INSERT INTO message (user_id, read, content) VALUES
+((SELECT user_id FROM users WHERE username = 'student'), TRUE, 'Hi, We are canelling class next thursday'),
+((SELECT user_id FROM users WHERE username = 'admin'), TRUE, 'just a reminder that all classes are cancelled next thursday'),
+((SELECT user_id FROM users WHERE username = 'admin'), TRUE, 'Hi, this is username "teacher", you may have heard class is cancelled... well it is not cancelled!');
+
+
+INSERT INTO assignment (name, description, created_date, due_date, questions, course) VALUES
+( 'First Week Quiz' , 'Practise everything we have learned from the lessons' ,
+'12-18-2020', '12-31-2020', 5, (SELECT id FROM course WHERE name='Relational Databases'));
+--teachers: useruser14 
+--students: UU2,UU4,UU7,UU9,UU18 (exactly the class limit)
+--ASSIGNMENT - Fundamentals 3 -- QUESTIONS (All text)
+--Intentionally turning nothing in for user 18, maybe eventually have some alert set up for this
+INSERT INTO question (assignment, number, type, statement) VALUES 
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, 'text', 'Spell "vuejs"'),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, 'text', 'Again! (spell "vuejs")'),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 3, 'text', 'Does SQL have anything to do with lentil soup?'),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 4, 'text', 'Can you run that word be me again, "vuejs"? Thanks.'),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'text', 'Is it easy to create online tests?');
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser2'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, 'vue.js'),
+((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, '"vue.js"'),
+((SELECT user_id FROM users WHERE username = 'useruser9'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, 'vuejs');
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser2'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, 'vue.js'),
+((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, '"vue.js"'),
+((SELECT user_id FROM users WHERE username = 'useruser9'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, 'vuejs');
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser2'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 3, 'no'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 3, 'Im not sure'),
+((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 3, 'no'),
+((SELECT user_id FROM users WHERE username = 'useruser9'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 3, 'YES!!');
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser2'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 4, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 4, 'vue.js'),
+((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 4, '"vue.js"'),
+((SELECT user_id FROM users WHERE username = 'useruser9'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 4, 'vuejs');
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser2'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'no'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'yes'),
+((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'yes'),
+((SELECT user_id FROM users WHERE username = 'useruser9'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'YES!!');
+
+
+
+
+COMMIT TRANSACTION;
 
 
 
