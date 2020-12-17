@@ -9,7 +9,7 @@
         <div>Cost: {{course.cost}}</div>
       </div>
 
-      <div>
+      <div id="grid-holder">
         <table class="student-table">
             <thead>
                 <tr>
@@ -79,14 +79,14 @@ export default {
   display: grid;
   grid-template-columns: .5fr 1fr 1fr 1fr;
   grid-template-areas: 
-  ". detailsheading detailsheading detailsheading"
-  "sidebar . . .";
+  "sidebar detailsheading detailsheading detailsheading";
 
 }
 
 .course-details-heading{
   grid-area: detailsheading;
-  width: 100%;
+  width: 70%;
+  margin: 4rem 5rem 0rem 0rem;
 }
 
 .deets-sidebar{
