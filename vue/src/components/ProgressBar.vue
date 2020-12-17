@@ -20,12 +20,17 @@ export default {
         getGrades() {
             gradeService.list()
             .then(response => {
+                console.log(response.data);
                 this.grades = response.data;
             });
         },
         calculateGrade() {
             let combined = 0
             let numOfGrades = 0
+            if(this.grades.length==0){
+                this.cummulative = 0;
+                return this.cummulative;
+            }
             for (var grade in this.grades) {
                 combined += Number(this.grades[grade].grade);
                 numOfGrades += 1;
