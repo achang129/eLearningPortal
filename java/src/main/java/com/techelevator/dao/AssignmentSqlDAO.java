@@ -107,7 +107,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 				sql = "SELECT choice FROM mcchoice WHERE assignment = ? AND question = ? AND correct = true";
 				rows = jdbcTemplate.queryForRowSet(sql, id, i+1);
 				if(rows.next()){
-					if(Integer.toString(rows.getInt(0)).equals(ans[i]))
+					if(Integer.toString(rows.getInt("choice")).equals(ans[i]))
 						correct += weights[i];
 				}
 				break;
@@ -133,9 +133,13 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	
 
 	@Override
-	public int getTeacher(int id) {
-		String sql = "SELECT t.teacher FROM teacher t INNER JOIN assignment a ON a.course = t.course WHERE a.id = ?";
-		return jdbcTemplate.queryForObject(sql, Integer.class, id);
+	public Integer[] getTeacher(int id) {
+		String sql = "SELECT t.teacher as te FROM teacher t INNER JOIN assignment a ON a.course = t.course WHERE a.id = ?";
+		List<Integer> ts = new ArrayList<Integer>();
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id);
+		while(rows.next())
+			ts.add(rows.getInt("te"));
+		return ts.toArray(new Integer[0]);
 	}
 
 	@Override
