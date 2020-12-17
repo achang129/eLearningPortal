@@ -1,7 +1,7 @@
 <template v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
-  <div>
-    <h1>Assignment Information</h1>
-      <edit-assignment /> 
+  <div class="maindiv">
+    <h1 class="header">Assignment Creator</h1>
+    <edit-assignment class="editor"/> 
   </div>   
 </template>
 
@@ -15,3 +15,12 @@ export default {
   }
 }
 </script>
+<style >
+  .maindiv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "header editor";
+    
+  }
+
+</style>

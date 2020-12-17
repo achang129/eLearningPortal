@@ -8,7 +8,7 @@
           </thead>
           <tr v-for="student in students" v-bind:key="student.id">
               <td> {{ student.student }}</td>
-              <td> {{ student.grade }}</td>
+              <td> {{ student.grade }}%</td>
           </tr>
       </table>
     </div>
@@ -45,7 +45,11 @@ export default {
 </script>
 
 <style scoped>
-  td {
-    color: white;
-  }
+  tbody>tr {
+  background-color: rgb(67, 136, 141);
+}
+
+tbody>tr:nth-child(even) {
+  background-color: #3a3535;
+}
 </style>
