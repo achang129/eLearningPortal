@@ -1,18 +1,22 @@
 <template>
   <div class="lesson-container">
-      <router-link
-          :to="{name: 'course', params: {id: this.courseid}}">
-          <span style="font-size: 25px"> ↰ Go Back to Course Page</span>
-        </router-link>
-      <h1></h1>
-      <div id="lesson">
-        <p id="inner-lesson-view">
-          <span v-html="this.lesson"></span>
-        </p>
-      </div>
+    <router-link
+      :to="{name: 'course', params: {id: this.courseid}}">
+      <span style="font-size: 15px"> ↰ Go Back to Course Page</span>
+    </router-link>
+    <h1></h1>
+    <div id="lesson">
+      <p id="inner-lesson-view">
+        <span v-html="this.lesson"></span>
+      </p>
+    </div>
    <!-- <div class="lesson-sidebar">
      <user-sidebar />
    </div> -->
+    <router-link
+      :to="{name: 'course', params: {id: this.courseid}}">
+      <span style="font-size: 15px"> ↰ Go Back to Course Page</span>
+    </router-link>
   </div>
 </template>
 
@@ -40,10 +44,12 @@ export default{
   display: block;
   flex-direction: column;
   justify-content: center;
-  border: solid black;
   background-color: #3a3535;
   color:rgb(175, 198, 216);
+  margin: 2rem 5rem;
+  padding: .5rem;
 }
+
 
 
 
