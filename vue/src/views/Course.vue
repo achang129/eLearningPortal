@@ -2,7 +2,7 @@
   <loading-screen v-if="isLoading" />
     <div id="course-view-grid-container" v-else>
       <header class="courseHeader">
-        <img src="../assets/courseDetailsBanner.png" alt="Course Details Banner">
+        <img src="../assets/coursedetails.png" alt="Course Details Banner">
       </header>
       <div class="course">
         <course-info v-bind:courseid="$route.params.id" />
@@ -39,17 +39,17 @@ export default {
 
 <style>
 .courseHeader{
-   display: flex;
-  justify-content: space-around;
+  display: flex;
+  justify-content: center;
   grid-area: header;
+  width: 100%;
 }
 
 .courseHeader img{
    border: solid black;
-  border-color: #e6c2bf;
   border-radius: 24px;
   height: 17rem;
-  width: 70%;
+  width: 100%;
 }
 
 .course {
@@ -61,14 +61,9 @@ export default {
 
 #course-view-grid-container {
   display: grid;
-  grid-template-columns: .60fr 4fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas: 
-  "header header"
-  "sidebar course";
+  ". header header header ."
+  "sidebar course course course .";
 }
-
-
-
-
-
 </style>

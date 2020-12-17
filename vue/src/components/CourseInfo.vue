@@ -1,5 +1,5 @@
 <template>
-  <div class="course">
+  <div class="course-comp">
     <div id="course-details-heading">
         <div>Course Id: {{courseid}}</div>
         <div>Class: {{course.name}}</div>
@@ -56,9 +56,9 @@
           </tbody>
         </table>
         <div id="empty-message" v-show="this.course.curricula.length==0">
-          <br>~~~<br>
+        
           <p>Looks Like There are No Lessons So Far!</p>
-          <br>~~~<br>
+          
         </div>
         <br>
       </div>
@@ -157,6 +157,22 @@ export default {
 </script>
 
 <style>
+.course-comp{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  font-size: 24px;
+  border-bottom: 1px solid #f2f2f2;
+  padding: 10px 20px;
+}
+
+#curriculum-table{
+  display: flex;
+  
+  flex-direction: column;
+}
+
 .formtext{
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
@@ -164,6 +180,8 @@ export default {
 .courseinforows{
   text-decoration: underline;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
+  display: flex;
+  justify-content:space-evenly;
 }
 
 #empty-message{
@@ -190,6 +208,7 @@ export default {
   font-style: normal;
   font-variant: small-caps;
   text-transform: capitalize;
+  
   
 }
 
@@ -270,17 +289,13 @@ export default {
 #curricula-container{
   display:flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
 }
 .course-list {
   margin: 0 auto;
   max-width: 800px;
 }
-.course {
-  font-size: 24px;
-  border-bottom: 1px solid #f2f2f2;
-  padding: 10px 20px;
-}
+
 .course:last-child {
   border: 0px;
 }
