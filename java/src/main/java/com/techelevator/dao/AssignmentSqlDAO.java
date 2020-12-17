@@ -47,7 +47,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 			return 0;
 		int id = rows.getInt("id");
 		for(int i=0; i<questions.length; i++){
-			sql = "INSERT INTO questions (assignment, number, weight, type, statement) VALUES (?,?,?,?,?)";
+			sql = "INSERT INTO question (assignment, number, weight, type, statement) VALUES (?,?,?,?,?)";
 			jdbcTemplate.update(sql,id,i,questions[i].getWeight(),questions[i].getType(),questions[i].getStatement());
 			for(int j=0; j<questions[i].getAnswers().length; j++){
 				sql = "INSERT INTO mcchoice (assignment, question, choice, answer, correct) VALUES (?,?,?,?,?)";
