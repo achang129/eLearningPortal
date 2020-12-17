@@ -76,6 +76,7 @@
 
 <script>
 import courseService from "../services/CourseService.js";
+import homeworkService from "../services/HomeworkService.js";
 import SelectTeacher from "./SelectTeacher.vue";
 import StudentList from './StudentList';
 
@@ -96,7 +97,8 @@ export default {
       newLesson: "",
       newDate: new Date(),
       showSectionTeacher: false,
-      showSectionStudent: false
+      showSectionStudent: false,
+      assignments: []
     }
   },
   computed: {
@@ -114,13 +116,32 @@ export default {
       this.$router.push({name: 'lesson', params: {id: this.$props.courseid}});
     },
     goToAssignment(assignment){
-      alert(assignment);
+      this.setCurrentAssignment(assignment);
+      this.$router.push({name: 'assignment-form', params: {id: this.$props.courseid}});
+    },
+    getAssignments() {
+        homeworkService.list()
+          .then(response => {
+            this.assignments = response.data;
+        });
     },
     removeHomework(assignment){
-      alert(assignment)
+      homeworkService.deleteHomework(assignment)
+        .then(response => {
+          if (response.status === 200) {
+            this.assignments = this.assignments.filter((assignment)=>{return assignment.name !== name;});
+          }
+        }).catch(error => {
+          if (error.response) {
+            this.errorMsg = error.response.statusText;
+          }
+        });
     },
     setCurrentLesson(lesson){
       this.$store.commit('SET_CURRENT_LESSON', lesson);
+    },
+    setCurrentAssignment(assignment){
+      this.$store.commit('SET_CURRENT_ASSIGNMENT', assignment);
     },
     toggleTeacher(){
       this.showSectionTeacher = !this.showSectionTeacher;
@@ -151,6 +172,7 @@ export default {
   },
   created() {
     this.getCoursework();
+    this.getAssignments();
   }
 };
 

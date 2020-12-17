@@ -125,6 +125,9 @@ export default new Vuex.Store({
     },
     SET_CURRENT_LESSON(state, lessonText){
       state.currentLesson = lessonText;
+    },
+    SET_CURRENT_ASSIGNMENT(state, assignment){
+      state.currentAssignment = assignment;
     }
   }
 })
