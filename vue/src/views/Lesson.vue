@@ -2,7 +2,7 @@
   <div id="lesson-grid-container" class="lesson">
       <router-link id="link-to-courses-in-lesson"
           :to="{name: 'course', params: {id: this.courseid}}">
-          <span>Go Back to Course Page</span>
+          <span style="font-size: 25px"> ↰ Go Back to Course Page</span>
         </router-link>
       <h1></h1>
       <div id="lesson">
@@ -30,21 +30,19 @@ export default {
 <style>
 #lesson {
   grid-area: outer;
+  background-color: beige;
+  margin-top: 3%;
+  margin-left: 3%;
+  margin-right: 3%;
 }
 #inner-lesson-view {
   grid-area: inner;
+  margin-left: 7%;
+  margin-right: 7%;
+  margin-bottom: 5%;
+  margin-top: 5%;
 }
 #link-to-courses-in-lesson{
-  grid-area: linkback
-}
-#lesson-grid-container{
-  grid-template-columns: .8fr 2fr 2fr 2fr .8fr;
-  grid-template-areas: 
-  ". linkback . . ."
-  "outer inner inner inner outer"
-   "outer inner inner inner outer"
-    "outer inner inner inner outer"
-     "outer inner inner inner outer"
-      "outer inner inner inner outer"
+  grid-area: linkback;
 }
 </style>
