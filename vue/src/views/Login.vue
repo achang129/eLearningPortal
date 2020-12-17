@@ -1,11 +1,14 @@
 <template>
-    <div id="login" class="text-center">
-      <h1 class="signintext">PARTHENON</h1>
+    <div id="login">
+      <header class="parthenonimg"> 
+        <img src="../assets/loginname.png" alt="Parthenon Text" >
+      </header>
+      <!-- <h1 class="signintext">PARTHENON</h1>
       <h2 class="descriptiontext">Parthenon is an education organizational tool, designed to be your education center.
         
         <br>
         Our goal is to make organizing and staying on top of your education needs easier. For both students and faculty.
-      </h2>
+      </h2> -->
       <form class="form-signin" @submit.prevent="login">
         <div
           class="alert alert-danger"
@@ -44,7 +47,10 @@
         <div class="needacc-link"><router-link :to="{ name: 'register' }">Need an account? Register here</router-link></div>
       </form>
       <div class="login-register-gif">
-        <img src="../assets/Login_RegisterGIF.gif" alt="Parthenon Logo Gif">
+        <img src="../assets/newLogin_RegGIF.gif" alt="Parthenon Logo Gif" class="gif">
+      </div>
+      <div class="description">
+        <img src="../assets/logindescrip.png" alt="Description Login Text">
       </div>
     </div>
 </template> 
@@ -88,24 +94,44 @@ export default {
 </script>
 
 <style>
+.parthenonimg{
+  display: flex;
+  justify-content:space-evenly;
+  grid-area: title;
+  width: 100%;
+  /* height: 34vh; */
+}
+
+
+
 #login{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: .2fr .2fr .2fr;
+  grid-template-rows: .1fr 1fr .1fr;
   grid-template-areas: 
-  ". parthenontext login"
-  ". description ."
-  ". gif .";
- 
+  "title title ."
+  "gif gif login"
+  "description description .";
 }
 
-.descriptiontext{
+.description{
+ grid-area: description;
+ display: flex;
+ justify-content: space-evenly;
+ margin-top: 20px;
+}
+
+.description img{
+  width: 50vw;
+}
+
+/* .descriptiontext{
   border: solid black;
   font-size: 2em;
   width: 100vh;
   
   grid-area: description;
-}
+} */
 
 .form-signin{
   width: fit-content;
@@ -142,9 +168,9 @@ export default {
 
 
 
-.text-center {
+/* .text-center {
   text-align: center;
-}
+} */
 
 .form-control:hover{
  background-color: #bde3fc;
@@ -165,13 +191,13 @@ export default {
   transition: all .15s ease;
 }
 
-.signintext{
+/* .signintext{
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   color: black;
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
   font-size: 70px;
   grid-area: parthenontext;
-}
+} */
 
 .needacc-link{
   margin-top: 20px;
@@ -179,15 +205,16 @@ export default {
 
 
 .login-register-gif{
-  margin-top: 25px;
-  margin-left: 220px;
-  width: fit-content;
-  border: solid;
-  border-color: solid black;
+  /* margin-top: 25px;
+  margin-left: 220px; */
+  width: 100%;
   grid-area: gif;
+  display: flex;
+  justify-content: space-evenly;
 }
 
-
-
-
+.gif{
+  height: 44vh;
+  
+}
 </style>
