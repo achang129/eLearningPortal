@@ -1,6 +1,7 @@
 <template>
   <loading-screen v-if="isLoading"></loading-screen>
     <div class="homework" v-else>
+      <router-link class="details-link" :to="{ name: 'all-homework' }">Go Back to Assignments</router-link>
       <assignment-form v-bind:id="parseInt($route.params.id)" />
     </div>
 </template>
@@ -28,5 +29,7 @@ export default {
 </script>
 
 <style>
-
+.details-link{
+  color:rgb(184, 201, 214);
+}
 </style>

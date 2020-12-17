@@ -182,8 +182,8 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 		sql = "SELECT * FROM mcchoice WHERE assignment = ? ORDER BY choice DESC";
 		rows = jdbcTemplate.queryForRowSet(sql, id);
 		while(rows.next()){
-			int q = rows.getInt("question");
-			int a = rows.getInt("choice");
+			int q = rows.getInt("question")-1;
+			int a = rows.getInt("choice")-1;
 			if(a>questions[q].getAnswers().length){
 				questions[q].setAnswers(new String[a+1]);
 				questions[q].setCorrect(new boolean[a+1]);}

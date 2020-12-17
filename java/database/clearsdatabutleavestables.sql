@@ -1,3 +1,56 @@
+/*structure notes:
+
+== ROLE_USER == a student, or anybody who is not a teacher or admin
+== ROLE_TEACHER == create assignments and curriculum
+== ROLE_ADMIN == database owner. creates courses, enrolls all other users to their respective courses
+
+
+== COURSES == 
+
+'Math 241'
+--teachers: useruser10, useruser11 , teacher
+--students: UU1,UU3,UU4,UU6,UU8,UU17, user , student
+--THERE SHOULD BE 3 ASSIGNMENTS associated with this course. named 'Fundamentals 1' - text , 'Fundamentals 2' - multiple choice, 'Fundamentals 3' - text
+--All students have turned in these assignments BESIDES username 'user' and 'useruser1'
+--'Fundamentals 1' should be fully graded, accurately
+--'Fundamentals 2' is identical, but a multiple choice version (I am referring to the test questions NOT the answers given)
+--'Fundamentals 3', only username:'student' has been graded.
+
+'Relational Databases'
+--teachers: useruser14 
+--students: student,UU4,UU7,UU9,UU18 (exactly the class limit)
+--THERE SHOULD BE 2 ASSIGNMENTS : 'First Week Quiz' And 'Second Week Quiz'
+--All students BESIDES useruser18 have turned in 'First Week Quiz', all are ungraded for this assignment.
+--ONLY 'student' and useruser7 have turned in 'Second Week Quiz', both of those have been graded.
+
+
+'Sea as in Cnidarian: Spelling 101'
+--teachers: useruser15, useruser10 
+--students: UU1,UU8,UU9,UU17, student
+--No assignments, embed youtube video in link
+
+'Object Oriented Programming'
+--teachers: useruser13, teacher
+--students: UU1,UU3,UU4,UU6, user, student
+--tech elevator book as the lesson plan. to add more, save the html, and post into a curriculum object. 
+---------------(first open in notepad and delete all single quote marks -- jdbc handles these things for us, dont worry)
+
+'Ancient Roman Literature: Catullus'
+--teachers: useruser10, teacher 
+--students: UU1,UU3,UU4,UU6,UU18,UU19
+
+==Assignments==
+Specifically Math 241 and Relational Databases are the courses with assignments added in. Look at the comments on those course to see what's graded^
+
+==grade==
+keep in mind the only column that gills out "date submitted" is grade. meaning this value should be captured once the assignment has no remaining questions, 
+NOT when the teacher chooses to grade it.
+
+==multiple choice== 
+may need some tweaking
+Currently I am associating A-1, B-2, C-3, D-4, and assuming that the question statement will list the options next to (a,b,c,d)
+
+*/
 BEGIN TRANSACTION;
 
 DELETE FROM  mcchoice;
@@ -12,10 +65,6 @@ DELETE FROM  assignment;
 DELETE FROM  course;
 DELETE FROM  users;
 
-
---ROLE_USER == a student, or anybody who is not a teacher or admin
---ROLE_TEACHER == create assignments and curriculum
---ROLE_ADMIN == database owner. creates courses, enrolls all other users to their respective courses
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
 INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
 INSERT INTO users (username,password_hash,role) VALUES ('student','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
@@ -46,53 +95,58 @@ INSERT INTO users (username,password_hash,role) VALUES ('useruser18','$2a$10$BV3
 INSERT INTO users (username,password_hash,role) VALUES ('useruser19','$2a$10$r51.KwmZwQppY8S.g3jTVejcp4AQPfpmarwuUEziR2sWM/gJtOtnO','ROLE_USER');
 
 INSERT INTO course (name,description,class_size,cost) VALUES ('Math 241','Explore the mysterious world of addition and subtraction', 15, 400);
---teachers: useruser10, useruser11 
---students: UU1,UU3,UU4,UU6,UU8,UU17
+--teachers: useruser10, useruser11, teacher
+--students: UU1,UU3,UU4,UU6,UU8,UU17, user , student
 INSERT INTO teacher (teacher, course) VALUES 
+((SELECT user_id FROM users WHERE username='teacher'), (SELECT id FROM course WHERE name = 'Math 241')),
 ((SELECT user_id FROM users WHERE username='useruser10'), (SELECT id FROM course WHERE name = 'Math 241')),
 ((SELECT user_id FROM users WHERE username='useruser11'), (SELECT id FROM course WHERE name = 'Math 241')); 
 INSERT INTO student (student, course) VALUES 
 ((SELECT user_id FROM users WHERE username='useruser1') , (SELECT id FROM course WHERE name = 'Math 241')) , ((SELECT user_id FROM users WHERE username='useruser6' ), (SELECT id FROM course WHERE name = 'Math 241')),
 ((SELECT user_id FROM users WHERE username='useruser3') , (SELECT id FROM course WHERE name = 'Math 241')) , ((SELECT user_id FROM users WHERE username='useruser8' ), (SELECT id FROM course WHERE name = 'Math 241')), 
+((SELECT user_id FROM users WHERE username='user') , (SELECT id FROM course WHERE name = 'Math 241'))      , ((SELECT user_id FROM users WHERE username='student') , (SELECT id FROM course WHERE name = 'Math 241')) ,
 ((SELECT user_id FROM users WHERE username='useruser4') , (SELECT id FROM course WHERE name = 'Math 241')) , ((SELECT user_id FROM users WHERE username='useruser17'), (SELECT id FROM course WHERE name = 'Math 241')); 
 
 INSERT INTO course (name,description,class_size,cost) VALUES ('Relational Databases','Scientists have recently conducted research indicating that relational databases may lead to prolonged bouts of brain fog. What does this tell us about the heretofore unquestioned hegemony of data-driven table design?', 5, 1000);
 --teachers: useruser14 
---students: UU2,UU4,UU7,UU9,UU18 (exactly the class limit)
+--students: student,UU4,UU7,UU9,UU18 (exactly the class limit)
 INSERT INTO teacher (teacher, course) VALUES 
 ((SELECT user_id FROM users WHERE username='useruser14') ,(SELECT id FROM course WHERE name = 'Relational Databases'));
 INSERT INTO student (student, course) VALUES 
-((SELECT user_id FROM users WHERE username='useruser2' ), (SELECT id FROM course WHERE name = 'Relational Databases')) , ((SELECT user_id FROM users WHERE username='useruser9' ), (SELECT id FROM course WHERE name = 'Relational Databases')),
+((SELECT user_id FROM users WHERE username='student' ), (SELECT id FROM course WHERE name = 'Relational Databases')) , ((SELECT user_id FROM users WHERE username='useruser9' ), (SELECT id FROM course WHERE name = 'Relational Databases')),
 ((SELECT user_id FROM users WHERE username='useruser4' ), (SELECT id FROM course WHERE name = 'Relational Databases')) , ((SELECT user_id FROM users WHERE username='useruser18'), (SELECT id FROM course WHERE name = 'Relational Databases')), 
 ((SELECT user_id FROM users WHERE username='useruser7' ), (SELECT id FROM course WHERE name = 'Relational Databases')) ;
 
 
 INSERT INTO course (name,description,class_size,cost) VALUES ('Sea as in Cnidarian: Spelling 101','Is it possible to get better at scrabble? Most likely, no, but it is still a fun game!', 5, 600);
 --teachers: useruser15, useruser10 
---students: UU1,UU8,UU9,UU17
+--students: UU1,UU8,UU9,UU17, student
 INSERT INTO teacher (teacher, course) VALUES 
 ((SELECT user_id FROM users WHERE username='useruser15'), (SELECT id FROM course WHERE name = 'Sea as in Cnidarian: Spelling 101')),
 ((SELECT user_id FROM users WHERE username='useruser10'), (SELECT id FROM course WHERE name = 'Sea as in Cnidarian: Spelling 101')); 
 INSERT INTO student (student, course) VALUES 
 ((SELECT user_id FROM users WHERE username='useruser1') , (SELECT id FROM course WHERE name = 'Sea as in Cnidarian: Spelling 101')),((SELECT user_id FROM users WHERE username='useruser9' ),(SELECT id FROM course WHERE name = 'Sea as in Cnidarian: Spelling 101')),
+((SELECT user_id FROM users WHERE username='student') , (SELECT id FROM course WHERE name = 'Sea as in Cnidarian: Spelling 101')),
 ((SELECT user_id FROM users WHERE username='useruser8') , (SELECT id FROM course WHERE name = 'Sea as in Cnidarian: Spelling 101')),((SELECT user_id FROM users WHERE username='useruser17'),(SELECT id FROM course WHERE name = 'Sea as in Cnidarian: Spelling 101')); 
 
 INSERT INTO course (name,description,class_size,cost) VALUES ('Object Oriented Programming','You may have heard OOP is easy as P.I.E.! Well... that is not true.', 20, 750);
---teachers: useruser13 
---students: UU1,UU3,UU4,UU6
+--teachers: useruser13 , teacher
+--students: UU1,UU3,UU4,UU6, user, student
 INSERT INTO teacher (teacher, course) VALUES 
-((SELECT user_id FROM users WHERE username='useruser13'), (SELECT id FROM course WHERE name = 'Object Oriented Programming'));
+((SELECT user_id FROM users WHERE username='useruser13'), (SELECT id FROM course WHERE name = 'Object Oriented Programming')),
+((SELECT user_id FROM users WHERE username='teacher'), (SELECT id FROM course WHERE name = 'Object Oriented Programming'));
 INSERT INTO student (student, course) VALUES 
 ((SELECT user_id FROM users WHERE username='useruser1') , (SELECT id FROM course WHERE name = 'Object Oriented Programming')), ((SELECT user_id FROM users WHERE username='useruser4'),( SELECT id FROM course WHERE name = 'Object Oriented Programming')),
+((SELECT user_id FROM users WHERE username='student') , (SELECT id FROM course WHERE name = 'Object Oriented Programming')), ((SELECT user_id FROM users WHERE username='user'),( SELECT id FROM course WHERE name = 'Object Oriented Programming')),
 ((SELECT user_id FROM users WHERE username='useruser3') , (SELECT id FROM course WHERE name = 'Object Oriented Programming')), ((SELECT user_id FROM users WHERE username='useruser6'), ( SELECT id FROM course WHERE name = 'Object Oriented Programming')); 
 
 
 INSERT INTO course (name,description,class_size,cost) VALUES ('Ancient Roman Literature: Catullus','The irreverent poet Catullus wrote in a style that remains modern even into today!', 25, 2000);
---teachers: useruser10, useruser13 
+--teachers: useruser13, teacher 
 --students: UU1,UU3,UU4,UU6,UU18,UU19
 INSERT INTO teacher (teacher, course) VALUES 
-((SELECT user_id FROM users WHERE username='useruser10'),(SELECT id FROM course WHERE name = 'Ancient Roman Literature: Catullus')),
-((SELECT user_id FROM users WHERE username='useruser13'),(SELECT id FROM course WHERE name = 'Ancient Roman Literature: Catullus')); 
+((SELECT user_id FROM users WHERE username='teacher'),(SELECT id FROM course WHERE name = 'Ancient Roman Literature: Catullus')),
+((SELECT user_id FROM users WHERE username='useruser10'),(SELECT id FROM course WHERE name = 'Ancient Roman Literature: Catullus')); 
 INSERT INTO student (student, course) VALUES 
 ((SELECT user_id FROM users WHERE username='useruser1'), (SELECT id FROM course WHERE name = 'Ancient Roman Literature: Catullus')) , ((SELECT user_id FROM users WHERE username='useruser6' ) , (SELECT id FROM course WHERE name = 'Ancient Roman Literature: Catullus')),
 ((SELECT user_id FROM users WHERE username='useruser3'), (SELECT id FROM course WHERE name = 'Ancient Roman Literature: Catullus')) , ((SELECT user_id FROM users WHERE username='useruser18') , (SELECT id FROM course WHERE name = 'Ancient Roman Literature: Catullus')), 
@@ -355,7 +409,7 @@ result <span class="token operator">=</span> <span class="token punctuation">(</
 
 INSERT INTO curriculum (course, date, lesson) VALUES
 
-((SELECT id FROM course WHERE (name='Object Oriented Programming')), '12-25-2020', 
+((SELECT id FROM course WHERE (name='Object Oriented Programming')), '12-28-2020', 
 '<!DOCTYPE html>
   Tech Elevator
   <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="https://book.techelevator.com/" class="nav-link">
@@ -464,11 +518,45 @@ output = MultiplyBy(9, 2);      //invokes MultiplyBy method. 9 is the multiplica
   
 
 </body></html>');
+INSERT INTO curriculum (course, date, lesson) VALUES
+
+((SELECT id FROM course WHERE (name='Object Oriented Programming')), '12-25-2020', 
+'<!DOCTYPE html>
+<div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/content/language.html" class="nav-link">
+  Language
+</a></div><div class="nav-item"><a href="/content/glossary.html" class="nav-link">
+  Glossary
+</a></div><div class="nav-item"><a href="https://techelevator.com" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Tech Elevator
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/content/language.html" class="nav-link">
+  Language
+</a></div><div class="nav-item"><a href="/content/glossary.html" class="nav-link">
+  Glossary
+</a></div><div class="nav-item"><a href="https://techelevator.com" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Tech Elevator
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><a href="/" class="sidebar-link">Introduction</a></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Module 1</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/content/introduction-to-tools.html" class="sidebar-link">Introduction to Tools</a></li><li><a href="/content/introduction-to-programming-ool.html" class="sidebar-link">Introduction to Programming</a></li><li><a href="/content/logical-branching-ool.html" class="sidebar-link">Logical Branching</a></li><li><a href="/content/arrays-and-loops-ool.html" class="sidebar-link">Arrays and Loops</a></li><li><a href="/content/command-line-programs.html" class="sidebar-link">Building Command Line Programs</a></li><li><a href="/content/introduction-to-objects-ool.html" class="sidebar-link">Introduction to Objects</a></li><li><a href="/content/linear-data-structures-ool.html" class="sidebar-link">Collections: Part 1</a></li><li><a href="/content/non-linear-data-structures-ool.html" class="sidebar-link">Collections: Part 2</a></li><li><a href="/content/classes-encapsulation-ool.html" class="sidebar-link">Classes and Encapsulation</a></li><li><a href="/content/inheritance-ool.html" class="sidebar-link">Inheritance</a></li><li><a href="/content/polymorphism-ool.html" class="active sidebar-link">Polymorphism</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/content/polymorphism-ool.html#what-is-polymorphism" class="sidebar-link">What is polymorphism?</a></li><li class="sidebar-sub-header"><a href="/content/polymorphism-ool.html#polymorphism-and-inheritance" class="sidebar-link">Polymorphism and inheritance</a></li><li class="sidebar-sub-header"><a href="/content/polymorphism-ool.html#other-ways-of-polymorphism" class="sidebar-link">Other ways of polymorphism</a></li><li class="sidebar-sub-header"><a href="/content/polymorphism-ool.html#interfaces" class="sidebar-link">Interfaces</a></li><li class="sidebar-sub-header"><a href="/content/polymorphism-ool.html#building-a-real-application" class="sidebar-link">Building a real application</a></li></ul></li><li><a href="/content/unit-testing-ool.html" class="sidebar-link">Unit Testing</a></li><li><a href="/content/file-io-ool.html" class="sidebar-link">File I/O</a></li><li><a href="/content/exception-handling-ool.html" class="sidebar-link">Error Handling</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Module 2</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Module 3</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>After the Cohort</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="polymorphism"><a href="#polymorphism" class="header-anchor">#</a> Polymorphism</h1> <p>In this chapter, youll learn about the last principle of object-oriented programming: polymorphism.</p> <p>Specifically, youll learn about:</p> <ul><li>What polymorphism is and how its useful when writing software</li> <li>Where inheritance can help you write polymorphic code</li> <li>Interfaces and how they are used</li></ul> <h2 id="what-is-polymorphism"><a href="#what-is-polymorphism" class="header-anchor">#</a> What is polymorphism?</h2> <blockquote><p><em>The word polymorphism, derived from the Greek language, means &quot;the ability to have multiple forms.&quot;</em></p> <p><em>In object-oriented programming, polymorphism is the idea that something can be assigned a different meaning or usage based on its context. This specifically allows variables and objects to take on more than one form.</em></p></blockquote> <p>Heres an analogy to help you understand this term. Suppose someone told you, &quot;go to the store and buy your favorite food for dinner.&quot;</p> <p>What happens next depends on some context:</p> <ul><li>If the request were made to your 14 year-old self, itd consist of you riding your bike to the store and using the cash in your pocket to pay for a pizza and a 2-liter bottle of pop.</li> <li>As an adult, you might <em>drive to the store</em> and using the credit card in your wallet, pay for pecan chicken and pinot noir.</li></ul> <p>In both cases, the person making the request said the same thing: &quot;go to the store and buy your favorite food for dinner.&quot; However, the result differed depending on the subject receiving the request.</p> <hr> <p>Often, you want to write code that can make a basic request, and based on context, allow different behaviors to take place. You can write code once that refers to many different things.</p> <p>As youll see, polymorphism supports code extensibility. If you write polymorphic code, you have code that functions independent of the objects class type. This allows programmers to incorporate changes through new object types in the system without modifying existing code.</p> <h2 id="polymorphism-and-inheritance"><a href="#polymorphism-and-inheritance" class="header-anchor">#</a> Polymorphism and inheritance</h2> <p>Recall that in the last chapter, you added subclasses that inherit from the Clock class:</p> <div class="code-block"><!----></div> <div class="code-block"><!----></div> <p>Suppose you needed to create a Shopkeeper class whose responsibility is to reset all of the different clocks to 7 AM.</p> <div class="code-block"><!----></div> <div class="code-block"><!----></div> <p>Do you notice a <em>code smell</em> here? Youre adding a method for every type of Clock. Your code is <em>tightly coupled</em>. When you want to add a new Clock type, youll add a new SetTime method for it as well.</p> <div class="custom-block tip"><p class="custom-block-title">Code Smells</p> <p>A code smell is any symptom in the code of a program that possibly indicates there is a deeper problem, violation of fundamental design principles, or an impact to design quality. Here are some <a href="https://blog.codinghorror.com/code-smells/" target="_blank" rel="noopener noreferrer">common code smells<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>:</p> <ul><li>Duplicate code</li> <li>Conditional complexity</li> <li>Long methods</li></ul></div> <p><strong>Polymorphic code</strong> allows you to take advantage of the fact that your different clock classes—AlarmClock, GrandfatherClock, and CuckooClock—have an <em>is-a</em> relationship with a Clock.</p> <p>Given that AlarmClock, GrandfatherClock, and CuckooClock are subclasses of Clock, you can write a single function that accepts a reference to a Clock while allowing any class that inherits from it too.</p> <div class="code-block"><!----></div> <div class="code-block"><!----></div> <p>Now youve written <em>loosely-coupled code</em>. The ShopKeeper doesnt differentiate between the different clocks when it comes to setting time. Think about it—how many times have you said &quot;go reset that cuckoo clock to 7 oclock?&quot; Realistically, youre likely to point at the cuckoo clock and say &quot;go reset that clock to 7 oclock.&quot;</p> <p>The ShopKeeper class is now only dependent on Clock. If you add a new class that inherits from Clock, like a Watch, the code in your ShopKeeper class has no reason to change.</p> <div class="code-block"><!----></div> <div class="code-block"><!----></div> <div class="custom-block tip"><p class="custom-block-title">Polymorphism and Inheritance</p> <p>With respect to inheritance, polymorphism simply means <em>if B is a subclass of A and a function can accept A as a parameter, then it can also accept B</em>.</p></div> <h2 id="other-ways-of-polymorphism"><a href="#other-ways-of-polymorphism" class="header-anchor">#</a> Other ways of polymorphism</h2> <p>Say that you wanted your shopkeeper to be able to set an alarm. It doesnt make sense for them to set an alarm on a grandfather clock or a cuckoo clock, but it does make sense to set it on an alarm clock. While youre at it, you also need the shopkeeper to set the alarm on their phone.</p> <p>Youll add the method directly to the AlarmClock class since the alarm feature doesnt apply to all clocks. You also need a separate Phone class that has support for setting an alarm.</p> <div class="code-block"><!----></div> <div class="code-block"><!----></div> <p>When you add the ability for your Shopkeeper to set the alarm, you need to set up two separate methods again.</p> <div class="code-block"><!----></div> <div class="code-block"><!----></div> <p>This is similar to the situation you were in before. Neither of these classes appear to share anything in common other than the fact that they both can have an alarm set.</p> <div class="custom-block danger"><p class="custom-block-title">Dont Force Inheritance</p> <p>You might think adding inheritance is a quick fix to avoid duplicating code, but be careful. If you cant use the phrase &quot;is-a&quot; when talking about two different types, it isnt a good fit. It doesnt make sense to have Phone inherit from AlarmClock. You wouldnt say &quot;a phone <em>is an</em> alarm clock.&quot;</p></div> <p>In reality, you also interact with different objects based on <em>what they can do</em> and not <em>what they are</em>. With code, you can use something called an interface to indicate what a type can do and reference the object by that.</p> <h2 id="interfaces"><a href="#interfaces" class="header-anchor">#</a> Interfaces</h2> <p>In <span></span>, interfaces force each component to expose specific public members that can be used in a specific way. Interfaces provide you with a way to say what classes can do and as such are an alternative way to define an <em>is a</em> relationship.</p> <p>The code below shows how an interface is defined.</p> <div class="code-block"><!----></div> <div class="code-block"><!----></div> <p>Notice that in the definition of the interface, theres no implementation for the methods. Theres only a method signature, minus the access modifier. Thats what an interface is: a declaration of one or more public methods.</p> <p>After definition, interfaces are implemented by classes. Think of an interface as a contract. If a class wishes to implement an interface, it is required to agree and provide implementations for all methods defined by the interface. A class, if necessary, can implement more than one interface.</p> <div class="code-block"><!----></div> <div class="code-block"><!----></div> <div class="custom-block danger"><p class="custom-block-title">Interface Instantiation</p> <p>Interfaces dont get instantiated.</p></div> <p>Now that the interface has been defined, it is available as a data type that can be used to reference an existing object. In this sense, you can adjust the Shopkeeper class and eliminate the duplicate methods by programming the set alarm method against an interface and not the concrete classes.</p> <div class="code-block"><!----></div> <div class="code-block"><!----></div> <div class="custom-block tip"><p class="custom-block-title">Polymorphism &amp; Interfaces</p> <p>With respect to interfaces, polymorphism means <em>if B is a class that implements interface A and a function can accept A as a parameter, it can also accept B</em>.</p></div> <h2 id="building-a-real-application"><a href="#building-a-real-application" class="header-anchor">#</a> Building a real application</h2> <p>Now youll update the bookstore so that the code takes advantage of polymorphism when dealing with products of all different types.</p> <div class="code-block"><!----></div> <div class="code-block"><!----></div></div> <footer class="page-edit"><!----> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ?
+      <a href="/content/inheritance-ool.html" class="prev">
+        Inheritance
+      </a></span> <span class="next"><a href="/content/unit-testing-ool.html">
+        Unit Testing
+      </a>
+      ?
+    </span></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.08764f16.js" defer></script><script src="/assets/js/2.fcd05e6e.js" defer></script><script src="/assets/js/75.e2f6694e.js" defer></script><script src="/assets/js/48.b7e745d7.js" defer></script><script src="/assets/js/50.542cd1ab.js" defer></script>
+  </body>
+</html>');
+
+
 INSERT INTO curriculum (course, date, lesson) VALUES ((SELECT id FROM course WHERE (name='Sea as in Cnidarian: Spelling 101')), '12-25-2020', 
-'Today I will just include a video to watch and discuss: is he talking about asynchronous programming? Why is this video even here?
+'Today I will just include a video to watch and discuss: With spelling, you always want to start with the fundamentals!
 
 <div class="video">
-        <iframe width="560" height="315" src="//www.youtube.com/embed/FWqOts9oq80" frameborder="0" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="//www.youtube.com/embed/EgzHCuzVKb8" frameborder="0" allowfullscreen></iframe>
 </div>
 <div>I will soon add a homework for this lesson!</div>');
 INSERT INTO curriculum (course, date, lesson) VALUES
@@ -477,7 +565,9 @@ INSERT INTO curriculum (course, date, lesson) VALUES
 Integers are a lot like whole numbers but they also contain their additive inverse and zero. (Note that zero is its own additive inverse.)[1] 
 Hence we conclude that whole numbers are a branch or subset of Integers but no fractions and decimals allowed! 
 Read this article to learn everything you need to know about adding and subtracting integers, or skip to the section you need help with.
+<div>
 <img id="image" src="https://www.wikihow.com/images/thumb/8/8b/Add-and-Subtract-Integers-Step-2-Version-3.jpg/aid278360-v4-728px-Add-and-Subtract-Integers-Step-2-Version-3.jpg" alt="this is what we will commonly refer to as a "number line"/>
+</div>
 <h2>STEP ONE</h1>
 Understand what a number line is. Number lines turn basic math into something real and physical that you can see in front of you. By just using a few marks and some common sense, we can use them like calculators to add and subtract numbers.
 <h2>STEP TWO</h2>
@@ -487,7 +577,9 @@ Your math book might call this point the origin, since numbers originate (i.e. "
 Draw two marks, one on each side of your zero. Write -1 next to the mark on the left and 1 next to the mark on the right. These are the integers closest to zero.
 Do not worry about making the spacing perfect - as long as you are close enough that you can tell what it is supposed to mean, the number line will work.
 The left side is the side at the beginning of a sentence.
+<div>
 <img id="image" src="https://www.wikihow.com/images/thumb/0/00/Add-and-Subtract-Integers-Step-4-Version-3.jpg/aid278360-v4-728px-Add-and-Subtract-Integers-Step-4-Version-3.jpg" alt="here is what your number line should look like after step three!"/>
+</div>
 Well, sorry to leave you with such a cliff hanger but we will have to come back to this next lesson :p ');
 INSERT INTO curriculum (course, date, lesson) VALUES
 ((SELECT id FROM course WHERE (name='Math 241')), '12-27-2020', 
@@ -510,27 +602,455 @@ Nine (9) in Spanish is nueve (NWAI-be).
 Ten (10) in Spanish is diez (DYESS).
 <h3>STEP THREE</h2>
 Practise, practise, practise!! Now that you are fluent, it is important to practise the language with anybody you can!');
+
+INSERT INTO curriculum (course, date, lesson) VALUES
+((SELECT id FROM course WHERE (name='Math 241')), '12-28-2020', 
+'Lesson 3!
+Properties of Set Operations
+Just like we have mathematical laws saying that, for example x + y = y + x, there
+are also similar laws for set operations. Here is a selection of the most commonly
+used laws:
+A ? A = A union is idempotent
+A ? A = A intersection is idempotent
+A.2 Set-Builder Notation 195
+A ? B = B ? A union is commutative
+A ? B = B ? A intersection is commutative
+A ? (B ? C) = (A ? B) ? C union is associative
+A ? (B ? C) = (A ? B) ? C intersection is associative
+A ? (B ? C) = (A ? B) ? (A ? C) union distributes over intersection
+A ? (B ? C) = (A ? B) ? (A ? C) intersection distributes over union
+A ??= A the empty set is a unit element of union
+A ??=? the empty set is a zero element of intersection
+A ? B ? A ? B = B subset related to union
+A ? B ? A ? B = A subset related to intersection
+A ? B ? A \ B = ? subset related to set difference
+A ? B ? B ? A ? A = B subset is antisymmetric
+A ? B ? B ? C ? A ? C subset is transitive
+A \ (B ? C) = (A \ B) \ C corresponds to x ? (y + z) = (x ? y) ? z
+Since ? and ? are associative, we will often omit parentheses and write, e.g, A ?
+B ? C or A ? B ? C.
+A.2 Set-Builder Notation
+We will often build a new set by selecting elements from other sets and doing operations on these elements. We use the very flexible set-builder notation for this.
+A set builder has the form {e | p}, where e is an expression and p is a list of predicates separated by commas. Typically, p will contain predicates of the form x ? M,
+which defines x to be any element of M. The set builder will evaluate the expression
+e for all elements x of M that fulfills the other predicates in p and build a set of the
+results. We read {e | p} as “the set of all elements of the form e where p holds”, or
+just “e where p”. Some mathematical texts use a colon instead of a bar, i.e, writing
+{e : p} instead of {e | p}.
+A simple example is
+{x3 | x ? {1, 2, 3, 4},x< 3}
+which builds the set {13, 23}={1, 8}, as only the elements 1 and 2 from the set
+{1, 2, 3, 4} fulfill the predicate x < 3.
+We can take elements from more than one set, for example
+{x + y | x ? {1, 2, 3}, y ? {1, 2, 3}, x<y}
+which builds the set {1 + 2, 1 + 3, 2 + 3}={3, 4, 5}. We use all combinations of
+elements from the two sets that fulfill the predicate.
+We can separate the predicates in a set builder by ? or “and” instead of commas.
+So the example above can, equivalently, be written as
+{x + y | x ? {1, 2, 3}, y ? {1, 2, 3} and x<y}
+196 Set Notation and Concepts
+A.3 Sets of Sets
+The elements of a set can be other sets, so we can, for example, have the set
+{{1, 2}, {2, 3}} which is a set that has the two sets {1, 2} and {2, 3} as elements.
+We can “flatten” a set of sets to a single set which is the union of the element sets
+using the “big union” operator:
+{{1, 2}, {2, 3}} = {1, 2, 3}
+Similarly, we can take the intersection of the element sets using the “big intersection” operator:
+{{1, 2}, {2, 3}} = {2}
+We can use these “big” operators together with set builders, for example
+{{xn | n ? {0, 1, 2}} | x ? {1, 2, 3}}
+which evaluates to {{1}, {1, 2, 4}, {1, 3, 9}} = {1}.
+When a big operator is used in combination with a set builder, a special abbreviated notation can be used: {e | p} and {e | p}can be written, respectively,
+as
+
+p
+e and
+p
+e
+For example,
+{{xn | n ? {0, 1, 2}} | x ? {1, 2, 3}}
+can be written as
+
+x?{1, 2, 3}
+{xn | n ? {0, 1, 2}}
+A.4 Set Equations
+Just like we can have equations where the variables represent numbers, we can have
+equations where the variables represent sets. For example, we can write the equation
+X = {x2 | x ? X}
+This particular equation has several solutions, including X = {0}, X = ? and
+X = {0, 1} or even X = [0, 1], where [0, 1] represents the interval of real numbers between 0 and 1. Usually, we have an implied universe of elements that the sets
+can draw from. For example, if we only want sets of integers as solutions, we won’t
+consider intervals of real numbers as valid solutions.
+When there are more than one solution to a set equation, we are often interested
+in a solution that has the minimum or maximum possible number of elements. In
+A.4 Set Equations 197
+the above example (assuming we want sets of integers), there is a unique minimal
+(in terms of number of elements) solution, which is X = ? and a unique maximal
+solution X = {0, 1}. Not all equations have unique minimal or maximal solutions.
+For example, the equation
+X = {1, 2, 3} \ X
+has no solution at all, and the equation
+X = {1, 2, 3}\{6/x | x ? X})
+has exactly two solutions: X = {1, 2} and X = {1, 3}, so there are no unique minimal or maximal solutions.
+A.4.1 Monotonic Set Functions
+The set equations we have seen so far are of the form X = F(X), where F is a
+function from sets to sets. A solution to such an equation is called a fixed-point
+for F.
+As we have seen, not all such equations have solutions, and when they do, there
+are not always unique minimal or maximal solutions. We can, however, define a
+property of the function F that guarantees a unique minimal and a unique maximal
+solution to the equation X = F(X).
+We say that a set function F is monotonic if X ? Y ? F(X) ? F(Y).
+Theorem A.1 If we draw elements from a finite universe U and F is a monotonic
+function over sets of elements from U, then there exist natural numbers m and n, so
+the unique minimal solution to the equation X = F(X) is equal to F m(?) and the
+unique maximal solution to the equation X = F(X) is equal to Fn(U).
+Where Fi
+(A) is F applied i times to A. For example, F3(A) = F(F(F(A))).
+Proof It is trivially true that ? ? F(?). Since F is monotonic, this implies F(?) ?
+F(F(?)). This again implies F(F(?)) ? F(F(F(?))) and, by induction, Fi
+(?) ?
+Fi+1(?). So we have a chain
+? ? F(?) ? F(F(?)) ? F(F(F(?))) ?···
+Since the universe U is finite, the sets Fi
+(?) can not all be different. Hence, there
+exist an m such that F m(?) = F m+1(?), which means X = F m(?) is a solution to
+the equation X = F(X). To prove that it is the unique minimal solution, assume that
+another solution A exist. Since A = F(A), we have A = F m(A). Since ? ? A and
+F is monotonic, we have F m(?) ? F m(A) = A. This implies that F m(?) is a subset
+of all solutions to the equation X = F(X), so there can not be a minimal solution
+different from F m(?).
+The proof for the maximal solution is left as an exercise.
+198 Set Notation and Concepts
+A.4.1.1 Fixed-Point Iteration
+The proof provides an algorithm for finding minimal solutions to set equations of the
+form X = F(X), where F is monotonic and the universe is finite: Simply compute
+F(?), F2(?), F3(?) and so on until F m+1(?) = F m(?). This is easy to implement
+on a computer:
+X := ?;
+repeat
+Y := X;
+X := F(X)
+until X = Y;
+return X
+A.4.2 Distributive Functions
+A function can have a stronger property than being monotonic: A function F is
+distributive if F(X ? Y) = F(X) ? F(Y) for all sets X and Y . This clearly implies
+monotonicity, as Y ? X ? Y = X ? Y ? F(Y) = F(X ? Y) = F(X) ? F(Y) ?
+F(X).
+We also solve set equations over distributive functions with fixed-point iteration,
+but we exploit the distributivity to reduce the amount of computation we must do: If
+we need to compute F(A ? B) and we have already computed F(A), then we need
+only compute F(B) and add the elements from this to F(A). We can implement an
+algorithm for finding the minimal solution that exploits this:
+X := ?;
+W := F(?);
+while W 
+= ? do
+pick x ? W;
+W := W\{x};
+X := X ? {x};
+W := W ? (F({x})\X);
+return X
+We keep a work set W that by invariant is equal to F(X) \ X. A solution must include
+any x ? W, so we move this from W to X while keeping the invariant by adding
+F(x) \ X to W. When W becomes empty, we have F(X) = X and, hence, a solution.
+While the algorithm is more complex than the simple fixed-point algorithm, we can
+compute F one element at a time and we avoid computing F twice for the same
+element.
+Exercises 199
+A.4.3 Simultaneous Equations
+We sometimes need to solve several simultaneous set equations:
+X1 = F1(X1,...,Xn)
+.
+.
+.
+Xn = Fn(X1,...,Xn)
+If all the Fi are monotonic in all arguments, we can solve these equations using
+fixed-point iteration. To find the unique minimal solution, start with Xi = ? for
+i = 1 ...n and then iterate applying all Fi until a fixed-point is reached. The order
+in which we do this doesn’t change the solution we find (it will always be the unique
+minimal solution), but it might affect how fast we find the solution. Generally, we
+need only recompute Xi if a variable used by Fi changes.
+If all Fi are distributive in all arguments, we can use a work-set algorithm similar
+to the algorithm for a single distributive function.
+Exercises
+Exercise A.2 What set is built by the set builder
+{x2 + y2 | x ? {1, 2, 3, 4}, y ? {1, 2, 3, 4}, x<y2} ?
+Exercise A.3 What set is built by the set expression
+
+x?{1, 2, 3}
+{xn | n ? {0, 1, 2}} ?
+Exercise A.4 Find all solutions to the equation
+X = {1, 2, 3}\{x + 1 | x ? X})
+Hint: Any solution must be a subset of {1, 2, 3}, so you can simply try using all the
+eight possible subsets of {1, 2, 3} as X and see for which the equation holds.
+Exercise A.5 Prove that if elements are drawn from a finite universe U and F is a
+monotonic function over sets of elements from U, then there exists an n such that
+X = Fn(U) is the unique maximal solution to the set equation X = F(X).');
+
+
 INSERT INTO curriculum (course, date, lesson) VALUES
 ((SELECT id FROM course WHERE (name='Relational Databases')), '12-24-2020', 
 'The Cas? <s>for</s> AGAI?S? RDBMS in the Age of NoSQL Solutions
 THE CASE FOR RDBMS IN THE AGE OF NOSQL SOLUTIONS -- 1
-The traditional Relational Database Management Systems (RDBMS), and the relational database model (RDM) it supports, does not receive the attention it once did; the demand for horizontally scaling database solutions in the age of big data has driven the adoption of newer technologies. However, the relational database model still serves a vital role in business and financial systems where the need for a high volume of small transactions meeting the ACID standard and polymorphic aggregation is a primary concern.While RDBMS solutions may still dominate in the market in enterprise software, the shift from fully hosted client-server and n-tier solutions towards web-enabled solutions relying on application programming interfaces (APIs) has seen a shift in focus away from the RDM. Some of this shift away from RDM can be attributed to the adoption of the Application Programming Interface (API) model of software engineering, which was enabled by the proliferation of the internet in business through Software as a service (SaaS) solutions. While an additional impetus to move away from RDM be attributed to a growth in demand for analytics to support the large volume of non-structured data generated by users of on-line services such as Alphabet’s Google search engine, Amazon’s Alexa, andFacebook’s namesake social media platform (Rana, et al., 2017).To understand the enduring use case for the RDM, it is necessary to understand the leading non-SQL (NoSQL) models and their applications. The first NoSQL model to consider, in use across web APIs, is the Document Database Model (DDM). The DDM relies on a Key-Value Pair (KVP) to store a primary key value associated with a JavaScript Object Notation (JSON) document object (MongoDB, 2020). Self-documenting, the JSON document does not require a formal schema nor the requisite relationship management of the RDM. This document-based entity definition gives the DDM an advantage over the RDM as web APIs and their clients are not required to adhere to a strict schema model or have knowledge of the underlying 
-THE CASE FOR RDBMS IN THE AGE OF NOSQL SOLUTIONS -- 2
-relationships (Davidson & Moss, 2016).Instead, the JSON document is a self-contained representation of the requested record and any children associated with it as required and provided by the systems in question. In DDM solutions, the goal is not to provide large scale set-based operations as in the RDM, rather it is meant to provide high-speed and high-volume processing of results that may be scaled horizontally across servers without the need to re-spec hardware vertically (Davidson & Moss, 2016; MongoDB, 2020). Next to consider is the Object-Oriented Database Model (OODM). OODM solutions enhance the schema independence of the DDM by adding native support for Object-Oriented Programming principles of polymorphism, inheritance, and encapsulation within the data structures.  Because OODM solutions allow for highly complex modeling of both logical, in definition, and physical, in instantiation, data objects, they are especially well suited for engineering and manufacturing solutions where the complexity and abstraction of the underlying model is a primary concern in exchange for a moderate transactional capacity (DoD Data & Analysis Center for Software (DACS), 1999). This quality of OOP inherent in the OODM allows for abstract and rapid development of evolving data models and solutions much in the same way inheritance and abstraction provide contracts of behavior within programming languages such as C-Sharp and Java. Again, as with the ODM, the rigid nature of the RDM’s relationships and schema definitions does not allow for such extensible and dynamic data structures.The final model to consider when trying to understand the case for RDBMS does not follow the conceptual evolution of the DDM to the OODM. Instead, the Graph Database Model (GDM) extends data-retrieval beyond the entity tuple collection to include the relationships between records. In this way, the GDM can be both analytical and relational at the same time by allowing direct access to data edge cases as well as the underlying records (Vázquez, 2019). This property of the GDM allows for the assignment of meta-data to, and the analysis and visualization of, complex relationships independently of their underlying data structures.');
+The traditional Relational Database Management Systems (RDBMS), and the relational database model (RDM) it supports, 
+does not receive the attention it once did; the demand for horizontally scaling database solutions in the age of big data has 
+driven the adoption of newer technologies. However, the relational database model still serves a vital role in business and 
+financial systems where the need for a high volume of small transactions meeting the ACID standard and polymorphic aggregation is a primary concern.
+While RDBMS solutions may still dominate in the market in enterprise software, the shift from fully hosted client-server and n-tier solutions towards 
+web-enabled solutions relying on application programming interfaces (APIs) has seen a shift in focus away from the RDM. Some of this shift away from 
+RDM can be attributed to the adoption of the Application Programming Interface (API) model of software engineering, which was enabled by the proliferation 
+of the internet in business through Software as a service (SaaS) solutions. While an additional impetus to move away from RDM be attributed to a growth 
+in demand for analytics to support the large volume of non-structured data generated by users of on-line services such as Alphabet’s Google search engine, 
+Amazon’s Alexa, andFacebook’s namesake social media platform (Rana, et al., 2017).To understand the enduring use case for the RDM, it is necessary to understand 
+the leading non-SQL (NoSQL) models and their applications. The first NoSQL model to consider, in use across web APIs, is the Document Database Model (DDM). 
+The DDM relies on a Key-Value Pair (KVP) to store a primary key value associated with a JavaScript Object Notation (JSON) document object (MongoDB, 2020). Self-documenting, the JSON document does not require a formal schema nor the requisite relationship management of the RDM. 
+This document-based entity definition gives the DDM an advantage over the RDM as web APIs and their clients are not required to adhere to a strict schema model or have knowledge of the underlying 
+relationships (Davidson & Moss, 2016).Instead, the JSON document is a self-contained representation of the requested record and any children 
+associated with it as required and provided by the systems in question. In DDM solutions, the goal is not to provide large scale 
+set-based operations as in the RDM, rather it is meant to provide high-speed and high-volume processing of results that may be scaled horizontally across 
+servers without the need to re-spec hardware vertically (Davidson & Moss, 2016; MongoDB, 2020). Next to consider is the Object-Oriented Database Model (OODM). 
+OODM solutions enhance the schema independence of the DDM by adding native support for Object-Oriented Programming principles of polymorphism, inheritance, 
+and encapsulation within the data structures.  Because OODM solutions allow for highly complex modeling of both logical, in definition, and physical, 
+in instantiation, data objects, they are especially well suited for engineering and manufacturing solutions where the complexity and abstraction of 
+the underlying model is a primary concern in exchange for a moderate transactional capacity (DoD Data & Analysis Center for Software (DACS), 1999). 
+This quality of OOP inherent in the OODM allows for abstract and rapid development of evolving data models and solutions much in the same way inheritance 
+and abstraction provide contracts of behavior within programming languages such as C-Sharp and Java. Again, as with the ODM, the rigid nature of the RDM’s 
+relationships and schema definitions does not allow for such extensible and dynamic data structures.The final model to consider when trying to understand the 
+case for RDBMS does not follow the conceptual evolution of the DDM to the OODM. Instead, the Graph Database Model (GDM) extends data-retrieval beyond the entity 
+tuple collection to include the relationships between records. In this way, the GDM can be both analytical and relational at the same time by allowing direct access 
+to data edge cases as well as the underlying records (Vázquez, 2019). This property of the GDM allows for the assignment of meta-data to, and the analysis and visualization of, 
+complex relationships independently of their underlying data structures.');
 INSERT INTO curriculum (course, date, lesson) VALUES
 ((SELECT id FROM course WHERE (name='Relational Databases')), '12-25-2020', 
 'THE CASE FOR RDBMS IN THE AGE OF NOSQL SOLUTIONS -- 3
-applications that range from marketing to machine learning, the GDM provides a level of insight into the data and how that data relates to other unique pieces data that the fixed schema-bound relationships of the RDM cannot provide.The schema independence of the DDM and OODM provides a great deal of efficiency and flexibility in both the design of solutions and the infrastructure to support them. The ability to query and analyze the relationships between data entities and facts allows the GDM to extend the usefulness of data beyond simple retrieval. Together, they each shift thefocus of database engineers away from the strict modeling of physical entities within the schema towards the needs of the end-user or API endpoint. However, it is that flexibility and shift in focus that leaves the RDM and RDBMS firmly entrenched in the enterprise and financial system landscape.In these systems, strict adherence to business, statutory, and procedural models with high-volume set-based transactions must occur following ACID principles while allowing for hierarchical and dynamic aggregation of normalized data to meet system demands. In these cases, the RDM and RDBMS are still the solution of choice and remain a persistent pattern for the foreseeable future.<REMAINING EDITS PENDING TO EXPAND ON RDBMS>');
+applications that range from marketing to machine learning, 
+the GDM provides a level of insight into the data and how that data relates to other unique pieces data that the fixed schema-bound relationships of the 
+RDM cannot provide.The schema independence of the DDM and OODM provides a great deal of efficiency and flexibility in both the design of solutions and the 
+infrastructure to support them. The ability to query and analyze the relationships between data entities and facts allows the GDM to extend the usefulness 
+of data beyond simple retrieval. Together, they each shift thefocus of database engineers away from the strict modeling of physical entities within the schema 
+towards the needs of the end-user or API endpoint. However, it is that flexibility and shift in focus that leaves the RDM and RDBMS firmly entrenched in 
+the enterprise and financial system landscape.In these systems, strict adherence to business, statutory, and procedural models with high-volume set-based 
+transactions must occur following ACID principles while allowing for hierarchical and dynamic aggregation of normalized data to meet system demands. In these cases, 
+the RDM and RDBMS are still the solution of choice and remain a persistent pattern for the foreseeable future.<REMAINING EDITS PENDING TO EXPAND ON RDBMS>
+References:
+Chowdhury, S. (2019, July 18). KnowledgeGraph: The Perfect Complement to Machine Learning. Retrieved from Towards Data Science: 
+https://towardsdatascience.com/knowledge-graph-bb78055a7884Davidson, L., & Moss, J. (2016). Pro SQL Server Relational Database Design and 
+Implementation(5th ed.). New York: Apress. doi:10.1007/978-1-4842-1973-7DoD Data & Analysis Center for Software (DACS). (1999, January 31). 
+Object-Oriented Database Management: An Updated DACS State-of-the-Art Report.Retrieved from https://www.csiac.org/: 
+https://www.csiac.org/wp-content/uploads/2016/02/Object-Oriented-Database-Mgmt-Systems-Revisited-SOAR.pdfMongoDB. (2020). MongoDB Document Databases. 
+Retrieved from MongoDB: https://www.mongodb.com/document-databasesRana, A., Srinivasan, A., Waral, J., Singh, M., Handraha, S., & Noselli, C. (2017, October 6). 
+A new era: Artificial intelligence is now the biggest tech disrupter. Retrieved from Bloomberg Professional Services: 
+https://www.bloomberg.com/professional/blog/new-era-artificial-intelligence-now-biggest-tech-disrupter/Vázquez, F. (2019, January 22). Graph Databases. 
+What’s the Big Deal?Retrieved from Towards Data Science: https://towardsdatascience.com/graph-databases-whats-the-big-deal-ec310b1bc0ed');
+
+
 INSERT INTO curriculum (course, date, lesson) VALUES
 ((SELECT id FROM course WHERE (name='Relational Databases')), '12-28-2020', 
-'THE CASE FOR RDBMS IN THE AGE OF NOSQL SOLUTIONS -- 4
-ReferencesChowdhury, S. (2019, July 18). KnowledgeGraph: The Perfect Complement to Machine Learning. Retrieved from Towards Data Science: https://towardsdatascience.com/knowledge-graph-bb78055a7884Davidson, L., & Moss, J. (2016). Pro SQL Server Relational Database Design and Implementation(5th ed.). New York: Apress. doi:10.1007/978-1-4842-1973-7DoD Data & Analysis Center for Software (DACS). (1999, January 31). Object-Oriented Database Management: An Updated DACS State-of-the-Art Report.Retrieved from https://www.csiac.org/: https://www.csiac.org/wp-content/uploads/2016/02/Object-Oriented-Database-Mgmt-Systems-Revisited-SOAR.pdfMongoDB. (2020). MongoDB Document Databases. Retrieved from MongoDB: https://www.mongodb.com/document-databasesRana, A., Srinivasan, A., Waral, J., Singh, M., Handraha, S., & Noselli, C. (2017, October 6). A new era: Artificial intelligence is now the biggest tech disrupter. Retrieved from Bloomberg Professional Services: https://www.bloomberg.com/professional/blog/new-era-artificial-intelligence-now-biggest-tech-disrupter/Vázquez, F. (2019, January 22). Graph Databases. What’s the Big Deal?Retrieved from Towards Data Science: https://towardsdatascience.com/graph-databases-whats-the-big-deal-ec310b1bc0ed');
-BEGIN TRANSACTION;
+'In 1869, a very large musical celebration took place in Boston, Massachusetts. The National
+Peace Jubilee, as it was called, was a gathering of some 11,000 singers from some 100 choral
+groups with over a thousand-piece orchestra section. It was then proclaimed to be the
+“greatest musical enterprise of modern times.” If that wasn’t quite true, it was still one of the
+largest gatherings to showcase a distinct blend of celebratory patriotism and spiritual
+revelation. Spectacles such as the “anvil chorus,” which swung one hundred anvils in unison,
+reportedly “gave an impression of sublimity more than noise.”2 The massive, sprawling
+History of the National Peace Jubilee text referred to the crowd as solemn and oceanic. Fitted
+especially for the occasion, its custom-built pipe organ delivered music of “thunderous”
+quality. The music amidst the crowds was described as an overwhelming force of divine
+power, but also one that invoked storms and madness. Yet the experience was also
+perceived by some as a let-down. Despite cannons exploding on cue with the music, as well
+as thousands of voices singing to note and anvils clamoring in unison, to some visitors it
+was a disappointment of the promise of transcendental power that was not achieved. One
+reviewer in attendance remarked on this underwhelming power:
+And now rises such a volume of sound as never before greeted
+human ears. It has a mystic puissance that cannot be analyzed. Its
+extended source destroys the sense of locality. It fills the air with
+its new vibrations that bring to us a novel emotion of universality.
+It mounts with a grandeur that gives us a new sensation. There are
+no favored registers heard, no individual voices; everything
+personal, trivial, local, is drowned out in the majestic flow of this
+grand chorus. Having felt the first effects of the combination,
+having remarked that they have touched the auditory with the new
+potency, as the ear becomes accustomed to the surging and
+swelling of the tide, we become, too, calm enough to perceive that
+it is not the bulk of the sound that is effective; indeed, a very
+general disappointment was felt that the united forces produced no
+louder music. People had expected a concussion of the air; they
+were surprised that the building did not tremble and that the music
+could not be heard four or five squares off. They found that in the
+ratio of size there was new smoothness, a new solemnity; instead
+of being volcanic, it was aerial. They were disappointed in the
+loudness, but moved by the majesty.
+almost religious character, exalted, pompous and impressive.”4 Another seeking sonic power
+was the 17th century Jesuit scholar Athanasius Kircher, one of two people claimed to have
+invented the technology of the megaphone. His “tuba stentorophonica” was described in his
+publication Phonurgia Nova as a “trumpet with a strong sound” that purportedly had
+significant sound emission potential. Kircher’s other interesting work involved the
+implementation of acoustic signaling that served as an early system prototype for very fast
+network communication.5
+ The phenomenon of loud sound was tied up with the possibility
+of transcending distance by acoustic force. Through networks of acoustic signaling,
+messages could be carried over hundreds of kilometers in just minutes instead of the wilting
+lag of ground-based message carriers.
+The power of loud sound was appealing for many reasons, be it narcotic,
+communicative, or musical. To return for a moment to the expressions of disappointment at
+the perceived insufficiencies of the 1869 Jubilee, this thesis picks up on the perception of
+lack expressed above. In the image shown in Figure 2, in which the faces in the sky blow
+downward into a funnel attached to the festival building, reveals a snapshot of how acoustic
+power was characterized by the dreamers involved in the series of Jubilees: the wind of the
+heavens which could be channeled into acoustic force. This study charts the transformation
+and escalation of that characterization from the romantic wind of the divine to an electromechanical 
+force capable of nefarious results. The Jubilee organizers intuited that the power
+of sound was not what it could be. Celebrations could be louder. Music could have more
+impact. The walls could shake more. Sound could travel farther. This document dedicates
+over two hundred pages to the inquiry of this almost mystic quest.
+Figure 3. Acoustic Network Signaling in Kirchers Phonurgia Nova (1673 Facsimile)
+The Megaphonic
+This thesis is primarily interested in examining the question of “megaphonics” roughly
+between 1880 and 1930. That is to say it is interested in examining the curiosity, the
+obsessions, and the dread surrounding the possibility of loud sound as a productive and
+material force. Throughout this study, the term “megaphonics” will be employed to refer to
+sound intensity and the perception of that sonic intensity, loudness. “Megaphonics” has
+greater precision than the oft-utilized term “noise” which will still be used in limited
+contexts when appropriate. The term “megaphonics” was once used by scholar Steven
+Connor as a title of a radio essay largely ruminating on the poetics of noise, yet he actually 
+14
+didn’t use the term in substance.
+6 “Megaphonics” has Greek roots in ph?n?, largely denoting
+the voice. To shift the discussion surrounding loud sound away from “noise” and towards
+the rubric of megaphonics, I seek to open a space for inquiry at a breathable distance from
+academic discourse on noise as unwanted sound. Gunpowder, foghorns, and pipe organs
+will all be portrayed as megaphonic technologies rather than social blights. In the same light,
+massive explosions, infernal organ concerts, and supremely-powered nautical signalling can
+all be said to yield megaphonic affect. Megaphonics, for the purposes of this dissertation, are
+that which present sound intensity as a productive force.
+In discussing megaphonics it is important to delineate “sound intensity” from
+“loudness.” “Intensity” is an objective, measurable reading of the power of acoustic
+phenomena whereas “loudness” is a subjective and internal experience of external acoustic
+phenomena. They do not always necessarily correspond: "Intensity”, notes Greg Milner, “is
+what makes our eardrums vibrate, but when those vibrations are translated into electrical
+impulses in the cochlea and sent to the brain, the magic of psychoacoustics takes over…
+intensity is correlated with what happens outside our ears, but loudness exists only inside
+our heads."7 Loudness will generally mean to be the quality of a sound that is essentially a
+psychological correlate of physical sound intensity. It is a subjective term through and
+through. It suggests the perception of abundance.
+Though this dissertation is essentially a cultural history of megaphonics, a separate
+history could be conducted on the varying associations with the term “loudness.” For
+Hermann von Helmholtz, loudness was the actual physical process of the excitement of a
+large area of the basilar membrane in the human ear. Each string or fiber of the membrane
+was attuned to a particular frequency of sound wave. A sensation of loudness was produced
+when an increased number of fibers were activated: greater the number of fibers activated,
+greater would be the experience of sound wave intensity.8 This discussion will be carried
+further on in chapter 3, which deals with shock wave theory, the work of Ernst Mach, and
+the domain of psychophysics.
+There is considerable back-and-forth between the psychological experience of loudness
+and the physical process of heavy acoustic wave propagation. However, these terms have
+often been used interchangeably and this work on megaphonics recognizes an inherent
+degree of slipperiness between the two. “Loudness” can be used to mean intensity. This
+study deals with technologies of sound intensity –– pipe organs, foghorns, electrical
+amplification and explosions –– in light of both senses of the term, but also the effect of
+that intense (or what I often call loud) sound: immersion, dissolution of subjectivity,
+experiences of the sublime, transcendentalism, and sensory transmutation. Psychophysics
+weighs important in this discussion, as the human experience of loudness also points to the
+temporary obliteration of the distinction between inside and out, that of external reality and
+the internal psyche.
+A strictly external, physical measure of sound intensity is a difficult phenomenon to
+objectively measure and quantify. It almost evades metrics. The genesis of the current metric
+of sound intensity, the decibel (dB), points to the historical inseparability between loud
+sound and early networks of long-distance communication. In the 1920s, researchers at Bell
+Telephone Labs were attempting to measure the amount of decay in signals over long
+distances of telephone wire. In comparing the power of the input signal to the power of the
+output signal, they created a new unit of measure, which was named the “bel” in honor of
+Alexander Graham Bell.9 As a standard unit for comparative sound level, it measures the
+ratio between two sound intensities. Thus, standard measurements of sound intensity utilize
+a relative rather than absolute value. Other metrics exist in an effort to more objectively
+measure intensity, but the most ubiquitous one is far from objective. Not only are metrics
+for loudness and intensity for the most part relational, the actual experience of loudness also
+varies based on tonality. Another seminal piece of work from the Bell Labs from Fletcher
+and Munson in 1933, showed that low-frequency sounds are perceived to have a greater
+intensity than high-frequency sounds.10 For example, a 1,000Hz tone at 50dB sounds as loud
+as a 100Hz tone at 60dB. This discrepancy decreases with increased intensity.11 The history
+of acoustic measurement is rife with competing units of measurement, such as the “phon”,
+the “sone” or the “wien” and unresolved debates regarding the use of those units raged until
+an eventual standardization.12
+Part of the work that took place at the Bell Labs during this fruitful period was
+dedicated to the science of sound, including work on sonic amplification. Amplification is
+the process of making an acoustic signal louder, most commonly through processes of
+electrical enhancement. Not only is this the act of megaphonic sound generation by making
+something louder, but it is also the rendering of the unheard into the heard. The
+achievements of making atoms and electrons audible to the human ear was first reported in
+a December, 1924 edition of Science News-Letter. Later, General Electrics laboratory reported
+making electrons able to be heard through a “hundred-thousand fold” amplification via
+vacuum tube radio amplifiers: "The rain-like blows of many electrons on the plate of the
+tube produced a roar that sounded like Niagara in the distance."13
+The seduction of amplification was also an interest of the symphonic concert world.
+Using the power of amplification and the relay capabilities of telephone lines, 
+a Stokowskiconducted performance of Wagners work was given greater range, both in terms of
+dynamics and actual physical distance:
+Wagnerian music was played with whispering pianissimi and
+thunderous crescendos hitherto unheard by human ears. Stokowski
+by the turn of a control knob could subdue his orchestra, isolated in
+another part of the theater, to a mere trickle of sound or he could
+build up their music to the sound of two thousand musicians at a
+peak of output.
+The idea of taking of one of the great, most emphatically loud pieces ever composed in the
+classical canon and broadcasting it, while giving the conductor control over the volume
+knob instead of a baton, is an emblematic act of the megaphonic imagination at work. It was
+also an intersection between telephone technics and musical megaphonics. Seductions of
+sonic powers were widespread. This history of megaphonics covers an era of crowds
+seduced by electronic loudspeaker amplification, of dreamers who built the world’s loudest
+and largest musical instrument ever made, and philosopher-scientists who built contraptions
+to freeze shock-waves as photographic proof of the materiality of invisible waves.
+This thesis is not specifically a study of technologies of loud sound propagation nor is
+it an examination of its related scientific fields. It is much more a cultural cartography of
+idealist and utopian approaches to the power of sound at a time when sound was seen to be
+infinitely capable, technologically unbounded, and even mortally dangerous. Specifically, it
+examines instances between 1880-1930 where loud sound was viewed as having a generative
+or productive power. This productivity was the belief in the power of loud sound as an
+agent of transcendence, otherworldliness, safe navigation, hysteria or even death. A history
+of megaphonics such as this is not a triumphalist narrative of the immense march of
+technology and culture upwards and onwards. It is a snapshot of a rogue consensus that
+proposed, albeit for a prolonged moment, the near-limitless nature of acoustic intensity. It is
+the documentation of an arc whereby sound’s limits were circumscribed: be it in the
+eventual diminution of public interest in live organ concerts before the dawn of recorded
+media, or the end of the belief in foghorn trustworthiness at the moment radar navigation
+was adopted. This era also points forward towards developments as wide-ranging as the
+deployment of acoustic weaponry to the loudness wars in music production.
+As noted, this dissertation will primarily focus on a 50-year period between 1880-1930.
+The rationale for this periodization is multi-pronged. This era was the period in which an
+interest in the power of loud sound formed and took hold across a broad set of domains
+and instances. It was not the genesis of interest in megaphonics per se, but a catalytic epoch
+where its tenets began to matter significantly for domains as wide as musical expression,
+nautical communication, psychology and medicine. This emergence of an interest in
+loudness occurred, not surprisingly, alongside modern approaches to noise abatement.
+Significant historical work has been done regarding quests to eradicate “unnecessary noise”
+but little focus has been given to those who were seduced by its apparent wide-spanning
+possibilities.15 Lastly, this timeframe allows for the study of megaphonics to dovetail against
+one standard periodization of “modernity”, and thus engage with numerous claims pertinent
+to the subject including Gustav Le Bon’s argument that modernity was “the era of crowds”,
+Emily Thompson’s qualitative assertions around the “modern sound”, and Hillel Schwartz’s
+claims about noise being essentially constitutive of modernity’s “essence”.16 Yet also
+quintessentially “modern”, for example, is the brutal reality of early twentieth-century
+mechanized warfare. The characterization of the apocalyptic clamor of modern warfare
+captures one aspect of the megaphonic sublime through the writing of Ernst Junger:
+Ahead of us rumbled and thundered artillery fire of a volume we
+had never dreamed of, a thousand quivering lightnings bathed the
+western horizon in a sea of flame. A continual stream of wounded,
+with pale, sunken faces, made their way back, often barged aside by
+clattering guns or munitions columns heading the other way.17
+Junger’s work suggests a battlefield landscape of death that was also a miserable world of
+sonic shock. ');
+
+
+
+
+
 INSERT INTO assignment (name, description, created_date, due_date, questions, course) VALUES
 ( 'Fundamentals 1' , ' This assignment will help practise addition, subtraction, multiplication, and division!' ,
-'12-16-2020', '12-24-2020', 5, (SELECT id FROM course WHERE name='Math 241'));
+'12-09-2020', '12-15-2020', 5, (SELECT id FROM course WHERE name='Math 241'));
 --teachers: useruser10, useruser11 
---students: UU1,UU3,UU4,UU6,UU8,UU17
+--students: student,UU3,UU4,UU6,UU8,UU17
 --ASSIGNMENT - Fundamentals 1 -- QUESTIONS (All text)
 INSERT INTO question (assignment, number, type, statement) VALUES 
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, 'text', '5 + 3 = ?'),
@@ -540,46 +1060,71 @@ INSERT INTO question (assignment, number, type, statement) VALUES
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, 'text', '16 - 5 + ? = 14');
 --Fundamentals 1 , question 1
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, '8'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, '8'), 
+--student+1
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, '6'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, '2'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, 'eight'),
 ((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, '8'),
+--UU8+1
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 1, '90');
 --Fundamentals 1 , question 2
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, '15'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, '15'),
+--student+1
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, '14'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, '15'),
+--UU4+1
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, ' 16'),
 ((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, ' 15'),
+--UU8+1
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 2, ' 14');
 --Fundamentals 1 , question 3
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '25'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '25'),
+--student+1
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '23'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '2'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, ' 25'),
-((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '5*5'),
+--UU6+1
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '25'),
+--UU8+1
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 3, '26');
 --Fundamentals 1 , question 4
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '3'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '3'),
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '-2'),
+--UU3+1
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '2'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, 'eight'),
-((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '0'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '-2'),
+--UU8+1
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 4, '-02');
+--UU17+1
 --Fundamentals 1 , question 5
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '3'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '3'),
+--student+1
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, ' 3 '),
+--UU3+1
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '3'),
+--UU4+1
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '3t'),
 ((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, ' 3'),
+--UU8+1
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '4');
+
+INSERT into mcchoice (assignment, question, choice, answer, correct) VALUES
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),1,1,'8',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),1,2,'eight',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),1,3,' 8 ',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),2,1,'15',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),3,1,'25',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),4,1,'-2',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),5,1,'3',TRUE);
+
 --teachers: useruser10, useruser11 
---students: UU1,UU3,UU4,UU6,UU8,UU17
+--students: student,UU3,UU4,UU6,UU8,UU17
 --ASSIGNMENT - Fundamentals 2 -- QUESTIONS (All multiple choice -- actual questions are identical to Fundamentals 1)
 INSERT INTO assignment (name, description, created_date, due_date, questions, course) VALUES
 ( 'Fundamentals 2' , ' In this assignment we will continue to practise addition, subtraction, multiplication, and division!' ,
@@ -592,7 +1137,7 @@ INSERT INTO question (assignment, number, type, statement) VALUES
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'mc', '22 = 6 + ?²');
 --Fundamentals 2 , question 1, answer - A
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'A'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'A'),
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'A'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'B'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'C'),
@@ -600,7 +1145,7 @@ INSERT INTO answer (student, assignment, question, answer) VALUES
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 1, 'A');
 --Fundamentals 2 , question 2, answer - C
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'D'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'D'),
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'C'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'A'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'D'),
@@ -608,7 +1153,7 @@ INSERT INTO answer (student, assignment, question, answer) VALUES
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 2, 'D');
 --Fundamentals 2 , question 3 , answer B
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'B'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'B'),
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'A'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'D'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'C'),
@@ -616,7 +1161,7 @@ INSERT INTO answer (student, assignment, question, answer) VALUES
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 3, 'B');
 --Fundamentals 2 , question 4, answer C
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'C'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'C'),
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'D'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'C'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'E'),
@@ -624,7 +1169,7 @@ INSERT INTO answer (student, assignment, question, answer) VALUES
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 4, 'C');
 --Fundamentals 2 , question 5, answer D
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'A'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'A'),
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'D'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'D'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 2'), 5, 'A'),
@@ -658,50 +1203,59 @@ INSERT INTO assignment (name, description, created_date, due_date, questions, co
 ( 'Fundamentals 3' , ' Yet another assignment!' ,
 '12-18-2020', '12-31-2020', 5, (SELECT id FROM course WHERE name='Math 241'));
 --teachers: useruser10, useruser11 
---students: UU1,UU3,UU4,UU6,UU8,UU17
+--students: student ,UU3,UU4,UU6,UU8,UU17
 --ASSIGNMENT - Fundamentals 3 -- QUESTIONS (All text)
 INSERT INTO question (assignment, number, type, statement) VALUES 
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'text', 'Spell "vuejs"'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'text', 'Again! (spell "vuejs")'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'text', 'Does SQL have anything to do with lentil soup?'),
-((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'text', 'Can you run that word be me again, "vuejs"? Thanks.'),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'text', 'Can you run that word by me, one last time: "vue.js"? Thanks.'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'text', 'Is it easy to create online tests?');
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'vuejs'),
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'vue.js'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, '"vue.js"'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'vuejs'),
 ((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'VUEJS'),
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'vue');
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'vuejs'),
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'vue.js'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, '"vue.js"'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'vuejs'),
 ((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'VUEJS'),
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'vue');
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'no'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'no'),
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'Im not sure'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'no'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'YES!!'),
 ((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'I remember hearing that, yea'),
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'no');
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'vuejs'),
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'vue.js'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, '"vue.js"'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'vuejs'),
 ((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'VUEJS'),
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'vue');
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser1'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'no'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'no'),
 ((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'yes'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'yes'),
 ((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'YES!!'),
 ((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'nope'),
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'no');
 
+INSERT into mcchoice (assignment, question, choice, answer, correct) VALUES
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),1,1,'vuejs',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),1,2,'vue.js',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),1,3,'vue js',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),2,1,'vuejs',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),3,1,'actually, yes',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),3,2,'I remember hearing that, yea',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),4,1,'vue.js',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),5,1,'no',TRUE);
 
 INSERT INTO message (user_id, read, content) VALUES
 ((SELECT user_id FROM users WHERE username = 'student'), TRUE, 'Hi, We are canelling class next thursday'),
@@ -713,42 +1267,103 @@ INSERT INTO assignment (name, description, created_date, due_date, questions, co
 ( 'First Week Quiz' , 'Practise everything we have learned from the lessons' ,
 '12-18-2020', '12-31-2020', 5, (SELECT id FROM course WHERE name='Relational Databases'));
 --teachers: useruser14 
---students: UU2,UU4,UU7,UU9,UU18 (exactly the class limit)
+--students: student,UU4,UU7,UU9,UU18 (exactly the class limit)
 --ASSIGNMENT - Fundamentals 3 -- QUESTIONS (All text)
 --Intentionally turning nothing in for user 18, maybe eventually have some alert set up for this
 INSERT INTO question (assignment, number, type, statement) VALUES 
-((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, 'text', 'Spell "vuejs"'),
-((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, 'text', 'Again! (spell "vuejs")'),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, 'text', 'Spell "deja vue"'),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, 'text', 'Again! (spell "deja vu")'),
 ((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 3, 'text', 'Does SQL have anything to do with lentil soup?'),
 ((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 4, 'text', 'Can you run that word be me again, "vuejs"? Thanks.'),
 ((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'text', 'Is it easy to create online tests?');
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser2'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, 'vuejs'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, 'vue.js'),
 ((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, '"vue.js"'),
 ((SELECT user_id FROM users WHERE username = 'useruser9'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, 'vuejs');
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser2'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, 'vuejs'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, 'vue.js'),
 ((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, '"vue.js"'),
 ((SELECT user_id FROM users WHERE username = 'useruser9'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, 'vuejs');
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser2'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 3, 'no'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 3, 'no'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 3, 'Im not sure'),
 ((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 3, 'no'),
 ((SELECT user_id FROM users WHERE username = 'useruser9'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 3, 'YES!!');
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser2'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 4, 'vuejs'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 4, 'vuejs'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 4, 'vue.js'),
 ((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 4, '"vue.js"'),
 ((SELECT user_id FROM users WHERE username = 'useruser9'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 4, 'vuejs');
 INSERT INTO answer (student, assignment, question, answer) VALUES 
-((SELECT user_id FROM users WHERE username = 'useruser2'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'no'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'no'),
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'yes'),
 ((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'yes'),
 ((SELECT user_id FROM users WHERE username = 'useruser9'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'YES!!');
 
+INSERT into mcchoice (assignment, question, choice, answer, correct) VALUES
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'),1,1,'deja vu',TRUE),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'),2,1,'deja vu',TRUE),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'),3,1,'actually, yes',TRUE),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'),3,2,'I remember hearing that, yea',TRUE),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'),4,1,'vue.js',TRUE),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'),5,1,'no',TRUE);
 
 
+INSERT INTO assignment (name, description, created_date, due_date, questions, course) VALUES
+( 'Second Week Quiz' , 'MORE practise for everything we have learned from the lessons' ,
+'12-05-2020', '01-10-2020', 5, (SELECT id FROM course WHERE name='Relational Databases'));
+--teachers: useruser14 
+--students: student,UU4,UU7,UU9,UU18 (exactly the class limit)
+--ASSIGNMENT - Fundamentals 3 -- QUESTIONS (All text)
+--ONLY USERS student and useruser7 have turned in this assignment, in this data set. Both of them will have grades, as well.
+INSERT INTO question (assignment, number, type, statement) VALUES 
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 1, 'text', 'Can you read?'),
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 2, 'text', 'How many fingers am I holding up?'),
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 3, 'text', 'Thoughts on life?'),
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 4, 'text', 'Hey! hows it going?!?!'),
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 5, 'text', 'Is this the last question of the test?');
+
+INSERT into mcchoice (assignment, question, choice, answer, correct) VALUES
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'),1,1,'yes',TRUE),
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'),2,1,'5',TRUE),
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'),3,1,'trick question!',TRUE),
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'),4,1,'chillin, you?',TRUE),
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'),5,1,'no; the test goes on, just as time does.',TRUE);
+
+
+--student ANSWERS
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 1, 'no'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 2, 'uhhhhh.... 5?'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 3, 'I think it is pretty good, not bad.'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 4, 'great!'),
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 5, 'no?');
+--USER 7 ANSWERS
+INSERT INTO answer (student, assignment, question, answer) VALUES 
+((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 1, 'yes'),
+((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 2, 'definitely 6'),
+((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 3, 'it is challenging and fun!'),
+((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 4, 'eh.. kind of bored'),
+((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 5, 'no, this is?');
+
+INSERT INTO grade (student, assignment, turned_in, correct, grade, comment) VALUES
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), '2020-12-13 08:32:43'::TIMESTAMP , 3, 60, 'Turned in: 2020-12-13 08:32:43 Grade: 3/5'),
+((SELECT user_id FROM users WHERE username = 'useruser3'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), '2020-12-11 21:53:16'::TIMESTAMP , 2, 40, 'Turned in: 2020-12-11 21:53:16 Grade: 2/5'),
+((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), '2020-12-14 18:22:34'::TIMESTAMP , 2, 40, 'Turned in: 2020-12-14 18:22:34 Grade: 2/5'),
+((SELECT user_id FROM users WHERE username = 'useruser6'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), '2020-12-13 09:36:15'::TIMESTAMP , 1, 20, 'Turned in: 2020-12-13 09:36:15 Grade: 1/5'),
+((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), '2020-12-16 10:17:26'::TIMESTAMP , 5, 100, 'Turned in: 2020-12-16 10:17:26 Grade: 5/5'),
+((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), '2020-12-13 08:55:12'::TIMESTAMP , 1, 20, 'Turned in: 2020-12-13 08:55:12 Grade: 1/5');
+
+
+INSERT INTO grade (student, assignment, turned_in, correct, grade, comment) VALUES
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), '2020-12-13 08:55:13'::TIMESTAMP , 3, 60, 'not bad, but I know you could do a lot better than 60%!');
+
+INSERT INTO grade (student, assignment, turned_in, correct, grade, comment) VALUES
+((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), '2020-12-16 08:40:36'::TIMESTAMP , 4, 80, 'great work! The one issue was quetsion 5. Actually the answer was yes!');
+
+INSERT INTO grade (student, assignment, turned_in, correct, grade, comment) VALUES
+((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), '2020-12-16 08:40:36'::TIMESTAMP , 2, 40, 'needs improvement!!');
 
 COMMIT TRANSACTION;
