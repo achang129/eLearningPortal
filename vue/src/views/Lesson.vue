@@ -6,8 +6,6 @@
         </router-link>
       <h1></h1>
       <div id="lesson">
-      </div>
-      <div>
         <p id="inner-lesson-view">
           <span v-html="this.lesson"></span>
         </p>
