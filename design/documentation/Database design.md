@@ -43,7 +43,6 @@ Contains information about courses.
 | `name` | varchar(64) | name of the course |
 | `description` | varchar(256) | description of the course |
 | `class_size` | int | number of students allowed in the course |
-| `difficulty` | varchar(32) | difficulty level of the course |
 | `cost` | int | cost of the course in cents |
 
 `cost` has a default value of `0`.
