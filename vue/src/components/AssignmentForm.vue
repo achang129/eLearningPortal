@@ -6,10 +6,10 @@
           <div v-for="(question, index) in questions" v-bind:key='index'>
             <h4>Question {{index + 1}} ({{question.points}} pts):</h4>
             <p>{{question.statement}}</p>
-            <div v-if="question.type=='text'" class=text-answer>
+            <div v-if="question.type=='text'" class="text-answer">
               <textarea v-model="answers[index]"></textarea>
             </div>
-            <div v-else class=mc-answer>
+            <div v-else class="mc-answer">
               <div v-for="(answer, aindex) in question.answers" v-bind:key='aindex' class='mc-answer' v-bind:class="{'selected': isSelected(index,aindex)}" v-on:click.prevent='selectAnswer(index, aindex)'>
                 <p>{{answer}}</p>
               </div>
@@ -39,7 +39,7 @@
     props: ["id"],
     computed: {
       isSelected(q, a){
-        return (questions.type=='mc'?questions[q]:questions[q][a])==a;
+        return (this.questions.type=='mc'?this.questions[q]:this.questions[q][a])==a;
       }
     },
     methods: {
@@ -48,7 +48,7 @@
       },
       save(){
         for(let i=0;i<this.answers.length;i++){
-          if(questions[i].type==mcc){
+          if(this.questions[i].type=='mcc'){
             let ans = this.answers[i].reduce((acc,val)=>{return acc+(val>0? '':','+val);});
             homeworkService.saveHomeworkProgress(this.id,i,ans);
           }else{
@@ -57,14 +57,14 @@
         }
       },
       submit(){
-        save();
+        this.save();
         homeworkService.submitHomework(this.id);
       },
       selectAnswer(q, a){
-        if(questions[q].type == 'mc'){
-          answers[q]=a;
+        if(this.questions[q].type == 'mc'){
+          this.answers[q]=a;
         }else{
-          answers[q][a] = a-answers[q][a];
+          this.answers[q][a] = a-this.answers[q][a];
         }
       }
     },
@@ -80,7 +80,7 @@
             'answers': question.answers,
             'points': question.points
           };
-          if(question.type = 'text'){q.answers = [];}
+          if(question.type == 'text'){q.answers = [];}
           return q;
         });
         this.answers = this.questions.map((q)=>{return q.type=='mmc'?q.answers.map(()=>{return -1;}):''});
