@@ -35,7 +35,7 @@
                   <td class="curriculum-datum">{{curriculum.date}}</td>
                   <td class="curriculum-datum">
                     <button id="lesson-hyper-link" @click.prevent="goToLesson(curriculum)" >
-                    {{curriculum.lesson.substring(0,50)}}. . .
+                    Click to View Lesson
                     </button>
                   </td>
                   <td class="curriculum-datum">
@@ -44,13 +44,11 @@
                         Add New Assignment</button>
                       <button v-else v-on:click.prevent="editHomework">
                         Edit assignment</button>
-                    </div>
-                    <button v-else id="homework-hyper-link" :disabled='!curriculum.homework' @click.prevent="goToAssignment(curriculum.homework)">
-                      View Homework</button>
-                  </td>
-                  <td>
-                      <button :disabled='!curriculum.homework' v-if='$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"' v-on:click.prevent="removeHomework(curriculum.homework)">
+                      <button :disabled='!curriculum.homework' v-if='$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"' v-on:click.prevent="removeHomework(curriculum.homework)" style="display: block">
                         Remove Homework</button>
+                    </div>
+                      <button v-else id="homework-hyper-link" :disabled='!curriculum.homework' @click.prevent="goToAssignment(curriculum.homework)">
+                      View Homework</button>
                   </td>
               </tr>
           </tbody>
@@ -157,10 +155,11 @@ export default {
 </script>
 
 <style>
-/* #curriculum-table{
+.daily{
   display: flex;
-  flex-direction: c;
-} */
+  flex-direction: column;
+  align-self: center;
+}
 
 .formtext{
   font-family: "Trebuchet MS", Helvetica, sans-serif;
