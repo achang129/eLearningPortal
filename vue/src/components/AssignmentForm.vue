@@ -52,6 +52,7 @@
       submit(){
         this.save();
         homeworkService.submitHomework(this.id);
+        this.$router.push('/homework');
       },
       selectAnswer(q, a){
         if(!this.submitted){

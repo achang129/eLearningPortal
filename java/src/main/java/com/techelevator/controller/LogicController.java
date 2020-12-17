@@ -364,8 +364,8 @@ public class LogicController {
 			}
 			for(int j=0; j<courses.length; j++){
 				Grade[] grades = gradeDAO.getGradesByStudentAndCourse(getID(p), courses[j].getId());
-				int avg = 0;
-				int total = 0;
+				double avg = 0;
+				double total = 0;
 				for(Grade grade:grades){
 					if(grade.getGrade() >= 0){
 						avg += grade.getGrade();
@@ -374,7 +374,7 @@ public class LogicController {
 				}
 				if(total == 0)
 					total = 1;
-				gpa += (((double)avg)/((double)total));
+				gpa += avg/total;
 			}
 			gpas[i].setGpa(4 * gpa/courses.length);
 		}
