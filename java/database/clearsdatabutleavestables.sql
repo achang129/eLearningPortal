@@ -1113,6 +1113,16 @@ INSERT INTO answer (student, assignment, question, answer) VALUES
 ((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, ' 3'),
 --UU8+1
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 1'), 5, '4');
+
+INSERT into mcchoice (assignment, question, choice, answer, correct) VALUES
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),1,1,'8',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),1,2,'eight',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),1,3,' 8 ',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),2,1,'15',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),3,1,'25',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),4,1,'-2',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 1'),5,1,'3',TRUE);
+
 --teachers: useruser10, useruser11 
 --students: student,UU3,UU4,UU6,UU8,UU17
 --ASSIGNMENT - Fundamentals 2 -- QUESTIONS (All multiple choice -- actual questions are identical to Fundamentals 1)
@@ -1199,7 +1209,7 @@ INSERT INTO question (assignment, number, type, statement) VALUES
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'text', 'Spell "vuejs"'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 2, 'text', 'Again! (spell "vuejs")'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 3, 'text', 'Does SQL have anything to do with lentil soup?'),
-((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'text', 'Can you run that word be me again, "vuejs"? Thanks.'),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 4, 'text', 'Can you run that word by me, one last time: "vue.js"? Thanks.'),
 ((SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'text', 'Is it easy to create online tests?');
 INSERT INTO answer (student, assignment, question, answer) VALUES 
 ((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 1, 'vuejs'),
@@ -1237,6 +1247,15 @@ INSERT INTO answer (student, assignment, question, answer) VALUES
 ((SELECT user_id FROM users WHERE username = 'useruser8'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'nope'),
 ((SELECT user_id FROM users WHERE username = 'useruser17'), (SELECT id FROM assignment WHERE name = 'Fundamentals 3'), 5, 'no');
 
+INSERT into mcchoice (assignment, question, choice, answer, correct) VALUES
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),1,1,'vuejs',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),1,2,'vue.js',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),1,3,'vue js',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),2,1,'vuejs',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),3,1,'actually, yes',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),3,2,'I remember hearing that, yea',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),4,1,'vue.js',TRUE),
+((SELECT id FROM assignment WHERE name = 'Fundamentals 3'),5,1,'no',TRUE);
 
 INSERT INTO message (user_id, read, content) VALUES
 ((SELECT user_id FROM users WHERE username = 'student'), TRUE, 'Hi, We are canelling class next thursday'),
@@ -1252,8 +1271,8 @@ INSERT INTO assignment (name, description, created_date, due_date, questions, co
 --ASSIGNMENT - Fundamentals 3 -- QUESTIONS (All text)
 --Intentionally turning nothing in for user 18, maybe eventually have some alert set up for this
 INSERT INTO question (assignment, number, type, statement) VALUES 
-((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, 'text', 'Spell "vuejs"'),
-((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, 'text', 'Again! (spell "vuejs")'),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 1, 'text', 'Spell "deja vue"'),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 2, 'text', 'Again! (spell "deja vu")'),
 ((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 3, 'text', 'Does SQL have anything to do with lentil soup?'),
 ((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 4, 'text', 'Can you run that word be me again, "vuejs"? Thanks.'),
 ((SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'text', 'Is it easy to create online tests?');
@@ -1282,6 +1301,16 @@ INSERT INTO answer (student, assignment, question, answer) VALUES
 ((SELECT user_id FROM users WHERE username = 'useruser4'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'yes'),
 ((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'yes'),
 ((SELECT user_id FROM users WHERE username = 'useruser9'), (SELECT id FROM assignment WHERE name = 'First Week Quiz'), 5, 'YES!!');
+
+INSERT into mcchoice (assignment, question, choice, answer, correct) VALUES
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'),1,1,'deja vu',TRUE),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'),2,1,'deja vu',TRUE),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'),3,1,'actually, yes',TRUE),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'),3,2,'I remember hearing that, yea',TRUE),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'),4,1,'vue.js',TRUE),
+((SELECT id FROM assignment WHERE name = 'First Week Quiz'),5,1,'no',TRUE);
+
+
 INSERT INTO assignment (name, description, created_date, due_date, questions, course) VALUES
 ( 'Second Week Quiz' , 'MORE practise for everything we have learned from the lessons' ,
 '12-05-2020', '01-10-2020', 5, (SELECT id FROM course WHERE name='Relational Databases'));
@@ -1295,6 +1324,15 @@ INSERT INTO question (assignment, number, type, statement) VALUES
 ((SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 3, 'text', 'Thoughts on life?'),
 ((SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 4, 'text', 'Hey! hows it going?!?!'),
 ((SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 5, 'text', 'Is this the last question of the test?');
+
+INSERT into mcchoice (assignment, question, choice, answer, correct) VALUES
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'),1,1,'yes',TRUE),
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'),2,1,'5',TRUE),
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'),3,1,'trick question!',TRUE),
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'),4,1,'chillin, you?',TRUE),
+((SELECT id FROM assignment WHERE name = 'Second Week Quiz'),5,1,'no; the test goes on, just as time does.',TRUE);
+
+
 --student ANSWERS
 INSERT INTO answer (student, assignment, question, answer) VALUES 
 ((SELECT user_id FROM users WHERE username = 'student'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), 1, 'no'),
