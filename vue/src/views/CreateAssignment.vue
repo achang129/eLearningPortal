@@ -19,8 +19,22 @@ export default {
   .maindiv {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-areas: "header editor";
-    
+    grid-template-areas: 
+    "header header"
+    "editor editor";
+  }
+
+  .header{
+    grid-area: header;
+    display: flex;
+    justify-content: center;
+  }
+
+  .editor{
+    grid-area: editor;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
 </style>

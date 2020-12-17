@@ -54,6 +54,10 @@ export default {
 
 .course {
   grid-area: course;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  width: 100%;
 }
 #course-view-user-sidebar {
   grid-area: sidebar;

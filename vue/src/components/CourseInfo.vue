@@ -18,10 +18,10 @@
         </div>
     </div>
     <div class="daily">
+       <h2 class="tablecaption">Upcoming coursework<br/><br/>
+          </h2>
       <div id="curricula-container">
         <table id="curriculum-table" style="width:100%">
-          <caption class="tablecaption">Upcoming coursework<br/><br/>
-          </caption>
           <thead>
               <tr class="courseinforows">
                   <th id="date-column">Date</th>
@@ -40,7 +40,7 @@
                   </td>
                   <td class="curriculum-datum">
                     <div v-if='$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
-                      <button v-if='!curriculum.homework' v-on:click.prevent="addHomework">
+                      <button class="newassign-btn" v-if='!curriculum.homework' v-on:click.prevent="addHomework">
                         Add New Assignment</button>
                       <button v-else v-on:click.prevent="editHomework">
                         Edit assignment</button>
@@ -76,7 +76,6 @@
 
 <script>
 import courseService from "../services/CourseService.js";
-import homeworkService from "../services/HomeworkService.js";
 import SelectTeacher from "./SelectTeacher.vue";
 import StudentList from './StudentList';
 
@@ -97,8 +96,7 @@ export default {
       newLesson: "",
       newDate: new Date(),
       showSectionTeacher: false,
-      showSectionStudent: false,
-      assignments: []
+      showSectionStudent: false
     }
   },
   computed: {
@@ -116,32 +114,13 @@ export default {
       this.$router.push({name: 'lesson', params: {id: this.$props.courseid}});
     },
     goToAssignment(assignment){
-      this.setCurrentAssignment(assignment);
-      this.$router.push({name: 'assignment-form', params: {id: this.$props.courseid}});
-    },
-    getAssignments() {
-        homeworkService.list()
-          .then(response => {
-            this.assignments = response.data;
-        });
+      alert(assignment);
     },
     removeHomework(assignment){
-      homeworkService.deleteHomework(assignment)
-        .then(response => {
-          if (response.status === 200) {
-            this.assignments = this.assignments.filter((assignment)=>{return assignment.name !== name;});
-          }
-        }).catch(error => {
-          if (error.response) {
-            this.errorMsg = error.response.statusText;
-          }
-        });
+      alert(assignment)
     },
     setCurrentLesson(lesson){
       this.$store.commit('SET_CURRENT_LESSON', lesson);
-    },
-    setCurrentAssignment(assignment){
-      this.$store.commit('SET_CURRENT_ASSIGNMENT', assignment);
     },
     toggleTeacher(){
       this.showSectionTeacher = !this.showSectionTeacher;
@@ -172,28 +151,16 @@ export default {
   },
   created() {
     this.getCoursework();
-    this.getAssignments();
   }
 };
 
 </script>
 
 <style>
-.course-comp{
+/* #curriculum-table{
   display: flex;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  font-size: 24px;
-  border-bottom: 1px solid #f2f2f2;
-  padding: 10px 20px;
-}
-
-#curriculum-table{
-  display: flex;
-  
-  flex-direction: column;
-}
+  flex-direction: c;
+} */
 
 .formtext{
   font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -202,8 +169,6 @@ export default {
 .courseinforows{
   text-decoration: underline;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
-  display: flex;
-  justify-content:space-evenly;
 }
 
 #empty-message{
@@ -220,7 +185,7 @@ export default {
   border-radius: 2%;
   border-style:ridge;
   border-color: black;
-  width: 84%;
+  width: 100%;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   font-size: 20px;
   letter-spacing: 0px;
@@ -231,16 +196,15 @@ export default {
   font-variant: small-caps;
   text-transform: capitalize;
   
-  
 }
 
 .courseButton {
-	background-color:#e6c2bf;
+	background-color:rgb(38, 62, 82);
 	border-radius:28px;
 	border:1px solid #0d0c0c;
 	display:inline-block;
 	cursor:pointer;
-	color:#000000;
+	color:white;
 	font-family:Arial;
 	font-size:17px;
 	padding:16px 31px;
@@ -248,22 +212,26 @@ export default {
 	text-shadow:0px 1px 0px #2f6627;
 }
 .courseButton:hover {
-	background-color:#3accd1;
+	background-color:#6685ad;
 }
 .courseButton:active {
 	position:relative;
 	top:1px;
 }
 #add-teacher-student-click {
-  color:mediumturquoise;
+  color:rgb(72, 131, 209);
   font-size: 25px;
+}
+
+#add-teacher-student-click:hover{
+  cursor: pointer;
 }
 
 .form-control-date {
   background-color: white;
   -webkit-appearance: none;
   width: 160px;
-  border: solid #e6c2bf;
+  border: solid rgb(38, 62, 82);
   font-family: inherit;
   padding: 0;
   height: 48px;
@@ -285,7 +253,7 @@ export default {
    background-color: white;
   -webkit-appearance: none;
   width: 300px;
-  border: solid #e6c2bf;
+  border: solid rgb(38, 62, 82);
   font-family: inherit;
   padding: 0;
   height: 48px;
@@ -296,7 +264,9 @@ export default {
 }
 .tablecaption{
   margin-top: 5px;
-  width: 83%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   font-size: 40px;
   letter-spacing: 0px;
@@ -311,14 +281,21 @@ export default {
 #curricula-container{
   display:flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
 }
 .course-list {
   margin: 0 auto;
   max-width: 800px;
 }
-
-.course:last-child {
+.course-comp {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* font-size: 24px;
+  border-bottom: 1px solid #f2f2f2;
+  padding: 10px 20px; */
+}
+.course-comp:last-child {
   border: 0px;
 }
 table {
@@ -333,6 +310,10 @@ tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
+.newassign-btn:hover, #lesson-hyper-link:hover{
+  cursor: pointer;
+}
+
 .course-list a:link,
 .course-list a:visited {
   color: blue;
@@ -343,5 +324,6 @@ tbody tr:nth-child(even) {
 }
 .curriculum-datum {
   font-size: 15px;
+  color: white;
 }
 </style>

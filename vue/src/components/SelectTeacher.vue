@@ -3,7 +3,7 @@
         <table id="select-teacher-for-course">
             <caption id="box-choice-heading">Select Teacher for course</caption>
             <thead>
-                <tr>
+                <tr class="add-teacher-row-heads">
                     <th>Teacher</th>
                     <th>Assign</th>
                     <th>Remove</th>
@@ -12,7 +12,7 @@
             <tbody>
                 <tr v-for="(teacher,index) in teachers" 
                 :key="teacher.id">
-                    <td>{{teacher.name}} <span id="teacher-id-value">(id:{{teacher.id}})</span></td>
+                    <td>{{teacher.name}} </td>
                     <td>
                         <button :disabled='teacher.enrolled' @click.prevent='addTeacher(index)'>Add</button>
                     </td>
@@ -89,25 +89,34 @@ export default {
 
 <style scoped>
 #select-teacher-course-grid{
-    background-color:#72aa7e;
+    /* background-color:#72aa7e; */
   opacity: 70%;
-  border-radius: 2%;
+  /* border-radius: 2%;
   border-style:ridge;
-  border-color: rgb(26, 58, 39);
+  border-color: rgb(26, 58, 39); */
   width: 84%;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   font-size: 20px;
   letter-spacing: 0px;
   word-spacing: 0px;
-  color: #000000;
+  /* color: white; */
   font-weight: 700;
   font-style: normal;
 }
-
+#select-teacher-course-grid td{
+    color: white;
+}
 #box-choice-heading{
     font-size:28px;
     font-variant-caps: all-petite-caps;
     font-weight: bolder;
+    color: black;
+   
+}
+
+.add-teacher-row-heads{
+    text-decoration: underline;
+    color: black;
 }
 
 #actual-enrolled-teacher-list{

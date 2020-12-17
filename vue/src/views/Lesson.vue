@@ -1,5 +1,5 @@
 <template>
-  <div class="lesson">
+  <div class="lesson-container">
       <router-link
           :to="{name: 'course', params: {id: this.courseid}}">
           <span>Go Back to Course Page</span>
@@ -8,11 +8,17 @@
       <div id="lesson">
         <p><span v-html="this.lesson"></span></p>
       </div>
+   <!-- <div class="lesson-sidebar">
+     <user-sidebar />
+   </div> -->
   </div>
 </template>
 
 <script>
-export default {
+// import UserSidebar from "../components/UserSidebar.vue"
+
+export default{ 
+  components: {  },
     name: "lesson",
     props: ["courselesson"],
     data() {
@@ -25,5 +31,19 @@ export default {
 </script>
 
 <style>
+#lesson{
+  width: 100%;
+}
+
+#lesson span{
+  display: block;
+  flex-direction: column;
+  justify-content: center;
+  border: solid black;
+  background-color: #3a3535;
+  color:rgb(175, 198, 216);
+}
+
+
 
 </style>

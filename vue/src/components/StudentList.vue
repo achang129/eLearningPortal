@@ -12,7 +12,7 @@
           <tbody>
             <tr v-for="(student,index) in students" 
                 :key="student.id">
-                    <td>{{student.name}} <span id="student-id-value">(id:{{student.id}})</span></td>
+                    <td>{{student.name}} </td>
                     <td>
                         <button :disabled='student.enrolled' @click.prevent='addStudent(index)'>Add</button>
                     </td>
@@ -89,24 +89,27 @@ export default {
 
 <style scoped>
 #select-student-course-grid{
-  background-color:#cc7979;
   opacity: 70%;
-  border-radius: 2%;
-  border-style:ridge;
-  border-color: rgb(156, 100, 122);
+
   width: 84%;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   font-size: 20px;
   letter-spacing: 0px;
   word-spacing: 0px;
-  color: #000000;
+  color: white;
   font-weight: 700;
   font-style: normal;
+}
+
+#select-student-course-grid th{
+    color:black;
+    text-decoration: underline;
 }
 #box-choice-heading{
     font-size:28px;
     font-variant-caps: all-petite-caps;
     font-weight: bolder;
+    color: black;
 }
 #actual-enrolled-student-list{
     font-size: 15px;
