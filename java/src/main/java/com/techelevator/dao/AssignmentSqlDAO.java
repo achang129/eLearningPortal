@@ -62,6 +62,13 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 		String sql = "SELECT * FROM assignment WHERE id = ?";
 		return jdbcTemplate.queryForObject(sql, Assignment.class, id);
 	}
+	
+	@Override
+	public boolean isSubmitted(int id, int student){
+		String sql = "SELECT * FROM grade WHERE student = ? AND assignment = ?";
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, student, id);
+		return rows.next();
+	}
 
 	@Override
 	public boolean submitAssignment(int id, int student) {

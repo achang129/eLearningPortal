@@ -15,6 +15,9 @@ export default{
     get(homeworkId) {
         return http.get(`/homework/${homeworkId}`)
     },
+    submitted(id){
+      return http.get(`/homework/${id}/status`)  
+    },
     submitHomework(id) {
         return http.post(`/homework/${id}`);
     },

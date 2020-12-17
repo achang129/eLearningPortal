@@ -2,22 +2,23 @@
     <div>
         <h3>{{name}}</h3>
         <p>{{description}}</p>
+        <p v-if='submitted'>This assignment has already been submitted!</p>
         <form v-on:submit.prevent='submit()'>
           <div v-for="(question, index) in questions" v-bind:key='index'>
             <h4>Question {{index + 1}} ({{question.points}} pts):</h4>
             <p>{{question.statement}}</p>
             <div v-if="question.type=='text'" class="text-answer">
-              <textarea v-model="answers[index]"></textarea>
+              <textarea :disabled='submitted' v-model="answers[index]"></textarea>
             </div>
             <div v-else class="mc-answer">
               <div v-for="(answer, aindex) in question.answers" v-bind:key='aindex' class='mc-answer' v-bind:class="{'selected': isSelected(index,aindex)}" v-on:click.prevent='selectAnswer(index, aindex)'>
                 <p>{{answer}}</p>
               </div>
             </div>
-            <button v-on:click.prevent=clear()>Clear Answers</button>
-            <button v-on:click.prevent=save()>Save Progress</button>
-            <button type=submit>Submit Homework</button>
           </div>
+          <button :disabled='submitted' v-on:click.prevent=clear()>Clear Answers</button>
+          <button :disabled='submitted' v-on:click.prevent=save()>Save Progress</button>
+          <button :disabled='submitted' type=submit>Submit Homework</button>
         </form>
     </div>
 </template>
@@ -33,7 +34,8 @@
           description: '',
           dueDate: '',
           questions: [],
-          answers: []
+          answers: [],
+          submitted: false
         }
     },
     props: ["id"],
@@ -89,6 +91,12 @@
           if(this.questions[i].type=='mmc'){
             this.answers[i]=this.answers[i].split(',');
           }
+        }
+      });
+      
+      homeworkService.submitted(this.id).then(response=>{
+        if(response.data=='submitted'){
+          this.submitted=true;
         }
       });
     }

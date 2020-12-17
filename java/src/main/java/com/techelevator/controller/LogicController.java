@@ -296,6 +296,12 @@ public class LogicController {
 		//validate that the person in question has been assigned this work?
 		return assignmentDAO.getDTO(id, getID(p));
 	}
+	@RequestMapping(value = "/homework/{id}/status", method = RequestMethod.GET)
+	public String viewHomeworkStatus(@PathVariable("id") int id, Principal p){
+		//validate that the person in question has been assigned this work?
+		return assignmentDAO.isSubmitted(id, getID(p))?"submitted":"not submitted";
+	}
+
 
 	@RequestMapping(value = "/homework/{id}", method = RequestMethod.POST)
 	public boolean submitHomework(@PathVariable("id") int id, Principal p) throws IncorrectRoleException{
