@@ -100,6 +100,9 @@ import homeworkService from "../services/HomeworkService";
             this.assignment.questions[qindex].correct[aindex] = !this.assignment.questions[qindex].correct[aindex];
         },
         createAssignment() {
+            this.assignment.questions.forEach((question)=>{
+                if(question.answers.length>1){question.type='mmc';}
+            });
             homeworkService.addHomework(this.assignment)
                 .then(response => {
                 if (response.status === 201) {
