@@ -6,6 +6,7 @@
       </header>
       <div class="all-homework">
         <course-homework v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'/>
+        <AssignmentList v-if='this.$store.state.user.authorities[0]["name"]=="ROLE_USER"'/>
       </div>
         <div id="all-homework-page-sidebar">
           <user-sidebar/>
@@ -18,10 +19,11 @@
 import UserSidebar from '../components/UserSidebar.vue';
 import CourseHomework from '../components/CourseHomework.vue';
 import LoadingScreen from '../components/LoadingScreen.vue';
+import AssignmentList from '../components/AssignmentList.vue';
 
 export default {
     name: "homework-list",
-    components: { UserSidebar, CourseHomework, LoadingScreen },
+    components: { UserSidebar, CourseHomework, LoadingScreen, AssignmentList },
     data() {
       return {
         isLoading: true

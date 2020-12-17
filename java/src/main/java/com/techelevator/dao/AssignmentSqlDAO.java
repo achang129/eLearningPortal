@@ -65,27 +65,30 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 
 	@Override
 	public boolean submitAssignment(int id, int student) {
+		String sql = "SELECT * FROM grade WHERE student = ? AND assignment = ?";
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, student, id);
+		if(rows.next()){return false;}
 		int correct = 0;
-		String sql = "SELECT number, weight, type FROM answers WHERE assignment = ? ORDER BY number DESC";
-		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id, student);
+		sql = "SELECT number, weight, type FROM question WHERE assignment = ? ORDER BY number DESC";
+		rows = jdbcTemplate.queryForRowSet(sql, id);
 		if(!rows.next()){return false;}
-		String[] types = new String[rows.getInt("number") + 1];
+		String[] types = new String[rows.getInt("number")];
 		int[] weights = new int[types.length];
 		do{
-			types[rows.getInt("number")] = rows.getString("type");
-			weights[rows.getInt("number")] = rows.getInt("weight");
+			types[rows.getInt("number")-1] = rows.getString("type");
+			weights[rows.getInt("number")-1] = rows.getInt("weight");
 		} while(rows.next());
-		sql = "SELECT question, answer FROM answers WHERE assignment = ? AND student = ?";
+		sql = "SELECT question, answer FROM answer WHERE assignment = ? AND student = ?";
 		rows = jdbcTemplate.queryForRowSet(sql, id, student);
 		String[] ans = new String[types.length];
 		while(rows.next()){
-			ans[rows.getInt("question")] = rows.getString("answer");
+			ans[rows.getInt("question")-1] = rows.getString("answer");
 		}
 		for(int i=0; i<ans.length; i++){
 			switch(types[i]){
 			case "text":
 				sql = "SELECT answer FROM mcchoice WHERE assignment = ? AND question = ?";
-				rows = jdbcTemplate.queryForRowSet(sql, id, i);
+				rows = jdbcTemplate.queryForRowSet(sql, id, i+1);
 				while(rows.next()){
 					if(rows.getString(0).toLowerCase().equals(ans[i].toLowerCase())){
 						correct += weights[i];
@@ -95,7 +98,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 				break;
 			case "mc":
 				sql = "SELECT choice FROM mcchoice WHERE assignment = ? AND question = ? AND correct = true";
-				rows = jdbcTemplate.queryForRowSet(sql, id, i);
+				rows = jdbcTemplate.queryForRowSet(sql, id, i+1);
 				if(rows.next()){
 					if(Integer.toString(rows.getInt(0)).equals(ans[i]))
 						correct += weights[i];
@@ -103,7 +106,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 				break;
 			case "mmc":
 				sql = "SELECT choice FROM mcchoice WHERE assignment = ? AND question = ? AND correct = true ORDER BY choice";
-				rows = jdbcTemplate.queryForRowSet(sql, id, i);
+				rows = jdbcTemplate.queryForRowSet(sql, id, i+1);
 				String exp = "";
 				if(rows.next())
 					exp = Integer.toString(rows.getInt(0));
@@ -124,17 +127,22 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 
 	@Override
 	public int getTeacher(int id) {
-		String sql = "SELECT teacher FROM teacher t INNER JOIN course c "
-				+ "ON t.course = c.id INNER JOIN curriculum cr ON cr.course = c.id "
-				+ "WHERE cr.homework = ?";
+		String sql = "SELECT t.teacher FROM teacher t INNER JOIN assignment a ON a.course = t.course WHERE a.id = ?";
 		return jdbcTemplate.queryForObject(sql, Integer.class, id);
 	}
 
 	@Override
 	public boolean submitAnswer(int id, int question, int student, String answer) {
-		String sql = "INSERT INTO answer (student, assignment, question, answer) "
-				+ "VALUES (?, ?, ?, ?)";
-		return jdbcTemplate.update(sql, student, id, question, answer) == 1;
+		String sql = "SELECT * FROM answer WHERE student = ? AND assignment = ? AND question = ?";
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql,student,id,question);
+		if(rows.next()){
+			sql = "UPDATE answer SET answer = ? WHERE student = ? AND assignment = ? AND question = ? ";
+		}else{
+			sql = "INSERT INTO answer (answer, student, assignment, question) "
+					+ "VALUES (?, ?, ?, ?)";
+		}
+		return jdbcTemplate.update(sql, answer, student, id, question) == 1;
+			
 	}
 
 	@Override
@@ -148,6 +156,8 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 		AssignmentDTO dto = new AssignmentDTO();
 		String sql = "SELECT * FROM assignment WHERE id = ?";
 		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id);
+		if(!rows.next())
+			return null;
 		dto.setName(rows.getString("name"));
 		dto.setDescription(rows.getString("description"));
 		dto.setDate(rows.getDate("created_date").toLocalDate());
@@ -160,7 +170,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 			Question q = new Question();
 			q.setStatement(rows.getString("statement"));
 			q.setType(rows.getString("type"));
-			questions[rows.getInt("number")] = q;
+			questions[rows.getInt("number")-1] = q;
 		}
 		sql = "SELECT * FROM mcchoice WHERE assignment = ? ORDER BY choice DESC";
 		rows = jdbcTemplate.queryForRowSet(sql, id);
@@ -178,7 +188,7 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 		sql = "SELECT * FROM answer WHERE student = ? AND assignment = ?";
 		rows = jdbcTemplate.queryForRowSet(sql, user, id);
 		while(rows.next()){
-			answers[rows.getInt("question")] = rows.getString("answer");
+			answers[rows.getInt("question")-1] = rows.getString("answer");
 		}
 		dto.setAnswers(answers);
 		return dto;

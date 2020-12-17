@@ -50,9 +50,9 @@
         for(let i=0;i<this.answers.length;i++){
           if(this.questions[i].type=='mcc'){
             let ans = this.answers[i].reduce((acc,val)=>{return acc+(val>0? '':','+val);});
-            homeworkService.saveHomeworkProgress(this.id,i,ans);
+            homeworkService.saveHomeworkProgress(this.id,i+1,ans);
           }else{
-            homeworkService.saveHomeworkProgress(this.id,i,this.answers[i]);
+            homeworkService.saveHomeworkProgress(this.id,i+1,this.answers[i]);
           }
         }
       },
@@ -84,6 +84,12 @@
           return q;
         });
         this.answers = this.questions.map((q)=>{return q.type=='mmc'?q.answers.map(()=>{return -1;}):''});
+        this.answers = response.data.answers;
+        for(let i=0;i<this.answers.length;i++){
+          if(this.questions[i].type=='mmc'){
+            this.answers[i]=this.answers[i].split(',');
+          }
+        }
       });
     }
   }
