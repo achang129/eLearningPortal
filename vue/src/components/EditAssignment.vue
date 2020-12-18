@@ -10,7 +10,7 @@
         </div>
         <div class="assignment-question" v-for="(item, questionIndex) in assignment.questions" :key="questionIndex" focusable>
             <h2 slot="header">Question {{questionIndex + 1}}:</h2>
-            <button @click.prevent="removeQuestion(questionIndex)">Remove Question {{questionIndex + 1}}</button>
+            <button class="cancel-btn" @click.prevent="removeQuestion(questionIndex)">Remove Question {{questionIndex + 1}}</button>
             <br/>
             <br/>
             <form>
@@ -40,12 +40,12 @@
                      <br/>
                      <br/>
                   </div>
-                   <button @click.prevent="removeAnswer(questionIndex, answerIndex)">Remove Answer {{ answerIndex + 1 }}</button>
+                   <button class="cancel-btn" @click.prevent="removeAnswer(questionIndex, answerIndex)">Remove Answer {{ answerIndex + 1 }}</button>
                 </div>
                   <br/>
                   <br/>
                 <div>
-                    <button style="display: block" v-if="item.answers.length < 5" @click.prevent="addAnswer(questionIndex)">Add Answer</button>
+                    <button class="cancel-btn" style="display: block" v-if="item.answers.length < 5" @click.prevent="addAnswer(questionIndex)">Add Answer</button>
                      <br/>
                      <br/>
                 </div>
@@ -54,10 +54,10 @@
         <div class="assignment-footer">
             <div>
                 <p>Total Points: {{totalPoints}}</p>
-                 <button style="display: block" v-show="assignment.questions.length < 10" @click="addQuestion">Add Question</button>
+                 <button class="cancel-btn" style="display: block" v-show="assignment.questions.length < 10" @click="addQuestion">Add Question</button>
                  <br/>
-                <button @click.prevent="cancel">Cancel/Go Back</button> ---
-                <button type="submit" @click.prevent="createAssignment">Create</button>
+                <button class="cancel-btn" @click.prevent="cancel">Cancel/Go Back</button> ---
+                <button class="create-btn-for-editor" type="submit" @click.prevent="createAssignment">Create</button>
             </div>
         </div>
   </div>
@@ -157,5 +157,13 @@ import homeworkService from "../services/HomeworkService";
 
 .points-section{
     margin-bottom: 3px;
+}
+
+.cancel-btn:hover{
+    cursor: pointer;
+}
+
+.create-btn-for-editor:hover{
+    cursor: pointer;
 }
 </style>

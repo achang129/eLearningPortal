@@ -1,5 +1,8 @@
 <template>
   <div class="lesson-container">
+    <header class="lesson-header">
+      <img src="../assets/lessonsbanner.png" alt="">
+    </header>
     <router-link
       :to="{name: 'course', params: {id: this.courseid}}">
       <span style="font-size: 15px"> ↰ Go Back to Course Page</span>
@@ -13,7 +16,7 @@
    <!-- <div class="lesson-sidebar">
      <user-sidebar />
    </div> -->
-    <router-link
+    <router-link class="bottom-back-to-course"
       :to="{name: 'course', params: {id: this.courseid}}">
       <span style="font-size: 15px"> ↰ Go Back to Course Page</span>
     </router-link>
@@ -36,8 +39,18 @@ export default{
 }
 </script>
 <style>
+.lesson-container{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-areas: 
+  ". header header header ."
+  ". lesson lesson lesson ."
+  "bottomlink . . . .";
+}
+
 #lesson{
   width: 100%;
+  grid-area: lesson;
 }
 
 #lesson span{
@@ -50,7 +63,24 @@ export default{
   padding: .5rem;
 }
 
+.lesson-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  grid-area: header;
+}
 
+.lesson-header img {
+  border: solid black;
+  border-radius: 24px;
+  height: 17rem;
+  width: 100%;
+}
 
+.bottom-back-to-course{
+  grid-area: bottomlink;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
 
 </style>
