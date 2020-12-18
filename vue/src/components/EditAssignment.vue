@@ -123,6 +123,8 @@ import homeworkService from "../services/HomeworkService";
             this.assignment.questions.forEach((question)=>{
                 if(question.answers.length>1){question.type='mmc';}
             });
+            this.assignment.date=this.$store.state.assignmentDate;
+            this.assignment.course=this.$store.state.activeCourse;
             homeworkService.addHomework(this.assignment)
                 .then(response => {
                 if (response.status === 201) {
@@ -131,6 +133,7 @@ import homeworkService from "../services/HomeworkService";
                 }).catch(error => {
                 this.errorMsg = error.response.statusText;
                 });
+            //this.returnToCourse();
         },
         cancel(){
             this.returnToCourse();

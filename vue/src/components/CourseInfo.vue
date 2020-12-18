@@ -38,11 +38,11 @@
                   </td>
                   <td class="curriculum-datum">
                     <div v-if='$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>
-                      <button class="newassign-btn" v-if='!curriculum.homework' v-on:click.prevent="addHomework">
+                      <button class="newassign-btn" v-if='!curriculum.homework' v-on:click.prevent="addHomework(curriculum.date)">
                         Add New Assignment</button>
-                      <button v-else v-on:click.prevent="editHomework">
-                        Edit assignment</button>
-                      <button :disabled='!curriculum.homework' v-if='$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"' v-on:click.prevent="removeHomework(curriculum.homework)" style="display: block">
+                      <button v-else v-on:click.prevent="goToAssignment(curriculum.homework)">
+                        View Assignment</button>
+                      <button :disabled='!curriculum.homework' v-if='$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"' v-on:click.prevent="removeHomework(curriculum)" style="display: block">
                         Remove Homework</button>
                     </div>
                       <button v-else id="homework-hyper-link" :disabled='!curriculum.homework' @click.prevent="goToAssignment(curriculum.homework)">
@@ -72,6 +72,7 @@
 
 <script>
 import courseService from "../services/CourseService.js";
+import homeworkService from "../services/HomeworkService.js";
 import SelectTeacher from "./SelectTeacher.vue";
 import StudentList from './StudentList';
 
@@ -97,7 +98,7 @@ export default {
     curricula: function(){
       let c = [];
       for(let i=0;i<this.course.dates.length;i++){
-        c[i] = {date: this.course.dates[i],lesson: this.course.curricula[i].lesson};
+        c[i] = {'date': this.course.dates[i],'lesson': this.course.curricula[i].lesson,'homework': this.course.curricula[i].homework};
       }
       return c;
     }
@@ -108,10 +109,11 @@ export default {
       this.$router.push({name: 'lesson', params: {id: this.$props.courseid}});
     },
     goToAssignment(assignment){
-      alert(assignment);
+      this.$router.push({name: 'homework-form', params: {id: assignment}})
     },
-    removeHomework(assignment){
-      alert(assignment)
+    removeHomework(curriculum){
+      homeworkService.deleteHomework(curriculum.homework);
+      this.course.curricula= this.course.curricula.map((c)=>{return{'lesson':c.lesson,'homework':c.homework==curriculum.homework?0:c.homework};});
     },
     setCurrentLesson(lesson){
       this.$store.commit('SET_CURRENT_LESSON', lesson);
@@ -132,8 +134,9 @@ export default {
         }
       })
     },
-    addHomework() {
+    addHomework(date) {
       this.$store.commit("SET_ACTIVE_COURSE",this.courseid);
+      this.$store.commit("SET_ASSIGNMENT_DATE",date);
       this.$router.push({ name: 'create-assignment', params: {courseid: this.$props.courseid} })
     }
   },
