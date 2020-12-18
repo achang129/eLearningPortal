@@ -22,7 +22,7 @@
                 </div>
                 <div>
                     
-                    <textarea class="form-control-lesson" placeholder="Enter Question" label="Question" v-model="item.question"></textarea>
+                    <textarea class="form-control-lesson" placeholder="Enter Question" label="Question" v-model="item.statement"></textarea>
                     <label> Question </label>
                 </div>
               
