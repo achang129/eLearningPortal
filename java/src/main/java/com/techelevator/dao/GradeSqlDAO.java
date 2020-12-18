@@ -63,7 +63,7 @@ public class GradeSqlDAO implements GradeDAO {
 	@Override
 	public Grade getStudentGradeByAssignment(int student, int assignment){
 		String sql = "SELECT * FROM grade WHERE assignment = ? AND student = ?";
-		SqlRowSet rows = jdbc.queryForRowSet(sql);
+		SqlRowSet rows = jdbc.queryForRowSet(sql, assignment, student);
 		if(rows.next())
 			return mapToGrade(rows);
 		return null;

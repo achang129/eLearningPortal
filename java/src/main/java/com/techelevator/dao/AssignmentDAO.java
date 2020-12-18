@@ -25,5 +25,5 @@ public interface AssignmentDAO {
 	/**Gets an AssignmentDTO object based on a particular user*/
 	AssignmentDTO getDTO(int id, int user);
 	/**returns true iff the assignment has been submitted by the student*/
-	boolean isSubmitted(int id, int user);
+	String isSubmitted(int id, int user);
 }

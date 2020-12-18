@@ -4,6 +4,7 @@
        <h3 class="assignheaders">{{ assignment.name }} <span id="assign-id-value">(Assignment id: {{assignment.id}})</span></h3>
        <p id="assign-description-summary">{{assignment.description}}</p>
        <router-link class="details-link" :to="{ name: 'homework-form', params: {id: assignment.id} }">View Assignment</router-link>
+       <p id="assign-status">{{assignment.status}}</p>
     </div>
     <br>
     <br>
@@ -12,6 +13,7 @@
 
 <script>
 import homeworkService from "@/services/HomeworkService.js";
+import gradeService from "@/services/GradeService.js";
 
 export default {
   name: "sh-list",
@@ -23,8 +25,36 @@ export default {
   },
   methods: {
     makeList() {
+      this.assignments = [];
       homeworkService.list().then(response => {
-        response.data.forEach((work)=>{this.assignments.push(work);});
+        this.assignments = response.data.map((work)=>{
+          return {
+            'name':work.name,
+            'description':work.description,
+            'id':work.id,
+            'due':work.dueDate,
+            'status':'unknown'
+          }
+        });
+        
+        this.getStatus();
+      });
+    },
+    getStatus(){
+      this.assignments.forEach((work)=>{
+        homeworkService.submitted(work.id).then(response=>{
+          switch(response.data){
+          case 'unsubmitted':
+            work.status = 'Due ' + work.due;
+            break;
+          case 'submitted':
+            work.status = 'Submitted!';
+            break;
+          case 'graded':
+            gradeService.get(work.id).then((response)=>{work.status = 'Grade: ' +response.data[0].grade + "\n" + response.data[0].comment;});
+            break;
+          }
+        });
       });
     }
   },
