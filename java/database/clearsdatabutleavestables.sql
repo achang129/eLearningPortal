@@ -1554,4 +1554,14 @@ INSERT INTO grade (student, assignment, turned_in, correct, grade, comment) VALU
 INSERT INTO grade (student, assignment, turned_in, correct, grade, comment) VALUES
 ((SELECT user_id FROM users WHERE username = 'useruser7'), (SELECT id FROM assignment WHERE name = 'Second Week Quiz'), '2020-12-16 08:40:36'::TIMESTAMP , 2, 40, 'needs improvement!!');
 
+UPDATE curriculum SET homework=(SELECT id FROM assignment WHERE name = 'Fundamentals 1')
+WHERE date='2020-12-26' AND course=(SELECT id FROM course WHERE name='Math 241');
+UPDATE curriculum SET homework=(SELECT id FROM assignment WHERE name = 'Fundamentals 2')
+WHERE date='2020-12-27' AND course=(SELECT id FROM course WHERE name='Math 241');
+UPDATE curriculum SET homework=(SELECT id FROM assignment WHERE name = 'Fundamentals 3')
+WHERE date='2020-12-28' AND course=(SELECT id FROM course WHERE name='Math 241');
+UPDATE curriculum SET homework=(SELECT id FROM assignment WHERE name = 'First Week Quiz')
+WHERE date='2020-12-25' AND course=(SELECT id FROM course WHERE name='Object Oriented Programming');
+UPDATE curriculum SET homework=(SELECT id FROM assignment WHERE name = 'Second Week Quiz')
+WHERE date='2020-12-31' AND course=(SELECT id FROM course WHERE name='Object Oriented Programming');
 COMMIT TRANSACTION;

@@ -123,9 +123,9 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 				rows = jdbcTemplate.queryForRowSet(sql, id, i+1);
 				String exp = "";
 				if(rows.next())
-					exp = Integer.toString(rows.getInt(0));
+					exp = Integer.toString(rows.getInt("choice"));
 				while(rows.next()){
-					exp += "," + Integer.toString(rows.getInt(0));
+					exp += "," + Integer.toString(rows.getInt("choice"));
 				}
 				if(exp.equals(ans[i]))
 					correct += weights[i];

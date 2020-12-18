@@ -24,9 +24,11 @@
               <br/>
             </div>
           </div>
-          <button class="hw-button" :disabled='submitted' v-on:click.prevent=clear()>Clear Answers</button>
-          <button class="hw-button" :disabled='submitted' v-on:click.prevent=save()>Save Progress</button>
-          <button class="hw-button" :disabled='submitted' type=submit>Submit Homework</button>
+          <div v-if='$store.state.user.authorities[0]["name"]=="ROLE_USER"'>
+            <button class="hw-button" :disabled='submitted' v-on:click.prevent=clear()>Clear Answers</button>
+            <button class="hw-button" :disabled='submitted' v-on:click.prevent=save()>Save Progress</button>
+            <button class="hw-button" :disabled='submitted' type=submit>Submit Homework</button>
+          </div>
         </form> 
        </div>
       </div>
@@ -65,13 +67,13 @@
         this.$router.push('/homework');
       },
       selectAnswer(q, a){
-        if(!this.submitted){
+        if(!this.submitted && this.$store.state.user.authorities[0]["name"]=="ROLE_USER"){
           if(this.questions[q].type == 'mc'){
             this.answers[q]=a;
             this.questions[q].answers.forEach((a)=>{a.selected=false;});
             this.questions[q].answers[a].selected=true;
           }else{
-            this.questions[q].answers[a]=!this.questions[q].answers[a];
+            this.questions[q].answers[a].selected=!this.questions[q].answers[a].selected;
             this.answers[q] = this.questions[q].answers.reduce((acc,val,i)=>{return val.selected?acc+','+i:acc;},'');
           }
         }
@@ -100,7 +102,6 @@
           }
         }
       });
-      
       homeworkService.submitted(this.id).then(response=>{
         if(response.data!='unsubmitted'){
           this.submitted=true;

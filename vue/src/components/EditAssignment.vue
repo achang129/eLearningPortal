@@ -112,9 +112,11 @@ import homeworkService from "../services/HomeworkService";
         },
         addAnswer(index){
             this.assignment.questions[index].answers.push('');
+            this.assignment.questions[index].correct.push(false);
         },
         removeAnswer(qindex, aindex){
             this.assignment.questions[qindex].answers.splice(aindex,1);
+            this.assignment.questions[qindex].correct.splice(aindex,1);
         },
         toggleCorrect(qindex, aindex){
             this.assignment.questions[qindex].correct[aindex] = !this.assignment.questions[qindex].correct[aindex];
@@ -125,6 +127,7 @@ import homeworkService from "../services/HomeworkService";
             });
             this.assignment.date=this.$store.state.assignmentDate;
             this.assignment.course=this.$store.state.activeCourse;
+            console.log(this.assignment);
             homeworkService.addHomework(this.assignment)
                 .then(response => {
                 if (response.status === 201) {
