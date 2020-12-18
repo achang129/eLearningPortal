@@ -1,6 +1,6 @@
 <template>
-  <div id="register" class="text-center">
-    <form class="form-register" @submit.prevent="register">
+  <div id="register">
+    <form id="form-register" @submit.prevent="register">
       <h1 class="registertext">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
         {{ registrationErrorMsg }}
@@ -51,7 +51,7 @@
       </button>
       <div class="loginlink"><router-link :to="{ name: 'login' }">Already have an account? Login here</router-link></div>
     </form>
-    <div class="register-gif">
+    <div id="register-gif">
         <img src="../assets/newLogin_RegGIF.gif" alt="Parthenon Logo Gif">
       </div>
   </div>
@@ -109,23 +109,32 @@ export default {
 </script>
 
 <style>
-
+#register{
+  display: grid;
+  grid-template-columns: 1fr .5fr;
+  grid-template-areas: 
+  "form gif";
+}
+#form-register{
+  grid-area: "gif";
+}
+#register-gif{
+  grid-area: "form";
+}
 
 .createAccButton {
 	box-shadow:inset 0px 1px 0px 0px #000000;
-	background:linear-gradient(to bottom, #e6c2bf 5%, #ff6d63 100%);
-	background-color:#e6c2bf;
+	background-color: #3a3535;
 	border-radius:6px;
 	border:1px solid #0a000a;
 	display:inline-block;
 	cursor:pointer;
-	color:#0a000a;
+	color: rgb(67, 136, 141);
 	font-family:Arial;
 	font-size:15px;
 	font-weight:bold;
 	padding:6px 24px;
 	text-decoration:none;
-	text-shadow:0px 1px 0px #ffffff;
 }
 .createAccButton:hover {
 	
@@ -140,8 +149,8 @@ export default {
 
 .registertext{
   font-family: Georgia, 'Times New Roman', Times, serif;
-  color: black;
-  text-shadow: -1px -1px 0 #e6c2bf, 1px -1px 0 #e6c2bf, -1px 1px 0 #e6c2bf, 1px 1px 0 #e6c2bf;
+  color: rgb(67, 136, 141);
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
   font-size: 51px;
 }
 
@@ -158,7 +167,7 @@ export default {
   box-sizing: border-box;
   -webkit-appearance: none;
   width:auto;
-  border: solid #e6c2bf;
+  border: solid  rgb(67, 136, 141);
   font-family: inherit;
   padding: 0;
   height: 48px;
@@ -178,7 +187,7 @@ export default {
   box-sizing: border-box;
   -webkit-appearance: none;
   width: auto;
-  border: solid #e6c2bf;
+  border: solid rgb(67, 136, 141);
   font-family: inherit;
   padding: 0;
   height: 48px;
@@ -195,7 +204,7 @@ export default {
   margin-top: 25px;
   width: fit-content;
   border: solid;
-  border-color: #e6c2bf;
+  border-color:  rgb(67, 136, 141);
   grid-area: gif;
 }
 
