@@ -9,7 +9,7 @@
         <br>
         Our goal is to make organizing and staying on top of your education needs easier. For both students and faculty.
       </h2> -->
-      <form class="form-signin" @submit.prevent="login">
+      <form style="text-align: center" class="form-signin" @submit.prevent="login">
         <div
           class="alert alert-danger"
           role="alert"
@@ -143,23 +143,21 @@ export default {
 
 .signinbtn {
 	box-shadow:inset 0px 1px 0px 0px #000000;
-	background:linear-gradient(to bottom, #e6c2bf 5%, #ff6d63 100%);
-	background-color:#e6c2bf;
+	
+	background-color:  #3a3535;
 	border-radius:6px;
 	border:1px solid #0a000a;
 	display:inline-block;
 	cursor:pointer;
-	color:#0a000a;
+	color: rgb(67, 136, 141);
 	font-family:Arial;
 	font-size:15px;
 	font-weight:bold;
 	padding:6px 24px;
 	text-decoration:none;
-	text-shadow:0px 1px 0px #ffffff;
 }
 .signinbtn:hover {
 	background:linear-gradient(to bottom, #63a7ff 5%, #3accd1 100%);
-	background-color:#ff6d63;
 }
 .signinbtn:active {
 	position:relative;
@@ -181,7 +179,7 @@ export default {
   box-sizing: border-box;
   -webkit-appearance: none;
   width: 110%;
-  border: solid #e6c2bf;
+  border: solid rgb(67, 136, 141);
   font-family: inherit;
   padding: 0;
   height: 48px;

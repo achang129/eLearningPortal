@@ -149,7 +149,6 @@ export default {
 .createAccButton:hover {
 	
 	background:linear-gradient(to bottom, #63a7ff 5%, #3accd1 100%);
-	background-color:#ff6d63;
 }
 
 .createAccButton:active {
