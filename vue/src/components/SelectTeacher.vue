@@ -103,9 +103,14 @@ export default {
   font-weight: 700;
   font-style: normal;
 }
-#select-teacher-course-grid td{
-    color: white;
+tbody>tr{
+    color:black;
 }
+
+tbody>tr:nth-child(even){
+    color:rgb(175, 198, 216);
+}
+
 #box-choice-heading{
     font-size:28px;
     font-variant-caps: all-petite-caps;

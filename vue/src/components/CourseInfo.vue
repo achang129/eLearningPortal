@@ -30,7 +30,7 @@
                   <th id="empty-column"></th>
               </tr>
           </thead>
-          <tbody>
+          <tbody id="info-rows">
               <tr v-for="curriculum in this.curricula" v-bind:key="curriculum.date">
                   <td class="curriculum-datum">{{curriculum.date}}</td>
                   <td class="curriculum-datum">
@@ -155,11 +155,11 @@ export default {
 </script>
 
 <style>
-.daily{
+/* .daily{
   display: flex;
   flex-direction: column;
   align-self: center;
-}
+} */
 
 .formtext{
   font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -184,7 +184,7 @@ export default {
   border-radius: 2%;
   border-style:ridge;
   border-color: black;
-  width: 100%;
+  width: 97%;
   font-family: "Trebuchet MS", Helvetica, sans-serif;
   font-size: 20px;
   letter-spacing: 0px;
@@ -194,6 +194,8 @@ export default {
   font-style: normal;
   font-variant: small-caps;
   text-transform: capitalize;
+  margin-top: 15px;
+  margin-left: 10px;
   
 }
 
@@ -305,9 +307,6 @@ table {
 td {
   padding: 4px;
 }
-tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
 
 .newassign-btn:hover, #lesson-hyper-link:hover{
   cursor: pointer;
@@ -323,6 +322,13 @@ tbody tr:nth-child(even) {
 }
 .curriculum-datum {
   font-size: 15px;
-  color: white;
+}
+
+#info-rows>tr{
+  color: black;
+}
+
+#info-rows>tr:nth-child(even){
+  color: rgb(175, 198, 216);
 }
 </style>

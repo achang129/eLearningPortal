@@ -1,13 +1,13 @@
 <template>
-  <div id="home-outer-div">
-    <div id="unique-welcome" class="welcomemessage">Welcome, {{ $store.state.user.username }}</div>
+  
+   
     <div id= "easy-access" class="qlbox"> 
+       <div id="unique-welcome" class="welcomemessage">Welcome, {{ $store.state.user.username }}</div>
       <div v-for="course in this.courses" v-bind:key="course.id" class="quick-links">
         <h3 class="qlheads">{{ course.name }}</h3>
         <router-link tag="div" class="mainlink" :to="{ name: 'course', params: {id: course.id} }">View Details</router-link>
       </div>
     </div>
-  </div>  
 </template>
 
 <script>
@@ -35,19 +35,7 @@ export default {
 </script>
 
 <style scoped>
-#home-outer-div{
-  display: grid;
-  grid-column: 1fr;
-  grid-template-areas: 
-  "welcome"
-  "links";
-}
-#unique-welcome{
-  grid-area: "welcome";
-}
-#easy-access{
-  grid-area: "links";
-}
+
 .welcomemessage{
     display: flex;
     width: 100%;
