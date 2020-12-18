@@ -111,16 +111,24 @@ export default {
 <style>
 #register{
   display: grid;
-  grid-template-columns: 1fr .5fr;
+  grid-template-columns: .3fr 1fr 1fr 1fr .6fr;
   grid-template-areas: 
-  "gif form";
+  
+  ". gif gif form .";
 }
 #form-register{
-  grid-area: "form";
+  display: flex;
+  flex-direction: column;
+  margin-top: 18rem;
+  grid-area: form;
   text-align: center;
+  
 }
 #register-gif{
-  grid-area: "gif";
+  margin-top: 15rem;
+  grid-area: gif;
+  display: flex;
+  justify-self: center;
 }
 
 .createAccButton {
@@ -136,6 +144,7 @@ export default {
 	font-weight:bold;
 	padding:6px 24px;
 	text-decoration:none;
+  
 }
 .createAccButton:hover {
 	
