@@ -6,6 +6,7 @@ import com.techelevator.model.Assignment;
 import com.techelevator.model.Question;
 
 public class AssignmentDTO {
+	private int id;
 	private String name;
 	private String description;
 	private LocalDate createdDate;
@@ -14,6 +15,7 @@ public class AssignmentDTO {
 	private Question[] questions;
 	private String[] answers;
 	
+	public int getId(){return id;}
 	public String getName(){return name;}
 	public String getDescription(){return description;}
 	public LocalDate getCreatedDate(){return createdDate;}
@@ -22,6 +24,7 @@ public class AssignmentDTO {
 	public Question[] getQuestions(){return questions;}
 	public String[] getAnswers(){return answers;}
 	
+	public void setId(int id){this.id=id;}
 	public void setName(String name){this.name = name;}
 	public void setDescription(String description){this.description = description;}
 	public void setDate(LocalDate createdDate){this.createdDate = createdDate;}
@@ -31,6 +34,7 @@ public class AssignmentDTO {
 	public void setAnswers(String[] answers){this.answers = answers;}
 	
 	public AssignmentDTO(){
+		id=0;
 		name = "";
 		description = "";
 		createdDate = LocalDate.now();
@@ -41,6 +45,7 @@ public class AssignmentDTO {
 	}
 	
 	public AssignmentDTO(Assignment assignment, LocalDate date, int course, String[] answers){
+		id=assignment.getId();
 		name = assignment.getName();
 		description = assignment.getDescription();
 		this.createdDate = date;

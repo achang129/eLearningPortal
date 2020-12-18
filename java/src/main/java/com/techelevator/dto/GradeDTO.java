@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import com.techelevator.model.Grade;
 
 public class GradeDTO {
+	private int id;
 	private String assignment;
 	private String student;
 	private String status;
@@ -13,6 +14,7 @@ public class GradeDTO {
 	private int grade;
 	private String comment;
 	
+	public int getId(){return id;}
 	public String getAssignment(){return assignment;}
 	public String getStudent(){return student;}
 	public String getStatus(){return status;}
@@ -21,6 +23,7 @@ public class GradeDTO {
 	public double getRawGrade(){return rawGrade;}
 	public String getComment(){return comment;}
 	
+	public void setId(int id){this.id=id;}
 	public void setAssignment(String assignment){this.assignment = assignment;}
 	public void setStudent(String student){this.student = student;}
 	public void setStatus(String status){this.status = status;}
@@ -30,6 +33,7 @@ public class GradeDTO {
 	public void setComment(String comment){this.comment = comment;}
 	
 	public GradeDTO(){
+		id=0;
 		assignment = "";
 		student = "";
 		status = "";
@@ -39,6 +43,7 @@ public class GradeDTO {
 	}
 	
 	public GradeDTO(Grade g){
+		id=g.getStudent();
 		assignment = "";
 		student = "";
 		submitted = g.getTimeTurnedIn();		

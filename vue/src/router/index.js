@@ -28,6 +28,7 @@ import AllHomework from '../views/AllHomework.vue'
 import CreateAssignment from '../views/CreateAssignment.vue'
 import EditHomework from '../views/EditHomework.vue'
 import HomeworkForm from '../views/HomeworkForm.vue'
+import StudentWork from '../views/StudentWork.vue'
 
 Vue.use(Router)
 
@@ -172,6 +173,14 @@ const router = new Router({
       path: '/homework/:id',
       name: 'homework-form',
       component: HomeworkForm,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/studentwork/:id/:course',
+      name: 'homework-details',
+      component: StudentWork,
       meta: {
         requiresAuth: true
       }

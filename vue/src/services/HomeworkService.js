@@ -26,5 +26,8 @@ export default{
     },
     deleteHomework(homeworkId) {
         return http.delete(`/homework/${homeworkId}`);
+    },
+    getStudentWork(student, course){
+        return http.get(`/grades/${course}/${student}`);
     }
 }

@@ -18,12 +18,16 @@
                 <tr>
                   <th>Student Name:</th>
                   <th>Student Grade:</th>
+                  <th>View Assignments:</th>
                 </tr>  
             </thead>
             <tbody>
               <tr v-for="student in students" v-bind:key="student.id">
                   <td> {{ student.student }}</td>
-                  <td> {{ student.grade }}%</td>
+                  <td> {{ formatGrade(student.grade) }}</td>
+                  <td>
+                    <router-link :to="'/studentwork/'+student.id+'/'+$route.params.id">Details</router-link>
+                  </td>
               </tr>
             </tbody>
         </table>
@@ -56,10 +60,8 @@ export default {
   computed: {},
   methods: {
     getStudentGrades(id) {
-      console.log(this.$route.params.id)
       CourseService.getCoursework(id)
       .then(response => {
-        console.log(this.$route.params.id)
         this.course = response.data;
       });
       CourseService.getAllGradesForCourse(id)
@@ -67,10 +69,13 @@ export default {
           this.students = response.data;
         })
       
+    },
+    formatGrade(grade){
+      if(grade<0){return'-';}
+      return grade + ' %';
     }
   },
   created() {
-    console.log(this.$route.params.id)
     this.getStudentGrades(this.$route.params.id);
   }
 };

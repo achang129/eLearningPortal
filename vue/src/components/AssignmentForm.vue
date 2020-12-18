@@ -12,17 +12,16 @@
             <h4>Question {{index + 1}} ({{question.weight}} pts):</h4>
             <p>{{question.statement}}</p>
             <div v-if="question.type=='text'" class="text-answer">
-              <textarea :disabled='submitted' v-model="answers[index]"></textarea>
-              <br/>
-              <br/>
+              <textarea :disabled='submitted' v-model="answers[index]" v-if='$store.state.user.authorities[0]["name"]=="ROLE_USER"'></textarea>
             </div>
             <div v-else class="mc-answer">
               <div v-for="(answer, aindex) in question.answers" v-bind:key='aindex' v-bind:class="{ 'selected':answer.selected }" v-on:click.prevent='selectAnswer(index, aindex)'>
                 <p>{{answer.text}}</p>
               </div>
-              <br/>
-              <br/>
             </div>
+            <p v-if='$store.state.user.authorities[0]["name"]=="ROLE_TEACHER"'>Answer: {{question.correct}}</p>
+              <br/>
+              <br/>
           </div>
           <div v-if='$store.state.user.authorities[0]["name"]=="ROLE_USER"'>
             <button class="hw-button" :disabled='submitted' v-on:click.prevent=clear()>Clear Answers</button>
@@ -89,7 +88,8 @@
             'type': question.type,
             'statement': question.statement,
             'answers': question.answers.map((a)=>{return {'text':a,'selected':false};}),
-            'weight': question.weight
+            'weight': question.weight,
+            'correct': question.type=='text'?question.answers[0]:question.correct.reduce((acc,val,i)=>{return val?acc+','+(question.answers[i]):acc;},'').substring(1)
           };
           if(question.type == 'text'){q.answers = [];}
           return q;

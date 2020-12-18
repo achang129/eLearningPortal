@@ -156,6 +156,7 @@ public class LogicController {
 		for(int i=0; i<students.length; i++){
 			dtos[i] = new CourseGradeDTO();
 			dtos[i].setStudent(students[i].getName());
+			dtos[i].setId(students[i].getId());
 			dtos[i].setName(course);
 			double avg = 0;
 			double total = 0;
@@ -167,8 +168,9 @@ public class LogicController {
 				}
 			}
 			if(total == 0)
-				total = -1;
-			dtos[i].setGrade(avg/total);
+				dtos[i].setGrade(-1);
+			else
+				dtos[i].setGrade(avg/total);
 		}
 		return dtos;
 	}
@@ -186,6 +188,7 @@ public class LogicController {
 				Grade[] grades = gradeDAO.getGradesByStudentAndCourse(getID(p), courses[i].getId());
 				CourseGradeDTO dto = new CourseGradeDTO();
 				dto.setName(courses[i].getName());
+				dto.setId(getID(p));
 				dto.setStudent(p.getName());
 				int avg = 0;
 				int total = 0;
@@ -218,6 +221,7 @@ public class LogicController {
 				for(int j=0; j<students[i].length; j++){
 					Grade[] grades = gradeDAO.getGradesByStudentAndCourse(students[i][j].getId().intValue(), courses[i].getId());
 					CourseGradeDTO dto = new CourseGradeDTO();
+					dto.setId(students[i][j].getId().intValue());
 					dto.setStudent(students[i][j].getUsername());
 					dto.setName(courses[i].getName());
 					avgs[i][j] = 0;
@@ -248,7 +252,9 @@ public class LogicController {
 		switch(getRole(p)){
 		case STUDENT:
 			dtos = new GradeDTO[1];
-			dtos[0] = new GradeDTO(gradeDAO.getStudentGradeByAssignment(getID(p), id));
+			Grade g=gradeDAO.getStudentGradeByAssignment(getID(p), id);
+			if(g==null){return new GradeDTO[0];}
+			dtos[0] = new GradeDTO(g);
 			dtos[0].setAssignment(assignment.getName());
 			dtos[0].setStudent(p.getName());
 			return dtos;
@@ -269,10 +275,14 @@ public class LogicController {
 	public boolean getAssignmentGrade(@PathVariable int id, @RequestBody GradeDTO dto, Principal p){
 		Grade grade = new Grade();
 		grade.setAssignment(id);
-		grade.setStudent(userDAO.findIdByUsername(dto.getStudent()));
+		grade.setStudent(dto.getId());
 		grade.setComment(dto.getComment());
 		grade.setGrade(dto.getGrade());
 		return gradeDAO.updateGrade(grade);
+	}
+	@RequestMapping(value = "/grades/{course}/{student}", method = RequestMethod.GET)
+	public AssignmentDTO[] getWorkForCourse(@PathVariable int course, @PathVariable int student, Principal p){
+		return assignmentDAO.getDTOs(student, course);
 	}
 	
 	@RequestMapping(value = "/homework", method = RequestMethod.GET)
@@ -355,13 +365,14 @@ public class LogicController {
 			gpas[i] = new GPADTO();
 			gpas[i].setStudent(students[i].getName());
 			int gpa = 0;
+			int ccount = 0;
 			courses = courseDAO.getCoursesByStudent(students[i].getId());
 			if(courses.length==0){
-				gpas[i].setGpa(0);
+				gpas[i].setGpa(-1);
 				continue;
 			}
 			for(int j=0; j<courses.length; j++){
-				Grade[] grades = gradeDAO.getGradesByStudentAndCourse(getID(p), courses[j].getId());
+				Grade[] grades = gradeDAO.getGradesByStudentAndCourse(students[i].getId(), courses[j].getId());
 				double avg = 0;
 				double total = 0;
 				for(Grade grade:grades){
@@ -372,9 +383,14 @@ public class LogicController {
 				}
 				if(total == 0)
 					total = 1;
+				else
+					ccount++;
 				gpa += avg/total;
 			}
-			gpas[i].setGpa(4 * gpa/courses.length);
+			if(ccount==0)
+				gpas[i].setGpa(-1);
+			else
+				gpas[i].setGpa(4 * gpa/ccount);
 		}
 		return gpas;
 	}

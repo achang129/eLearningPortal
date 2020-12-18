@@ -24,6 +24,7 @@ public interface AssignmentDAO {
 	boolean deleteAssignment(int id);
 	/**Gets an AssignmentDTO object based on a particular user*/
 	AssignmentDTO getDTO(int id, int user);
+	AssignmentDTO[] getDTOs(int user, int course);
 	/**returns true iff the assignment has been submitted by the student*/
 	String isSubmitted(int id, int user);
 }

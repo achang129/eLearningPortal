@@ -11,7 +11,7 @@ export default{
     get(homeworkId) {
         return http.get(`/grades/${homeworkId}`)
     },
-    updateGrade(homework, grade) {
-        return http.put(`/grades/${homework.id}`, grade);
+    updateGrade(user, homework, grade, comment) {
+        return http.put(`/grades/${homework}`, {'student':user, 'grade':grade, 'comment':comment});
     }
 }

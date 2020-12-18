@@ -180,12 +180,28 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	}
 	
 	@Override
+	public AssignmentDTO[] getDTOs(int user, int course){
+		System.out.println("hi");
+		String sql = "SELECT * FROM assignment a INNER JOIN course c ON a.course=c.id "
+			+ "INNER JOIN student s ON c.id = s.course WHERE s.student = ? AND a.course=?";
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql,user,course);
+		System.out.println("hi");
+		List<AssignmentDTO> as = new ArrayList<AssignmentDTO>();
+		while(rows.next()){
+			as.add(getDTO(rows.getInt("id"),user));
+			System.out.println("hasdi");
+		}
+		return as.toArray(new AssignmentDTO[0]);
+	}
+	
+	@Override
 	public AssignmentDTO getDTO(int id, int user){
 		AssignmentDTO dto = new AssignmentDTO();
 		String sql = "SELECT * FROM assignment WHERE id = ?";
 		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, id);
 		if(!rows.next())
 			return null;
+		dto.setId(rows.getInt("id"));
 		dto.setName(rows.getString("name"));
 		dto.setDescription(rows.getString("description"));
 		dto.setDate(rows.getDate("created_date").toLocalDate());
