@@ -52,7 +52,7 @@
       <div class="loginlink"><router-link :to="{ name: 'login' }">Already have an account? Login here</router-link></div>
     </form>
     <div class="register-gif">
-        <img src="../assets/Login_RegisterGIF.gif" alt="Parthenon Logo Gif">
+        <img src="../assets/newLogin_RegGIF.gif" alt="Parthenon Logo Gif">
       </div>
   </div>
 </template>
