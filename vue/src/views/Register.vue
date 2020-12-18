@@ -1,5 +1,8 @@
 <template>
   <div id="register">
+    <div id="register-gif">
+        <img src="../assets/newLogin_RegGIF.gif" alt="Parthenon Logo Gif">
+    </div>
     <form id="form-register" @submit.prevent="register">
       <h1 class="registertext">Create Account</h1>
       <div class="alert alert-danger" role="alert" v-if="registrationErrors">
@@ -51,9 +54,6 @@
       </button>
       <div class="loginlink"><router-link :to="{ name: 'login' }">Already have an account? Login here</router-link></div>
     </form>
-    <div id="register-gif">
-        <img src="../assets/newLogin_RegGIF.gif" alt="Parthenon Logo Gif">
-      </div>
   </div>
 </template>
 
@@ -113,13 +113,14 @@ export default {
   display: grid;
   grid-template-columns: 1fr .5fr;
   grid-template-areas: 
-  "form gif";
+  "gif form";
 }
 #form-register{
-  grid-area: "gif";
+  grid-area: "form";
+  text-align: center;
 }
 #register-gif{
-  grid-area: "form";
+  grid-area: "gif";
 }
 
 .createAccButton {
