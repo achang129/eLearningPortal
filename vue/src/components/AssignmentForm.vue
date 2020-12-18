@@ -5,7 +5,7 @@
         <p v-if='submitted'>This assignment has already been submitted!</p>
         <form v-on:submit.prevent='submit()'>
           <div v-for="(question, index) in questions" v-bind:key='index'>
-            <h4>Question {{index + 1}} ({{question.points}} pts):</h4>
+            <h4>Question {{index + 1}} ({{question.weight}} pts):</h4>
             <p>{{question.statement}}</p>
             <div v-if="question.type=='text'" class="text-answer">
               <textarea :disabled='submitted' v-model="answers[index]"></textarea>
@@ -92,8 +92,7 @@
       });
       
       homeworkService.submitted(this.id).then(response=>{
-        console.log(response.data);
-        if(response.data=='submitted'){
+        if(response.data!='unsubmitted'){
           this.submitted=true;
         }
       });

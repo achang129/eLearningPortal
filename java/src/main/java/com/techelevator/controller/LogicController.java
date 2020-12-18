@@ -251,7 +251,6 @@ public class LogicController {
 			dtos[0] = new GradeDTO(gradeDAO.getStudentGradeByAssignment(getID(p), id));
 			dtos[0].setAssignment(assignment.getName());
 			dtos[0].setStudent(p.getName());
-			dtos[0].numberToRaw(assignment.getQuestions().size());
 			return dtos;
 		case TEACHER:
 			Grade[] grades = gradeDAO.getAllGradesByAssignment(id);
@@ -260,7 +259,6 @@ public class LogicController {
 				dtos[i] = new GradeDTO(grades[i]);
 				dtos[i].setAssignment(assignment.getName());
 				dtos[i].setStudent(userDAO.getUserById(new Long(grades[i].getStudent())).getUsername());
-				dtos[i].numberToRaw(assignment.getQuestions().size());
 			}
 			return dtos;
 		}
@@ -299,7 +297,7 @@ public class LogicController {
 	@RequestMapping(value = "/homework/{id}/status", method = RequestMethod.GET)
 	public String viewHomeworkStatus(@PathVariable("id") int id, Principal p){
 		//validate that the person in question has been assigned this work?
-		return assignmentDAO.isSubmitted(id, getID(p))?"submitted":"unsubmitted";
+		return assignmentDAO.isSubmitted(id, getID(p));
 	}
 
 

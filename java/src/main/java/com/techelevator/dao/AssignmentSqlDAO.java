@@ -60,14 +60,21 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 	@Override
 	public Assignment getAssignmentById(int id) {
 		String sql = "SELECT * FROM assignment WHERE id = ?";
-		return jdbcTemplate.queryForObject(sql, Assignment.class, id);
+		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql,id);
+		if(!rows.next())
+			return null;
+		return mapRowToAssignment(rows);
 	}
 	
 	@Override
-	public boolean isSubmitted(int id, int student){
-		String sql = "SELECT * FROM grade WHERE student = ? AND assignment = ?";
+	public String isSubmitted(int id, int student){
+		String sql = "SELECT grade FROM grade WHERE student = ? AND assignment = ?";
 		SqlRowSet rows = jdbcTemplate.queryForRowSet(sql, student, id);
-		return rows.next();
+		if(!rows.next())
+			return "unsubmitted";
+		if(rows.getInt("grade")<0)
+			return "submitted";
+		return "graded";
 	}
 
 	@Override
