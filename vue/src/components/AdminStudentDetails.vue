@@ -6,10 +6,12 @@
               <th>Student Name:</th>
               <th>Student Grade:</th>
           </thead>
-          <tr v-for="student in students" v-bind:key="student.id">
-              <td> {{ student.student }}</td>
-              <td> {{ student.gpa }}%</td>
-          </tr>
+          <tbody>
+            <tr v-for="student in students" v-bind:key="student.id">
+                <td> {{ student.student }}</td>
+                <td> {{ student.gpa }}%</td>
+            </tr>
+          </tbody>
       </table>
     </div>
   </div>

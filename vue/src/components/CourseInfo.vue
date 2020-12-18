@@ -9,12 +9,10 @@
     </div>
     <div id="user-select-section" v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"'>
         <div id="teacher-select-section">
-            <button id="add-teacher-student-click" @click="toggleTeacher()">Click to add/view/remove teachers</button>
-            <select-teacher v-bind:id=this.courseid v-show="this.showSectionTeacher"/>
+            <select-teacher v-bind:id="courseid"/>
         </div>
         <div id="student-select-section">
-            <button id="add-teacher-student-click"  @click="toggleStudent()">Click to add/view/remove students</button>
-            <student-list v-bind:id=this.courseid v-show="this.showSectionStudent"/>
+            <student-list v-bind:id="courseid"/>
         </div>
     </div>
     <div class="daily">
@@ -92,9 +90,7 @@ export default {
         'curricula': []
       },
       newLesson: "",
-      newDate: new Date(),
-      showSectionTeacher: false,
-      showSectionStudent: false
+      newDate: new Date()
     }
   },
   computed: {
@@ -119,12 +115,6 @@ export default {
     },
     setCurrentLesson(lesson){
       this.$store.commit('SET_CURRENT_LESSON', lesson);
-    },
-    toggleTeacher(){
-      this.showSectionTeacher = !this.showSectionTeacher;
-    }, 
-    toggleStudent(){
-      this.showSectionStudent = !this.showSectionStudent;
     },
     getCoursework() {
       courseService.getCoursework(this.courseid).then(response => {
@@ -219,15 +209,6 @@ export default {
 	position:relative;
 	top:1px;
 }
-#add-teacher-student-click {
-  color:rgb(72, 131, 209);
-  font-size: 25px;
-}
-
-#add-teacher-student-click:hover{
-  cursor: pointer;
-}
-
 .form-control-date {
   background-color: white;
   -webkit-appearance: none;

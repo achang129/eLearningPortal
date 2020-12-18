@@ -1,29 +1,32 @@
 <template>
-  <div id="select-student-course-grid">
-      <table id="select-student-for-course">
-      <caption id="box-choice-heading">Select Student for Course</caption>
-          <thead>
-            <tr>
-                <th>Student</th>
-                <th>Assign</th>
-                <th>Remove</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(student,index) in students" 
-                :key="student.id">
-                    <td>{{student.name}} </td>
-                    <td>
-                        <button :disabled='student.enrolled' @click.prevent='addStudent(index)'>Add</button>
-                    </td>
-                    <td>
-                        <button :disabled='!student.enrolled' @click.prevent='removeStudent(index)'>Remove</button>
-                    </td>
-            </tr>
-          </tbody>
-      </table>
-      <button type="submit" v-on:submit.prevent v-on:click="commit()">Save Changes</button>
-  </div>
+    <div>
+        <button style="display: block" id="add-teacher-student-click"  @click="toggleStudent()">Click to add/view/remove students</button>
+        <div v-show="this.showSectionStudent" id="select-student-course-grid">
+            <table id="select-student-for-course">
+            <caption id="box-choice-heading">Select Student for Course</caption>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Assign</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(student,index) in students" 
+                        :key="student.id">
+                            <td>{{student.name}} </td>
+                            <td>
+                                <button :disabled='student.enrolled' @click.prevent='addStudent(index)'>Add</button>
+                            </td>
+                            <td>
+                                <button :disabled='!student.enrolled' @click.prevent='removeStudent(index)'>Remove</button>
+                            </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="submit" v-on:submit.prevent v-on:click="commit()">Save Changes</button>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -38,7 +41,8 @@ export default {
         return {
             students: [],
             added: [],
-            removed: []
+            removed: [],
+            showSectionStudent: false
         }
     },
     methods: {
@@ -74,11 +78,15 @@ export default {
             this.students[index].enrolled = false;
         },
         commit(){
+            this.showSectionStudent = false;
             courseService.assignToCourse(this.id, this.added);
             courseService.removeFromCourse(this.id, this.removed);
             this.added = [];
             this.removed = [];
             this.$forceUpdate();
+        },
+        toggleStudent(){
+            this.showSectionStudent = !this.showSectionStudent;
         }
     },
     mounted() {
@@ -124,6 +132,12 @@ font-size: 12px;
 font-variant: small-caps;
 font-weight: 500;
 }
+#add-teacher-student-click {
+  color:rgb(72, 131, 209);
+  font-size: 25px;
+}
 
-
+#add-teacher-student-click:hover{
+  cursor: pointer;
+}
 </style>
