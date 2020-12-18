@@ -1,7 +1,11 @@
 <template>
-    <div>
-        <h3>{{name}}</h3>
-        <p>{{description}}</p>
+    <div class="assign-form-outer-container">
+      <div class="assign-form-container">
+        <div class="name-desc-assignment">
+          <h3>{{name}}</h3>
+          <p>{{description}}</p>
+        </div>
+       <div class="rest-of-assignment">
         <p v-if='submitted'>This assignment has already been submitted!</p>
         <form v-on:submit.prevent='submit()'>
           <div v-for="(question, index) in questions" v-bind:key='index'>
@@ -9,17 +13,23 @@
             <p>{{question.statement}}</p>
             <div v-if="question.type=='text'" class="text-answer">
               <textarea :disabled='submitted' v-model="answers[index]"></textarea>
+              <br/>
+              <br/>
             </div>
             <div v-else class="mc-answer">
               <div v-for="(answer, aindex) in question.answers" v-bind:key='aindex' v-bind:class="{ 'selected':answer.selected }" v-on:click.prevent='selectAnswer(index, aindex)'>
                 <p>{{answer.text}}</p>
               </div>
+              <br/>
+              <br/>
             </div>
           </div>
-          <button :disabled='submitted' v-on:click.prevent=clear()>Clear Answers</button>
-          <button :disabled='submitted' v-on:click.prevent=save()>Save Progress</button>
-          <button :disabled='submitted' type=submit>Submit Homework</button>
-        </form>
+          <button class="hw-button" :disabled='submitted' v-on:click.prevent=clear()>Clear Answers</button>
+          <button class="hw-button" :disabled='submitted' v-on:click.prevent=save()>Save Progress</button>
+          <button class="hw-button" :disabled='submitted' type=submit>Submit Homework</button>
+        </form> 
+       </div>
+      </div>
     </div>
 </template>
 
@@ -103,5 +113,51 @@
 <style>
 .selected{
   color:white;
+}
+
+.rest-of-assignment{
+  grid-area: therest;
+  display:flex;
+  text-align: left;
+  
+}
+
+.name-desc-assignment{
+  display: flex;
+  flex-direction: column;
+ text-align: center;
+  width: 100%;
+  align-content: center;
+  grid-area: namedesc;
+}
+
+.assign-form-container{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: 
+  "namedesc"
+  "therest";
+  
+  grid-area: wholething;
+  background-color:rgb(175, 198, 216);
+  border: solid black;
+  padding: 0.5rem 1rem;
+  
+}
+
+.assign-form-outer-container{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas: 
+  ". namedesc ."
+  ". wholething .";
+}
+
+.mc-answer p:hover{
+  cursor: pointer;
+}
+
+.hw-button{
+  margin-right: 3px;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="assignment in this.assignments" v-bind:key="assignment.id" class="course-values">
-       <h3 class="assignheaders">{{ assignment.name }} <span id="assign-id-value">(Assignment id: {{assignment.id}})</span></h3>
+       <h3 class="assignheaders">{{ assignment.name }} </h3>
        <p id="assign-description-summary">{{assignment.description}}</p>
        <router-link class="details-link" :to="{ name: 'homework-form', params: {id: assignment.id} }">View Assignment</router-link>
        <p id="assign-status">{{assignment.status}}</p>

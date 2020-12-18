@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="assignment in this.assignments" v-bind:key="assignment.id" class="assignment-values">
-       <h3 class="assignmentheaders">{{ assignment.title }} <span id="assignment-id-value">(Assignment id: {{assignment.id}})</span></h3>
+       <h3 class="assignmentheaders">{{ assignment.title }} </h3>
        <p id="assignment-description-summary">{{assignment.description}}</p>
         <button class="deleteassignment-btn" v-if='$store.state.user.authorities[0]["name"]=="ROLE_ADMIN"' v-on:click.prevent="deleteAssignment(assignment.id)">Delete</button> 
     </div>

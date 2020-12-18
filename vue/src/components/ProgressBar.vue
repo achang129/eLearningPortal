@@ -1,7 +1,10 @@
 <template>
     <div class="progress">
         <span :style="'width:' + calculateGrade() + '%'"></span>
-        <h3 class="progresstext">Total Progress {{ calculateGrade() }}%</h3>
+        <div class="prog-bar-text">
+            <h3>Total Progress {{ calculateGrade() }}%</h3>
+        </div>
+        
     </div>
 </template>
 
@@ -25,6 +28,7 @@ export default {
             });
         },
         calculateGrade() {
+            
             let combined = 0
             let numOfGrades = 0
             if(this.grades.length==0){
@@ -50,16 +54,16 @@ export default {
 </script>
 
 <style scoped>
-.progresstext{
+.prog-bar-text{
     text-align: center;
+    margin-top: 10px;
 }
 
 .progress { 
     
     height: 20px;
     width: auto;
-	
-	background: grey;
+	background-color:#3a3535;
 	border-radius: 25px;
 	padding: 10px;
     margin-right: 15px;
@@ -71,7 +75,7 @@ export default {
   border-bottom-right-radius: 8px;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  background-color: blue;
+  background-color:rgb(175, 198, 216);
   position: relative;
   overflow: hidden;
 }
