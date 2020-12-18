@@ -358,7 +358,7 @@ public class LogicController {
 			courses = courseDAO.getCoursesByStudent(students[i].getId());
 			if(courses.length==0){
 				gpas[i].setGpa(0);
-				break;
+				continue;
 			}
 			for(int j=0; j<courses.length; j++){
 				Grade[] grades = gradeDAO.getGradesByStudentAndCourse(getID(p), courses[j].getId());

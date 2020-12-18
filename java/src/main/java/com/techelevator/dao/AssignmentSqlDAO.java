@@ -165,7 +165,17 @@ public class AssignmentSqlDAO implements AssignmentDAO {
 
 	@Override
 	public boolean deleteAssignment(int id) {
-		String sql = "DELETE * FROM assignment WHERE id = ?";
+		String sql = "UPDATE curriculum SET homework=0 WHERE homework=?";
+		jdbcTemplate.update(sql, id);
+		sql = "DELETE FROM mcchoice WHERE assignment = ?";
+		jdbcTemplate.update(sql, id);
+		sql = "DELETE FROM question WHERE assignment = ?";
+		jdbcTemplate.update(sql, id);
+		sql = "DELETE FROM answer WHERE assignment = ?";
+		jdbcTemplate.update(sql, id);
+		sql = "DELETE FROM grade WHERE assignment = ?";
+		jdbcTemplate.update(sql, id);
+		sql = "DELETE FROM assignment WHERE id = ?";
 		return jdbcTemplate.update(sql, id) == 1;
 	}
 	
