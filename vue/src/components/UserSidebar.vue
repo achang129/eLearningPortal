@@ -6,8 +6,8 @@
             <router-link class="head-icon" v-bind:to="{ name: 'home' }"><i class="fas fa-home fa-3x" data-fa-mask="fas fa-square" ></i></router-link>
             <router-link class="head-link" v-bind:to="{ name: 'home' }">Home</router-link>
             
-            <router-link class="head-icon" v-bind:to="{ name: 'messages' }"><i class="fas fa-envelope fa-3x" data-fa-mask="fas fa-square"></i></router-link>
-            <router-link class="head-link" v-bind:to="{ name: 'messages' }">Messages</router-link>
+            <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_OVERLORD"' class="head-icon" v-bind:to="{ name: 'messages' }"><i class="fas fa-envelope fa-3x" data-fa-mask="fas fa-square"></i></router-link>
+            <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_OVERLORD"' class="head-link" v-bind:to="{ name: 'messages' }">Messages</router-link>
             
             <router-link class="head-icon" v-bind:to="{ name: 'all-courses' }"><i class="fas fa-chalkboard fa-3x" data-fa-mask="fas fa-square" ></i></router-link>
             <router-link class="head-link" v-bind:to="{ name: 'all-courses' }">Courses</router-link>
