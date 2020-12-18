@@ -65,11 +65,12 @@ export default {
 }
 
 .addcoursebutton {
-	box-shadow: 3px 4px 0px 0px #8a2a21;
-	background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
-	background-color:#c62d1f;
+  margin-top: 5px;
+	box-shadow: 3px 4px 0px 0px #4e4d4d;
+	background:linear-gradient(to bottom, #265c7c 5%, #604072 100%);
+	/* background-color:#c62d1f; */
 	border-radius:18px;
-	border:1px solid #d02718;
+	border:1px solid #5f5f5f;
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
@@ -77,7 +78,7 @@ export default {
 	font-size:17px;
 	padding:7px 25px;
 	text-decoration:none;
-	text-shadow:0px 1px 0px #810e05;
+	text-shadow:0px 1px 0px #161616;
 }
 .addcoursebutton:hover {
 	background:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
@@ -110,7 +111,7 @@ export default {
   
 }
 .deletecourse-btn:hover {
-	background:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+	background:linear-gradient(to bottom, #265c7c 5%, #604072 100%);
 	background-color:#f24437;
 }
 .deletecourse-btn:active {

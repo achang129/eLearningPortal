@@ -30,11 +30,11 @@ export default {
 
 <style>
 .backtocoursesbtn {
-	box-shadow: 3px 4px 0px 0px #8a2a21;
-	background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
-	background-color:#c62d1f;
+	box-shadow: 3px 4px 0px 0px #4e4d4d;
+	background:linear-gradient(to bottom, #265c7c 5%, #604072 100%);
+	
 	border-radius:18px;
-	border:1px solid #d02718;
+	border:1px solid #111010;
 	display:inline-block;
 	cursor:pointer;
 	color:#ffffff;
