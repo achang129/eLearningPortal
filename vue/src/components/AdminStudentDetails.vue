@@ -8,7 +8,7 @@
           </thead>
           <tr v-for="student in students" v-bind:key="student.id">
               <td> {{ student.student }}</td>
-              <td> {{ student.grade }}%</td>
+              <td> {{ student.gpa }}%</td>
           </tr>
       </table>
     </div>
