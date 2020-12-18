@@ -1,7 +1,7 @@
 <template>
     <div class="message-notifications">
       
-    <div v-for="message in this.$store.state.messages" v-bind:key="message.id" class="message bubble" >
+    <div v-for="message in this.messages" v-bind:key="message.id" class="message bubble" >
       <h3>{{ message.title }}</h3>
       <p>{{ message.messageText }}</p>
       <button v-on:click="deleteMessage(message.id)">Delete</button>

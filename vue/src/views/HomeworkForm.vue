@@ -1,7 +1,8 @@
 <template>
   <loading-screen v-if="isLoading"></loading-screen>
     <div class="homework" v-else>
-      <router-link class="details-link" :to="{ name: 'all-homework' }">Go Back to Assignments</router-link>
+      <router-link v-if='$store.state.user.authorities[0]["name"]=="ROLE_STUDENT"' class="details-link" :to="{ name: 'all-homework' }">Go Back to Assignments</router-link>
+      <router-link v-else class="details-link" :to="{ name: 'all-courses' }">Go Back to Courses</router-link>
       <assignment-form v-bind:id="parseInt($route.params.id)" />
     </div>
 </template>
