@@ -3,7 +3,7 @@
         <label for="due-date">Due Date: </label>
         <input class="form-control-date" type="date" v-model="assignment.dueDate"/> 
         <div>
-            <textarea class="form-control-lesson" v-model="assignment.title" placeholder="Title" label="Title" cols="30"></textarea>
+            <textarea class="form-control-lesson" v-model="assignment.name" placeholder="Title" label="Title" cols="30"></textarea>
         </div>
         <div>
             <textarea class="form-control-lesson" v-model="assignment.description" placeholder="Description" label="Description" cols="30" rows="10" style="display: flex"></textarea>
